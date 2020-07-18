@@ -11,7 +11,11 @@ class Admin extends MY_Controller
         $this->load->model('PeminjamanModel');
         $this->load->model('SmartbookModel');
         $this->load->model('Admin_model');
+        // $this->load->library('pdf');
+        $this->load->library('mypdf.php');
+        $this->load->helper('date');
     }
+    
 
     public function index()
     {
@@ -21,6 +25,59 @@ class Admin extends MY_Controller
         $this->load->view('admin/overview', $data);
     }
 
+    // public function laporan_pdf(){
+
+    //     $data = array(
+    //         "dataku" => array(
+    //             "nama" => "Petani Kode",
+    //             "url" => "http://petanikode.com"
+    //         )
+    //     );
+    
+   
+    
+    //     $this->pdf->setPaper('A4', 'potrait');
+    //     $this->pdf->filename = "laporan-petanikode.pdf";
+    //     $this->pdf->load_view('admin2/laporan_pdf', $data);
+    
+    
+    // }
+
+    public function warga(){
+        $warga = $this->SmartbookModel;
+        $validation = $this->form_validation;
+        $validation->set_rules($warga->rules());
+     
+        if ($validation->run()) {
+            $warga->save();
+            $this->session->set_flashdata('success', 'Berhasil disimpan');
+            redirect(base_url() . 'admin/warga');
+        }
+
+        if ($this->form_validation->run() == FALSE) {
+            $errors = validation_errors();
+            $this->session->set_flashdata('form_error', $errors);
+        }
+
+        $data['warga'] = $this->db->query('select * from data_warga')->result();
+        $this->load->view('admin2/warga', $data);
+
+    }
+    public function export_data_warga($id){
+        $data['warga'] = $this->db->query("select * from data_warga where id=$id ")->result();
+        $this->mypdf->generate_data_warga('admin2/laporan_pdf', $data);
+
+    }
+
+    public function hapus_data($id)
+    {
+        $where = array(
+            'id' => $id
+        );
+        $this->SmartbookModel->delete_data($where, 'data_warga');
+        $this->session->set_flashdata('danger', 'Data Berhasil dihapus');
+        redirect(base_url() . 'admin/warga');
+    }
     public function overview()
     {
         $data['smartbook'] = $this->db->query('select ID as id,COUNT(ID) as count from smartbook')->result();
@@ -36,7 +93,7 @@ class Admin extends MY_Controller
         $validation->set_rules($smartbook->rules());
 
         if ($validation->run()) {
-            $smartbook->save();
+            $smartbook->save_warga();
             $this->session->set_flashdata('success', 'Berhasil disimpan');
         }
 

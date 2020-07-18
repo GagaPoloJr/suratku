@@ -3,7 +3,7 @@
             <!-- Brand Logo -->
             <a href="#" class="brand-link navbar-danger">
                 <img src="<?php echo base_url("dist/img/prov.png") ?>" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light" style="color: white;">DPMPTSP Jateng</span>
+                <span class="brand-text font-weight-light" style="color: white;">Kel. LBB Pekanbaru</span>
             </a>
 
             <!-- Sidebar -->
@@ -31,6 +31,14 @@
                         </li>
                         <li class="nav-header">SISTEM INFORMASI ARSIP</li>
                         <li class="nav-item">
+                            <a href="<?php echo base_url('admin/warga') ?>" class="nav-link <?php if($this->uri->segment(2)=="warga"){echo "active";}?>">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Data Warga
+                                </p>
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item">
                             <a href="<?php echo base_url('admin/smartbook') ?>" class="nav-link <?php if($this->uri->segment(2)=="smartbook"){echo "active";}?>">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
@@ -70,7 +78,7 @@
                                     Kode Yanzin
                                 </p>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

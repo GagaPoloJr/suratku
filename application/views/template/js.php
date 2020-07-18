@@ -45,7 +45,10 @@
         <script src="<?php echo base_url() . '/plugins/bs-custom-file-input/bs-custom-file-input.min.js' ?>"></script>
         <script>
             $(function() {
-                $("#example1").DataTable();
+                $("#example1").DataTable({
+                    // "scrollX": true
+
+                });
                 $('#example2').DataTable({
                     "paging": true,
                     "lengthChange": false,

@@ -15,19 +15,30 @@ class Auth extends CI_Controller
     }
     public function login()
     {
-        $Username = $this->input->post('username');
-        $Password = $this->input->post('password');
+        $Username = $this->input->post('username', TRUE);
+        $Password = $this->input->post('password', TRUE);
         $user = $this->LoginModel->get($Username);
+
+        $validate = $this->LoginModel->validate($Username,$Password);
+
 
         if (empty($user)) {
             $this->session->set_flashdata('message', 'Login Gagal');
             redirect('auth');
         } else {
-            if ($Password == $user->password) {
+            if ($validate->num_rows()>0) {
+                $data = $validate->row_array();
+                $username = $data['username'];
+                // $name = $data['name'];
+                $level = $data['level'];
+                $id = $data['id'];
+                
                 $session = array(
                     'authenticated' => true,
-                    'username' => $user->username,
-                    'level' => $user->level
+                    'username' => $username,
+                    'level' => $level,
+                    'logged_in' => TRUE,
+                    'id' => $id
                 );
                 $this->session->set_userdata($session);
                 redirect('admin/overview');

@@ -3,82 +3,144 @@
 class SmartbookModel extends CI_Model
 {
     private $_table = "smartbook";
+    private $_table1 = "data_warga";
 
-    public $id;
-    public $kode;
-    public $nama;
-    public $uraian;
-    public $tanggal;
-    public $sk;
-    public $jenis;
-    public $kota;
-    public $jumlah;
-    public $petugas;
-    public $datask;
-    public $datadukung;
-    public $jenisdok;
-    public $keadaan;
-    public $dus;
-    public $urut;
+
+    // public $id;
+    // public $kode;
+    // public $nama;
+    // public $uraian;
+    // public $tanggal;
+    // public $sk;
+    // public $jenis;
+    // public $kota;
+    // public $jumlah;
+    // public $petugas;
+    // public $datask;
+    // public $datadukung;
+    // public $jenisdok;
+    // public $keadaan;
+    // public $dus;
+    // public $urut;
 
     public function rules()
     {
         return [
+            // [
+            //     'field' => 'nama',
+            //     'label' => 'Nama',
+            //     'rules' => 'required',
+            //     'errors' => array('required' => '%s Belum Diisi')
+            // ],
+
+            // [
+            //     'field' => 'uraian',
+            //     'label' => 'Uraian',
+            //     'rules' => 'required',
+            //     'errors' => array('required' => '%s Belum Diisi')
+            // ],
+
+            // [
+            //     'field' => 'tanggal',
+            //     'label' => 'Tanggal',
+            //     'rules' => 'required',
+            //     'errors' => array('required' => '%s Belum Diisi')
+            // ],
+
+            // [
+            //     'field' => 'sk',
+            //     'label' => 'SK',
+            //     'rules' => 'required',
+            //     'errors' => array('required' => '%s Belum Diisi')
+            // ],
+
+            // [
+            //     'field' => 'jenis',
+            //     'label' => 'Jenis',
+            //     'rules' => 'required',
+            //     'errors' => array('required' => '%s Belum Diisi')
+            // ],
+
+            // [
+            //     'field' => 'kota',
+            //     'label' => 'Kota',
+            //     'rules' => 'required',
+            //     'errors' => array('required' => '%s Belum Diisi')
+            // ],
+
+            // [
+            //     'field' => 'jumlah',
+            //     'label' => 'Jumlah',
+            //     'rules' => 'required',
+            //     'errors' => array('required' => '%s Belum Diisi')
+            // ],
+
+            // [
+            //     'field' => 'petugas',
+            //     'label' => 'Petugas',
+            //     'rules' => 'required',
+            //     'errors' => array('required' => '%s Belum Diisi')
+            // ]
             [
                 'field' => 'nama',
-                'label' => 'Nama',
+                'label' => 'nama',
                 'rules' => 'required',
                 'errors' => array('required' => '%s Belum Diisi')
             ],
-
             [
-                'field' => 'uraian',
-                'label' => 'Uraian',
+                'field' => 'nik',
+                'label' => 'nik',
                 'rules' => 'required',
                 'errors' => array('required' => '%s Belum Diisi')
             ],
-
             [
-                'field' => 'tanggal',
-                'label' => 'Tanggal',
+                'field' => 'alamat',
+                'label' => 'alamat',
                 'rules' => 'required',
                 'errors' => array('required' => '%s Belum Diisi')
             ],
-
-            [
-                'field' => 'sk',
-                'label' => 'SK',
-                'rules' => 'required',
-                'errors' => array('required' => '%s Belum Diisi')
-            ],
-
             [
                 'field' => 'jenis',
-                'label' => 'Jenis',
+                'label' => 'jenis',
                 'rules' => 'required',
                 'errors' => array('required' => '%s Belum Diisi')
             ],
-
             [
-                'field' => 'kota',
-                'label' => 'Kota',
+                'field' => 'lahir',
+                'label' => 'lahir',
                 'rules' => 'required',
                 'errors' => array('required' => '%s Belum Diisi')
             ],
-
             [
-                'field' => 'jumlah',
-                'label' => 'Jumlah',
+                'field' => 'tgl',
+                'label' => 'tgl',
                 'rules' => 'required',
                 'errors' => array('required' => '%s Belum Diisi')
             ],
-
             [
-                'field' => 'petugas',
-                'label' => 'Petugas',
+                'field' => 'status',
+                'label' => 'status',
                 'rules' => 'required',
                 'errors' => array('required' => '%s Belum Diisi')
-            ]
+            ],
+            [
+                'field' => 'agama',
+                'label' => 'agama',
+                'rules' => 'required',
+                'errors' => array('required' => '%s Belum Diisi')
+            ],
+            [
+                'field' => 'pekerjaan',
+                'label' => 'pekerjaan',
+                'rules' => 'required',
+                'errors' => array('required' => '%s Belum Diisi')
+            ],
+            [
+                'field' => 'kebutuhan',
+                'label' => 'kebutuhan',
+                'rules' => 'required',
+                'errors' => array('required' => '%s Belum Diisi')
+            ],
         ];
     }
 
@@ -92,7 +154,71 @@ class SmartbookModel extends CI_Model
         return $this->db->get_where($this->_table, ["id" => $id])->row();
     }
 
+    function get_data($table)
+    {
+        return $this->db->get($table);
+    }
+
+    // fungsi untuk menginput data ke database
+    function insert_data($data, $table)
+    {
+        $this->db->insert($table, $data);
+        return $this->db->insert_id();
+    }
+
+    // fungsi untuk mengedit data
+    function edit_data($where, $table)
+    {
+        return $this->db->get_where($table, $where);
+    }
+    // fungsi untuk mengupdate atau mengubah data di database
+    function update_data($where, $data, $table)
+    {
+        $this->db->where($where);
+        $this->db->update($table, $data);
+    }
+    // fungsi untuk menghapus data dari database
+    function delete_data($where, $table)
+    {
+        $this->db->delete($table, $where);
+    }
+
+    function delete_all($table)
+    {
+        $this->db->empty_table($table);
+    }
+
+    function cek_login($table, $where)
+    {
+        return $this->db->get_where($table, $where);
+    }
+    function insert_multiple($data, $table)
+    {
+        $this->db->insert_batch($table, $data);
+    }
+
     public function save()
+    {
+        $post = $this->input->post();
+        $this->nama = $post["nama"];
+        $this->nik = $post["nik"];
+        $this->alamat = $post["alamat"];
+        $this->j_kelamin = $post["jenis"];
+        $this->tempat = $post["lahir"];
+        $this->tgl_lahir = $post["tgl"];
+        $this->status = $post["status"];
+        $this->agama = $post["agama"];
+        $this->pekerjaan = $post["pekerjaan"];
+        $this->kebutuhan = $post["kebutuhan"];
+        $this->id_user = $this->session->userdata('id');
+
+        return $this->db->insert($this->_table1, $this);
+    }
+
+
+
+    //punya anas
+    public function save_warga()
     {
         $post = $this->input->post();
         $this->nama = $post["nama"];
@@ -103,6 +229,7 @@ class SmartbookModel extends CI_Model
         $this->kota = $post["kota"];
         $this->jumlah = $post["jumlah"];
         $this->petugas = $post["petugas"];
+
         return $this->db->insert($this->_table, $this);
     }
 
