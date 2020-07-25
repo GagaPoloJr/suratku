@@ -46,7 +46,7 @@
         <script>
             $(function() {
                 $("#example1").DataTable({
-                    "scrollX": '1999px'
+                    // "scrollX": '1999px'
 
                 });
                 $('#example2').DataTable({

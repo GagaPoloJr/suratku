@@ -74,57 +74,16 @@
                                 </a>
                             </li>
                         <?php endif; ?>
-                        <!-- <li class="nav-item">
-                            <a href="<?php echo base_url('admin/smartbook') ?>" class="nav-link <?php if ($this->uri->segment(2) == "smartbook") {
-                                                                                                    echo "active";
-                                                                                                } ?>">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Data Smartbook Yanzin
-                                </p>
-                            </a>
-                        </li>
+                        <li class="nav-header">INFORMASI ACARA</li>
                         <li class="nav-item">
-                            <a href="<?php echo base_url('admin/scan') ?>" class="nav-link <?php if ($this->uri->segment(2) == "scan") {
-                                                                                                echo "active";
-                                                                                            } ?>">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Data Scan DPMPTSP
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item has-treeview">
-                            <a href="<?php echo base_url('admin/peminjaman') ?>" class="nav-link <?php if ($this->uri->segment(2) == "peminjaman") {
-                                                                                                        echo "active";
-                                                                                                    } ?>">
-                                <i class="nav-icon fas fa-book"></i>
-                                <p>
-                                    Peminjaman Arsip Vital
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item has-treeview">
-                            <a href="<?php echo base_url('admin/pengembalian') ?>" class="nav-link <?php if ($this->uri->segment(2) == "pengembalian") {
-                                                                                                        echo "active";
-                                                                                                    } ?>">
-                                <i class="nav-icon fas fa-book"></i>
-                                <p>
-                                    Pengembalian Arsip Vital
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-header">INFORMASI KODE YANZIN</li>
-                        <li class="nav-item has-treeview">
-                            <a href="<?php echo base_url('admin/kode') ?>" class="nav-link <?php if ($this->uri->segment(2) == "kode") {
-                                                                                                echo "active";
-                                                                                            } ?>">
-                                <i class="nav-icon fas fa-code"></i>
-                                <p>
-                                    Kode Yanzin
-                                </p>
-                            </a>
-                        </li> -->
+                                <a href="<?php echo base_url('admin/berita') ?>" class="nav-link <?php if ($this->uri->segment(2) == "Berita") {
+                            echo "active";   } ?>">
+                                    <i class="nav-icon fas fa-th"></i>
+                                    <p>
+                                        Berita
+                                    </p>
+                                </a>
+                            </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

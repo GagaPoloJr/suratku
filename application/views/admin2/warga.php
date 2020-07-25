@@ -2,15 +2,16 @@
 <html>
 
 <head>
-<link href ="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel = "stylesheet" crossorigin="anonymous">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel="stylesheet" crossorigin="anonymous">
     <?php $this->load->view('template/head.php'); ?>
+
     <style>
         a.disabled {
             pointer-events: none;
             cursor: default;
         }
-        .imggallery{
+
+        .imggallery {
             max-height: 250px;
         }
     </style>
@@ -123,25 +124,24 @@
                                                                     echo keb($s->kebutuhan);
                                                                 } ?></td>
                                                             <td><?php
-                                                            if($s->gambar_ktp == null){
-                                                                echo "KTP belum di upload";
-                                                            }
-                                                            else{
+                                                                if ($s->gambar_ktp == null) {
+                                                                    echo "KTP belum di upload";
+                                                                } else {
 
-                                                                $show = base_url(). 'upload/data/'.$s->gambar_ktp ;
-                                                                $image_properties = array(
-                                                                    'src' => base_url(). 'upload/data/'.$s->gambar_ktp,
-                                                                    'alt' => 'gambar_ktp',
-                                                                    'class' => 'post_images',
-                                                                    'width' => '100',
-                                                                    'rel' => 'lightbox'
-                                                                ); ?>
-                                                                
-                                                                
-                                                                <a data-toggle="lightbox" class="imggallery" href="<?php echo $show; ?>" ><?php echo img($image_properties); ?></a> 
-                                                            <?php } ?>
-                                                            
-                                                          </td>
+                                                                    $show = base_url() . 'upload/data/' . $s->gambar_ktp;
+                                                                    $image_properties = array(
+                                                                        'src' => base_url() . 'upload/data/' . $s->gambar_ktp,
+                                                                        'alt' => 'gambar_ktp',
+                                                                        'class' => 'post_images',
+                                                                        'width' => '100',
+                                                                        'rel' => 'lightbox'
+                                                                    ); ?>
+
+
+                                                                    <a data-toggle="lightbox" class="imggallery" href="<?php echo $show; ?>"><?php echo img($image_properties); ?></a>
+                                                                <?php } ?>
+
+                                                            </td>
 
                                                             <td><?php if ($s->keterangan == "0") {
                                                                     echo "<label class='badge badge-danger' >Belum Dikonfirmasi  </label>";
@@ -297,7 +297,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="kebutuhan">Kebutuhan*</label>
-                                                    <select name="kebutuhan" class="form-control select2bs4" id="kebutuhan">
+                                                    <select name="kebutuhan" class="form-control" id="kebutuhan" onchange="showDiv(this)">
                                                         <option>--pilih Kebutuhan Surat--</option>
                                                         <option value="1">Kartu Keluarga</option>
                                                         <option value="2">Kartu Tanda Penduduk (KTP)</option>
@@ -306,12 +306,13 @@
                                                         <option value="5">Surat Pengantar Akte Kelahiran An. </option>
                                                         <option value="6">Surat Pengantar Tambah Anggota Keluarga</option>
                                                         <option value="7">Surat Pengantar Pendatang Baru</option>
+                                                        <option value="tidak ada">Surat Pengantar Pendatang Kontol Baru</option>
                                                     </select>
                                                     <div class="invalid-feedback">
                                                         <?php echo form_error('kebutuhan') ?>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
+                                                <div style="display: none;" id="no_ktp" class="form-group">
                                                     <label for="exampleInputFile">Upload Gambar KTP*</label>
                                                     <div class="custom-file">
                                                         <input name="ktp" type="file" class="custom-file-input <?php echo form_error('ktp') ? 'is-invalid' : '' ?>" id="exampleInputFile"></input>
@@ -321,7 +322,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
+                                                <div style="display: none;" id="no_kk" class="form-group" >
                                                     <label for="exampleInputFile">Upload Gambar KK*</label>
                                                     <div class="custom-file">
                                                         <input name="kk" type="file" class="custom-file-input <?php echo form_error('k') ? 'is-invalid' : '' ?>" id="exampleInputFile"></input>
@@ -390,8 +391,12 @@
     <?php $this->load->view('template/footer.php'); ?>
     <?php $this->load->view('template/js.php'); ?>
 
-<!-- Ekko Lightbox -->
-    <script src = "https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js" crossorigin="anonymous"></script>
+    <!-- Ekko Lightbox -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js" crossorigin="anonymous"></script>
+
+
+
+
 
 
     <script>
@@ -410,13 +415,19 @@
             $('[data-toggle="tooltip"]').tooltip()
         })
 
-        $(document).on("click", '[data-toggle="lightbox"]', function(e){
-e.preventDefault();
-$(this).ekkoLightbox();
+        $(document).on("click", '[data-toggle="lightbox"]', function(e) {
+            e.preventDefault();
+            $(this).ekkoLightbox();
         });
-    </script>
 
-    
+
+       
+    </script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script> -->
+ <script type="text/javascript" src="<?php echo base_url() .'assets/js/custom.js' ?>" ></script>
+
+
+
 
 
 </body>

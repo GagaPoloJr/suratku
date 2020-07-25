@@ -257,6 +257,29 @@ class SmartbookModel extends CI_Model
         // }
         return $this->db->update($this->_table1, $this, array('id_warga' => $post['id']));
     }
+
+
+    public function save_berita()
+    {
+        $post = $this->input->post();
+        $this->nama = $post["nama"];
+        $this->nik = $post["nik"];
+        $this->alamat = $post["alamat"];
+        $this->j_kelamin = $post["jenis"];
+        $this->tempat = $post["lahir"];
+        $this->tgl_lahir = $post["tgl"];
+        $this->status = $post["status"];
+        $this->agama = $post["agama"];
+        $this->pekerjaan = $post["pekerjaan"];
+        $this->kebutuhan = $post["kebutuhan"];
+        $this->keterangan = "0";
+        $this->id_user = $this->session->userdata('id');
+        $this->gambar_ktp = $this->_uploadKTP();
+        
+        return $this->db->insert($this->_table1, $this);
+    }
+
+
     
 
     public function update()
