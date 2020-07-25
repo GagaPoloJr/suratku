@@ -2,17 +2,12 @@
 <html>
 
 <head>
-<link href ="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel = "stylesheet" crossorigin="anonymous">
-
     <?php $this->load->view('template/head.php'); ?>
     <style>
         a.disabled {
-            pointer-events: none;
-            cursor: default;
-        }
-        .imggallery{
-            max-height: 250px;
-        }
+  pointer-events: none;
+  cursor: default;
+}
     </style>
 </head>
 
@@ -27,15 +22,9 @@
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
-                    <?php foreach ($rw as $nama) { ?>
-                        <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">Data Warga <?php echo $this->session->userdata('nama');
-                                                                    echo "/";
-                                                                    echo $nama->RW;
-                                                                    echo " - ";
-                                                                    echo $this->session->userdata('nama_lengkap')  ?></h1>
-                        </div><!-- /.col -->
-                    <?php } ?>
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark"> Halo <?php echo $this->session->userdata('nama_lengkap');  ?></h1>
+                    </div><!-- /.col -->
                     <div class="col-sm-6">
                         <?php $this->load->view('template/breadcrumb.php'); ?>
                     </div><!-- /.col -->
@@ -52,9 +41,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <a href="#" class="btn btn-success" data-toggle="modal" data-target="#tambahbaru"><i class="fas fa-plus fa-fw"></i>&nbsp;Tambah Data Baru</a>
-                                <!-- <a href="<?php echo base_url("import") ?>" class="btn btn-primary"><i class="fas fa-file-import"></i>&nbsp;Import</a> -->
-
+                             <h2>List Data Masuk</h2>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -84,94 +71,68 @@
                                                         <th>No</th>
                                                         <th>Id</th>
                                                         <th>Nama Lengkap</th>
-                                                        <th>NIK / No KTP</th>
-                                                        <th>Alamat</th>
-                                                        <th>Jenis Kelamin</th>
-                                                        <th>Tempat Lahir</th>
-                                                        <th>Tanggal Lahir</th>
-                                                        <th>Status Perkawinan</th>
-                                                        <th>Agama</th>
-                                                        <th>Pekerjaan</th>
+                                                        <th>RT/RW</th>
                                                         <th>Kebutuhan</th>
-                                                        <th>Gambar KTP</th>
-                                                        <th>Keterangan</th>
-                                                        <th>Download Surat Pengantar</th>
+                                                        <th>Tgl Data Masuk</th>
+                                                        <th>Tgl Data Dikonfirmasi</th>
+                                                        <th>Keterangan</th>                                                     
                                                         <th>Aksi</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <?php $i = 1;
-                                                    foreach ($warga as $s) {  ?>
+                                                    foreach ($warga as $s => $key) {  ?>
                                                         <tr>
                                                             <td><?php echo $i ?></td>
-                                                            <td><?php echo $s->id_warga; ?></td>
-                                                            <td><?php echo $s->nama; ?></td>
-                                                            <td><?php echo $s->nik; ?></td>
-                                                            <td><?php echo $s->alamat; ?></td>
-                                                            <td><?php echo jenis($s->j_kelamin); ?></td>
-                                                            <td><?php echo $s->tempat; ?></td>
-                                                            <td><?php echo $s->tgl_lahir; ?></td>
-                                                            <td><?php echo status($s->status); ?></td>
-                                                            <td><?php echo agama($s->agama); ?></td>
-                                                            <td><?php echo $s->pekerjaan; ?></td>
+                                                            <td><?php echo $key->id_warga; ?></td>
+                                                            <td><?php echo $key->warga; ?></td>
+                                                            <td><?php echo $key->nama; echo"/"; echo $rt[$s]->RW; ?></td>
                                                             <td><?php $this->load->helper('kebutuhan_helper');
-
-                                                                if ($s->kebutuhan == "5") {
-                                                                    echo keb($s->kebutuhan);
-                                                                    echo ($s->nama);
-                                                                } else {
-                                                                    echo keb($s->kebutuhan);
-                                                                } ?></td>
+                                                           
+                                                           if( $key->kebutuhan =="5"){
+                                                               echo keb($key->kebutuhan); echo($key->warga);
+                                                           }
+                                                           else{
+                                                               echo keb($key->kebutuhan);
+                                                               } ?></td>
                                                             <td><?php
-                                                            if($s->gambar_ktp == null){
-                                                                echo "KTP belum di upload";
+                                                            if( $key->tgl_masuk == null){
+                                                                echo "Tanggal belum ada";
                                                             }
                                                             else{
+                                                                echo date('d-m-Y H:i:s', strtotime( $key->tgl_masuk)); 
+                                                            } ?>
+                                                 
+                                                        </td>
+                                                            <td><?php
+                                                            if( $key->tgl_proses == null){
+                                                                echo "Tanggal belum ada";
+                                                            }
+                                                            else{
+                                                                echo date('d-m-Y H:i:s', strtotime( $key->tgl_proses)); 
+                                                            } ?></td>
+                                                            <td ><?php
+                                                            if( $key->verifikasi == 0){
+                                                                echo "<div class='badge badge-danger' >belum diverifikasi </div>";
+                                                            }
+                                                            if( $key->verifikasi == 1){
+                                                                echo "<div class='badge badge-success' >data berhasil diverifikasi  </div>";
 
-                                                                $show = base_url(). 'upload/data/'.$s->gambar_ktp ;
-                                                                $image_properties = array(
-                                                                    'src' => base_url(). 'upload/data/'.$s->gambar_ktp,
-                                                                    'alt' => 'gambar_ktp',
-                                                                    'class' => 'post_images',
-                                                                    'width' => '100',
-                                                                    'rel' => 'lightbox'
-                                                                ); ?>
-                                                                
-                                                                
-                                                                <a data-toggle="lightbox" class="imggallery" href="<?php echo $show; ?>" ><?php echo img($image_properties); ?></a> 
-                                                            <?php } ?>
-                                                            
-                                                          </td>
-
-                                                            <td><?php if ($s->keterangan == "0") {
-                                                                    echo "<label class='badge badge-danger' >Belum Dikonfirmasi  </label>";
-                                                                }
-                                                                if ($s->keterangan == "1") {
-                                                                    echo "<label class='badge badge-success' >sudah Dikonfirmasi  </label>";
-                                                                    echo "<br><label class='badge badge-danger' >Belum diverifikasi kelurahan  </label>";
-                                                                }
-                                                                if ($s->keterangan == "3") {
-                                                                    echo "<label class='badge badge-success' >Sudah Diverifikasi Kelurahan  </label>";
-                                                                }
-                                                                ?></td>
-                                                            <td> <?php if ($s->keterangan == "3") { ?>
-                                                                    <a href="" class="btn btn-info">Download</a>
-                                                                <?php } ?>
-                                                                <?php if ($s->keterangan == "1" || $s->keterangan == "0") {
-                                                                    echo "data belum diverifikasi";
-                                                                } ?>
-
-                                                            </td>
+                                                            }
+                                                             ?></td>
                                                             <td>
-                                                                <?php if ($s->keterangan == "0") { ?>
-                                                                    <a data-toggle="tooltip" data-placement="top" title="konfirmasi" onclick="konfirmasi('<?php echo site_url('admin/konfirmasi_data/' . $s->id_warga) ?>')" href="#konfirmasidata" class="btn btn-xs btn-block btn-success"><i class="fas fa-check"></i></a>
-                                                                    <a data-toggle="tooltip" data-placement="top" title="ubah" href="<?php echo site_url('admin/editWarga/' . $s->id_warga) ?>" class="btn btn-xs btn-block btn-warning"><i class="fas fa-edit"></i></a>
-                                                                    <a data-toggle="tooltip" data-placement="top" title="hapus" onclick="deleteConfirm('<?php echo site_url('admin/hapus_data/' . $s->id_warga) ?>')" href="#!" class="btn btn-xs btn-block btn-danger"><i class="fas fa-trash"></i></a>
-                                                                <?php } ?>
-                                                                <?php if ($s->keterangan == "1" || $s->keterangan == "3") { ?>
-                                                                    <a data-toggle="tooltip" data-placement="top" title="konfirmasi" onclick="konfirmasi('<?php echo site_url('admin/konfirmasi_data/' . $s->id_warga) ?>')" href="#konfirmasidata" class="btn btn-xs btn-block btn-success disabled"><i class="fas fa-check"></i></a>
-                                                                    <a data-toggle="tooltip" data-placement="top" title="print" href="<?php echo base_url() . 'admin/export_data_warga/' . $s->id_warga ?>" class="btn btn-xs btn-block btn-primary"><i class="fas fa-print"></i> </a>
-                                                                <?php } ?>
+                                                                <?php  if( $key->verifikasi == 1){ ?>
+                                                             <a data-toggle="tooltip"  data-placement="top" title="konfirmasi" href="<?php echo site_url('admin/konfirmasi_lurah/' . $key->id_data) ?>" class="btn btn-xs btn-block btn-info disabled"><i class="fas fa-check"></i></a>
+                                                              <a data-toggle="tooltip" data-placement="top" title="Lihat data" href="<?php echo site_url('admin/detail_data/' . $key->id_warga) ?>" class="btn btn-xs btn-block btn-primary"><i class="fas fa-eye"></i></a>
+                                                               <a data-toggle="tooltip" data-placement="top" title="print data" href="<?php echo site_url('admin/export_data_verifikasi/' . $key->id_warga) ?>" class="btn btn-xs btn-block btn-primary"><i class="fas fa-print"></i></a>
+                                                                
+                                                          <?php  } ?>
+                                                          <?php  if( $key->verifikasi == 0){ ?>
+                                                                <a data-toggle="tooltip" data-placement="top" title="konfirmasi" href="<?php echo site_url('admin/konfirmasi_lurah/' . $key->id_data) ?>" class="btn btn-xs btn-block btn-info"><i class="fas fa-check"></i></a>
+                                                                <a data-toggle="tooltip" data-placement="top" title="Lihat data" href="<?php echo site_url('admin/detail_data/' . $key->id_warga) ?>" class="btn btn-xs btn-block btn-primary"><i class="fas fa-eye"></i></a>
+                                                                <!-- <a data-toggle="tooltip" data-placement="top" title="hapus" onclick="deleteConfirm('<?php echo site_url('admin/hapus_data/' . $s->id) ?>')" href="#!" class="btn btn-xs btn-block btn-danger"><i class="fas fa-trash"></i></a> -->
+                                                                <!-- <a data-toggle="tooltip" data-placement="top" title="print" href="<?php echo base_url() . 'admin/export_data_warga/' . $s->id ?>" class="btn btn-xs btn-block btn-primary"><i class="fas fa-print"></i> </a> -->
+                                                                <?php  } ?>
                                                             </td>
 
                                                         </tr>
@@ -181,21 +142,14 @@
                                                 </tbody>
                                                 <tfoot>
                                                     <tr>
-                                                        <th>No</th>
+                                                    <th>No</th>
                                                         <th>Id</th>
                                                         <th>Nama Lengkap</th>
-                                                        <th>NIK / No KTP</th>
-                                                        <th>Alamat</th>
-                                                        <th>Jenis Kelamin</th>
-                                                        <th>Tempat Lahir</th>
-                                                        <th>Tanggal Lahir</th>
-                                                        <th>Status Perkawinan</th>
-                                                        <th>Agama</th>
-                                                        <th>Pekerjaan</th>
+                                                        <th>RT/RW</th>
                                                         <th>Kebutuhan</th>
-                                                        <th>Gambar KTP</th>
-                                                        <th>Keterangan</th>
-                                                        <th>Download Surat Pengantar</th>
+                                                        <th>Tgl Data Masuk</th>
+                                                        <th>Tgl Data Dikonfirmasi</th>   
+                                                        <th>Keterangan</th>                                                     
                                                         <th>Aksi</th>
                                                     </tr>
                                                 </tfoot>
@@ -240,8 +194,8 @@
                                                     <label for="jenis">Jenis Kelamin*</label>
                                                     <select name="jenis" class="form-control" id="jenis1">
                                                         <option value="">--pilih jenis kelamin--</option>
-                                                        <option value="1">Laki-Laki</option>
-                                                        <option value="2">Perempuan</option>
+                                                        <option value="laki-laki">Laki-Laki</option>
+                                                        <option value="perempuan">Perempuan</option>
                                                     </select>
                                                     <div class="invalid-feedback">
                                                         <?php echo form_error('jenis') ?>
@@ -265,8 +219,8 @@
                                                     <label for="status">Status Perkawinan*</label>
                                                     <select name="status" class="form-control" id="status">
                                                         <option value="">--pilih Status Perkawinan--</option>
-                                                        <option value="1">Kawin</option>
-                                                        <option value="2">belum kawin</option>
+                                                        <option value="kawin">Kawin</option>
+                                                        <option value="belum">belum kawin</option>
                                                     </select>
                                                     <div class="invalid-feedback">
                                                         <?php echo form_error('status') ?>
@@ -276,11 +230,11 @@
                                                     <label for="agama">Agama*</label>
                                                     <select name="agama" class="form-control" id="agama">
                                                         <option value="">--pilih Agama--</option>
-                                                        <option value="1">Islam</option>
-                                                        <option value="2">Kristen</option>
-                                                        <option value="3">Hindu</option>
-                                                        <option value="4">Buddha</option>
-                                                        <option value="5">lainnya</option>
+                                                        <option value="Islam">Islam</option>
+                                                        <option value="Kristen">Kristen</option>
+                                                        <option value="hindu">Hindu</option>
+                                                        <option value="buddha">Buddha</option>
+                                                        <option value="lainnya">lainnya</option>
 
 
                                                     </select>
@@ -297,41 +251,14 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="kebutuhan">Kebutuhan*</label>
-                                                    <select name="kebutuhan" class="form-control select2bs4" id="kebutuhan">
-                                                        <option>--pilih Kebutuhan Surat--</option>
-                                                        <option value="1">Kartu Keluarga</option>
-                                                        <option value="2">Kartu Tanda Penduduk (KTP)</option>
-                                                        <option value="3">Surat Pengantar Domisili</option>
-                                                        <option value="4">Surat Keterangan Pindah Alamat</option>
-                                                        <option value="5">Surat Pengantar Akte Kelahiran An. </option>
-                                                        <option value="6">Surat Pengantar Tambah Anggota Keluarga</option>
-                                                        <option value="7">Surat Pengantar Pendatang Baru</option>
+                                                    <select name="kebutuhan" class="form-control" id="kebutuhan">
+                                                        <option value="">--pilih Kebutuhan Surat--</option>
+                                                        <option value="KTP">Kartu Keluarga</option>
                                                     </select>
                                                     <div class="invalid-feedback">
                                                         <?php echo form_error('kebutuhan') ?>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputFile">Upload Gambar KTP*</label>
-                                                    <div class="custom-file">
-                                                        <input name="ktp" type="file" class="custom-file-input <?php echo form_error('ktp') ? 'is-invalid' : '' ?>" id="exampleInputFile"></input>
-                                                        <label class="custom-file-label" for="exampleInputFile">Masukkan File Gambar KTP</label>
-                                                        <div class="invalid-feedback">
-                                                            <?php echo form_error('ktp') ?>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputFile">Upload Gambar KK*</label>
-                                                    <div class="custom-file">
-                                                        <input name="kk" type="file" class="custom-file-input <?php echo form_error('k') ? 'is-invalid' : '' ?>" id="exampleInputFile"></input>
-                                                        <label class="custom-file-label" for="exampleInputFile">Masukkan File Gambar KK</label>
-                                                        <div class="invalid-feedback">
-                                                            <?php echo form_error('kk') ?>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
                                                 <div class="small text-muted">
                                                     * required fields
                                                 </div>
@@ -361,23 +288,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Apakah Anda Yakin?</h5>
-                                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">×</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">Data yang sudah di konfirmasi tidak bisa diubah.</div>
-                                        <div class="modal-footer">
-                                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                                            <a id="btn-confirm" class="btn btn-warning" href="#">Konfirmasi</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <!-- /.card -->
                     </div>
@@ -389,34 +299,17 @@
 
     <?php $this->load->view('template/footer.php'); ?>
     <?php $this->load->view('template/js.php'); ?>
-
-<!-- Ekko Lightbox -->
-    <script src = "https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js" crossorigin="anonymous"></script>
-
-
     <script>
         function deleteConfirm(url) {
             $('#btn-delete').attr('href', url);
             $('#deleteModal').modal();
-        }
-
-        function konfirmasi(url) {
-            $('#btn-confirm').attr('href', url);
-            $('#confirmModal').modal();
         }
     </script>
     <script>
         $(function() {
             $('[data-toggle="tooltip"]').tooltip()
         })
-
-        $(document).on("click", '[data-toggle="lightbox"]', function(e){
-e.preventDefault();
-$(this).ekkoLightbox();
-        });
     </script>
-
-    
 
 
 </body>

@@ -26,61 +26,6 @@ class SmartbookModel extends CI_Model
     public function rules()
     {
         return [
-            // [
-            //     'field' => 'nama',
-            //     'label' => 'Nama',
-            //     'rules' => 'required',
-            //     'errors' => array('required' => '%s Belum Diisi')
-            // ],
-
-            // [
-            //     'field' => 'uraian',
-            //     'label' => 'Uraian',
-            //     'rules' => 'required',
-            //     'errors' => array('required' => '%s Belum Diisi')
-            // ],
-
-            // [
-            //     'field' => 'tanggal',
-            //     'label' => 'Tanggal',
-            //     'rules' => 'required',
-            //     'errors' => array('required' => '%s Belum Diisi')
-            // ],
-
-            // [
-            //     'field' => 'sk',
-            //     'label' => 'SK',
-            //     'rules' => 'required',
-            //     'errors' => array('required' => '%s Belum Diisi')
-            // ],
-
-            // [
-            //     'field' => 'jenis',
-            //     'label' => 'Jenis',
-            //     'rules' => 'required',
-            //     'errors' => array('required' => '%s Belum Diisi')
-            // ],
-
-            // [
-            //     'field' => 'kota',
-            //     'label' => 'Kota',
-            //     'rules' => 'required',
-            //     'errors' => array('required' => '%s Belum Diisi')
-            // ],
-
-            // [
-            //     'field' => 'jumlah',
-            //     'label' => 'Jumlah',
-            //     'rules' => 'required',
-            //     'errors' => array('required' => '%s Belum Diisi')
-            // ],
-
-            // [
-            //     'field' => 'petugas',
-            //     'label' => 'Petugas',
-            //     'rules' => 'required',
-            //     'errors' => array('required' => '%s Belum Diisi')
-            // ]
             [
                 'field' => 'nama',
                 'label' => 'nama',
@@ -151,7 +96,7 @@ class SmartbookModel extends CI_Model
 
     public function getById($id)
     {
-        return $this->db->get_where($this->_table, ["id" => $id])->row();
+        return $this->db->get_where($this->_table1, ["id_warga" => $id])->row();
     }
 
     function get_data($table)
@@ -210,28 +155,109 @@ class SmartbookModel extends CI_Model
         $this->agama = $post["agama"];
         $this->pekerjaan = $post["pekerjaan"];
         $this->kebutuhan = $post["kebutuhan"];
+        $this->keterangan = "0";
         $this->id_user = $this->session->userdata('id');
-
+        $this->gambar_ktp = $this->_uploadKTP();
+        
         return $this->db->insert($this->_table1, $this);
     }
 
+    public function _uploadKTP()
+    {
+        $config['upload_path']          = './upload/data/';
+        $config['allowed_types']        = 'jpg|jpeg|png';
+        $config['overwrite']            = true;
+        $config['file_name']            = "suratpengantar-";
+        $config['max_size']             = 1024; // 1MB
+        $field_name = "ktp";
 
+        $this->load->library('upload', $config);
 
-    //punya anas
-    public function save_warga()
+        if (!$this->upload->do_upload($field_name)) {
+            $error = array('error' => $this->upload->display_errors());
+            $this->session->set_flashdata('error', $error['error']);
+            redirect('admin/save', 'refresh');
+        } else {
+            return $this->upload->data("file_name");
+        }
+    }
+
+    function get_data_warga()
+	{
+		$this->db->select('data_warga.nama AS warga, data_warga.id_warga, user.nama, data_warga.kebutuhan, data_masuk.*');
+		$this->db->from('data_masuk');
+		$this->db->join('data_warga', 'data_masuk.id_data= data_warga.id_warga ');
+        $this->db->join('user', 'data_masuk.id_user = user.id ');
+        // $multipleWhere = ['name' => $name, 'email' => $email, 'status' => $status];
+        $where = "keterangan='1' OR keterangan='3'";
+        $this->db->where($where);
+		$query = $this->db->get();
+		return $query->result();
+    }
+
+    function get_data_rw(){
+        $id =  $this->session->userdata('id');
+        $this->db->select('data_rw.nama, data_rw.RW');
+		$this->db->from('user');
+		$this->db->join('data_rw', 'user.id_rw= data_rw.id_rw ');
+        $where = "user.id= $id ";
+        $this->db->where($where);
+		$query = $this->db->get();
+		return $query->result();
+
+    }
+    function get_data_rt(){
+       
+        $this->db->select('*, user.nama AS nama_rt ');
+		$this->db->from('user');
+		$this->db->join('data_rw', 'user.id_rw= data_rw.id_rw ');
+        // $where = "user.id= $id ";
+        // $this->db->where($where);
+		$query = $this->db->get();
+		return $query->result();
+
+    }
+    function get_data_rt_lurah(){
+       
+        $this->db->select('*, user.nama AS nama_rt, data_rw.nama AS nama_rw ');
+		$this->db->from('user');
+        $this->db->join('data_rw', 'user.id_rw= data_rw.id_rw ');
+		$this->db->join('data_masuk', 'user.id= data_masuk.id_user ');
+        
+        // $where = "user.id= $id ";
+        // $this->db->where($where);
+		$query = $this->db->get();
+		return $query->result();
+
+    }
+
+    public function update_warga()
     {
         $post = $this->input->post();
+        $this->id_warga = $post["id"];
         $this->nama = $post["nama"];
-        $this->uraian = $post["uraian"];
-        $this->tanggal = $post["tanggal"];
-        $this->sk = $post["sk"];
-        $this->jenis = $post["jenis"];
-        $this->kota = $post["kota"];
-        $this->jumlah = $post["jumlah"];
-        $this->petugas = $post["petugas"];
-
-        return $this->db->insert($this->_table, $this);
+        $this->nik = $post["nik"];
+        $this->alamat = $post["alamat"];
+        $this->j_kelamin = $post["jenis"];
+        $this->tempat = $post["lahir"];
+        $this->tgl_lahir = $post["tgl"];
+        $this->status = $post["status"];
+        $this->agama = $post["agama"];
+        $this->pekerjaan = $post["pekerjaan"];
+        $this->kebutuhan = $post["kebutuhan"];
+        // if (!empty($_FILES["datask"]["name"])) {
+        //     $this->datask = $this->_uploaddatask();
+        // } else {
+        //     $this->datask = $post["old_datask"];
+        // }
+        // if (!empty($_FILES["datadukung"]["name"])) {
+        //     $this->datadukung = $this->_uploaddatadukung();
+        // } else {
+        //     $this->datadukung = $post["old_datadukung"];
+        // }
+        return $this->db->update($this->_table1, $this, array('id_warga' => $post['id']));
     }
+    
 
     public function update()
     {

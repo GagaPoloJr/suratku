@@ -13,6 +13,9 @@ class Logged_in extends CI_Controller
         if($this->session->userdata('level') ==='1'){
             $this->load->view('Admin/overview');
         }
+        elseif($this->session->userdata('level') ==='2'){
+            $this->load->view('lurah/lurah');
+        }
         else{
             echo "Akses Ditolak";
         }

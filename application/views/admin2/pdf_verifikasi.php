@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <head>
-        <!-- <link rel="icon" href="<?php echo base_url() . 'assets/img/logo.png' ?>"> -->
+         <link rel="icon" href="<?php echo base_url() . 'assets/img/pku.png' ?>">
         <title>Laporan</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <style>
@@ -34,8 +34,10 @@
             .small {
                 font-variant: small-caps;
             }
-            .kanan { text-align: right; }
 
+            .kanan {
+                text-align: right;
+            }
         </style>
 
     </head>
@@ -43,78 +45,52 @@
 
 <body>
     <!-- <img src="assets/img/logo-bmkg.png" style="position: absolute; width: 60px; height: auto;"> -->
+    <img src="dist/img/pku-logo.png" alt="Logo Surat" style="position: absolute; width: 80px; height: auto;">
     <table style="width: 100%;">
-        <?php foreach ($rw as $aw) { ?>
-            <tr>
-
-                <td align="center">
-                    <h1><?php echo $this->session->userdata('nama');
-                        echo "  ";
-                        echo $aw->RW;  ?></h1>
-                </td>
-
-            </tr>
-        <?php } ?>
+        <tr>
+      
+            <td align="center">
+                <h3>PEMERINTAHAN KOTA PEKANBARU <br>KECAMATAN PAYUNG SEKAKI</h3>
+            </td>
+        </tr>
         <tr>
             <td align="center">
+                <h2>KELURAHAN LABUHBARU BARAT</h2>
+            <small>Alamat : Jalan Cendana No. 1 Pekanbaru</small>
+            </td>
+        </tr>
+        <!-- <tr>
+            <td align="center">
                 <span style="line-height:1.3; font-weight:bold;">
-                    KELURAHAN LABUH BARU BARAT <br>
-                    KECAMATAN PAYUNG SEKAKI KOTA PEKANBARU
-                    <br>
-                    <small>Jl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No.&nbsp;&nbsp;Kelurahan Labuhbaru Barat Payung Sekaki Pekanbaru</small>
-
-
                 </span>
 
             </td>
-        </tr>
+        </tr> -->
 
     </table>
     <hr class="line-title">
-    <table style="line-height:1">
+    <table style="width: 100%; line-height:1.0">
         <tr>
-            <td>Nomor</td>
-            <td>:</td>
-            <td>&nbsp;&nbsp; /<?php echo $this->session->userdata('nama'); ?>/LBB/2020</td>
-<div id="space"></div>
-            <td class="kanan">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pekanbaru, 2020
-            </td>
+            <td align="center"><u style="font-weight: bold;">SURAT KETERANGAN</u> <br>
+            Nomor: &nbsp; / LBB / VII / 2020</td>
         </tr>
-        <tr>
-            <td>Lampiran</td>
-            <td>:</td>
-        </tr>
-        <tr>
-            <td>Perihal</td>
-            <td>:</td>
-            <td><b style=" text-decoration: underline;">Surat Pengantar </b></td>
-
-        </tr>
+       
 
     </table>
     <br>
 
-    <p style="font-weight:bold">KEPADA YTH <br>BAPAK LURAH LABUHBARU BARAT <br>DI <br>PEKANBARU</p>
-    <p>Dengan hormat,
-    </p>
+    <p class="paragraf" style="text-indent: 60px;">LURAH LABUHBARU BARAT KECAMATAN PAYUNG SEKAKI KOTA PEKANBARU dengan ini menerangkan : </p>
     <?php foreach ($rw as $test) { ?>
         <p class="paragraf" style="text-indent: 60px; ">Ketua rukun tetangga <?php echo $this->session->userdata('nama');
-?> Rukun Warga <?php  echo $test->RW; ?> Kelurahan labuhbaru Barat Kecamatan Payung Sekaki Kota Pekanbaru, dengan ini menerangkan dengan sesungguhnya bahwa:</p>
+                                                                                ?> Rukun Warga <?php echo $test->RW; ?> Kelurahan labuhbaru Barat Kecamatan Payung Sekaki Kota Pekanbaru, dengan ini menerangkan dengan sesungguhnya bahwa:</p>
     <?php } ?>
     <div class="col-12">
         <table style="line-height:1">
             <?php foreach ($warga as $d) { ?>
                 <tr>
-                    <td>Nama Lengkap</td>
+                    <td>Nama</td>
                     <td>:</td>
-                    <td> <?php echo  $d->nama;  ?></td>
-                </tr>
-                <tr>
-                    <td>Jenis Kelamin</td>
-                    <td>:</td>
-                    <td> <?php echo  jenis($d->j_kelamin); ?></td>
+                    <td class="upper"> <b> <?php echo  $d->nama;  ?> </b></td>
                 </tr>
                 <tr>
                     <td>Tempat/ Tgl. Lahir</td>
@@ -124,22 +100,28 @@
                             echo date('d-m-Y', strtotime($d->tgl_lahir))  ?></td>
                 </tr>
                 <tr>
-                    <td>Status Perkawinan</td>
+                    <td>Jenis Kelamin</td>
                     <td>:</td>
-                    <td> <?php echo  status($d->status); ?></td>
-                </tr>
+                    <td> <?php echo  jenis($d->j_kelamin); ?></td>
+            </tr>
                 <tr>
                     <td>Agama</td>
                     <td>:</td>
                     <td> <?php echo  agama($d->agama); ?></td>
+                </tr>>
+                <tr>
+                    <td>Status Perkawinan</td>
+                    <td>:</td>
+                    <td> <?php echo  status($d->status); ?></td>
                 </tr>
+               
                 <tr>
                     <td>Pekerjaan</td>
                     <td>:</td>
                     <td> <?php echo  $d->pekerjaan; ?></td>
                 </tr>
                 <tr>
-                    <td>N0. KTP / NIK</td>
+                    <td>NIK</td>
                     <td>:</td>
                     <td> <?php echo  $d->nik; ?></td>
                 </tr>
@@ -148,35 +130,17 @@
                     <td>:</td>
                     <td> <?php echo  $d->alamat; ?></td>
                 </tr>
-            
-                <?php $this->load->helper('kebutuhan_helper');
-
-                if ($d->kebutuhan == "5") {
-                    echo keb($d->kebutuhan);
-                    echo ($d->nama);
-                } else {
-                    echo keb($d->kebutuhan);
-                } ?>
         </table>
     <?php } ?>
     </div>
     <br>
-    <p class="paragraf">
-        Nama yang tertera di atas adalah warga kami yang bertempat tinggal di <?php echo $d->alamat ?> RT 05 RW 09 Kelurahan Labuhbaru Barat Kecamatan Payung Sekaki Kota Pekanbaru.
+    <p class="paragraf"  style="text-indent: 60px; ">
+      Bahwa yang bersangkutan merupakan warga kami sesuai bukti kependudukan yang terdata pada Sistem Informasi Administrasi
+      Kependudukan Kota Pekanbaru Provinsi Riau, dengan maksud dan tujuan
     </p>
-
-
-    <p class="paragraf" style="text-indent: 60px; ">Selanjutnya kami sampaikan surat pengantar ini kepada Bapak untuk digunakan dalam pengurusan pembuatan:    <?php $this->load->helper('kebutuhan_helper');
-
-if ($d->kebutuhan == "5") {
-    echo keb($d->kebutuhan);
-    echo ($d->nama);
-} else {
-    echo keb($d->kebutuhan);
-} ?> </p>
-
-
-    <p class="paragraf" style="text-indent: 60px; ">Demikianlah Surat Pengantar ini dibuat untuk dipergunakan sebagaimana mestinya. Atas perhatian dan kerjasamanya kami ucapkan terimakasih. </p>
+    <p class="paragraf"  style="text-indent: 60px; ">
+    Demikian Surat Keterangan ini dibuat untuk dipergunakan sebagai mestinya.
+    </p>
 
     <table align="center" border="0">
         <tr>
@@ -184,7 +148,7 @@ if ($d->kebutuhan == "5") {
                 Tanda tangan pemegang&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </td>
             <td>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kepala Desa Bandasari
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pekanbaru, 25 Juni 2020
             </td>
         </tr>
         <!-- <td colspan="3">&nbsp;</td> -->
@@ -207,7 +171,7 @@ if ($d->kebutuhan == "5") {
 
             <?php foreach ($rw as $rw) { ?>
                 <td>
-                    <font class="upper"><b><u><?php echo $this->session->userdata('nama_lengkap') ?></u></b></font>
+                    <font class=""><b><u>WAHYU NOFIYANDRI, M.Pd</u></b></font>
                 </td>
 
                 <td align="right">

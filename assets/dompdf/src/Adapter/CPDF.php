@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package dompdf
  * @link    http://dompdf.github.com/
@@ -46,6 +47,7 @@ class CPDF implements Canvas
         "4a0" => array(0, 0, 4767.87, 6740.79),
         "2a0" => array(0, 0, 3370.39, 4767.87),
         "a0" => array(0, 0, 2383.94, 3370.39),
+        "f4" => array(0, 0, 612.00, 936.00),
         "a1" => array(0, 0, 1683.78, 2383.94),
         "a2" => array(0, 0, 1190.55, 1683.78),
         "a3" => array(0, 0, 841.89, 1190.55),
@@ -215,7 +217,7 @@ class CPDF implements Canvas
 
         $this->_pages = array($this->_pdf->getFirstPageId());
 
-        $this->_image_cache = array(); 
+        $this->_image_cache = array();
     }
 
     /**
@@ -556,8 +558,12 @@ class CPDF implements Canvas
         $this->_set_stroke_color($color);
         $this->_set_line_style($width, "butt", "", $style);
 
-        $this->_pdf->line($x1, $this->y($y1),
-            $x2, $this->y($y2));
+        $this->_pdf->line(
+            $x1,
+            $this->y($y1),
+            $x2,
+            $this->y($y2)
+        );
         $this->_set_line_transparency("Normal", $this->_current_opacity);
     }
 
@@ -852,7 +858,7 @@ class CPDF implements Canvas
                 break;
 
             case "gif":
-            /** @noinspection PhpMissingBreakStatementInspection */
+                /** @noinspection PhpMissingBreakStatementInspection */
             case "bmp":
                 if ($debug_png) print '!!!bmp or gif!!!';
                 // @todo use cache for BMP and GIF
@@ -1100,8 +1106,11 @@ class CPDF implements Canvas
 
                 switch ($_t) {
                     case "text":
-                        $text = str_replace(array("{PAGE_NUM}", "{PAGE_COUNT}"),
-                            array($page_number, $this->_page_count), $text);
+                        $text = str_replace(
+                            array("{PAGE_NUM}", "{PAGE_COUNT}"),
+                            array($page_number, $this->_page_count),
+                            $text
+                        );
                         $this->text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
                         break;
 
@@ -1113,7 +1122,7 @@ class CPDF implements Canvas
                         break;
 
                     case 'line':
-                        $this->line( $x1, $y1, $x2, $y2, $color, $width, $style );
+                        $this->line($x1, $y1, $x2, $y2, $color, $width, $style);
                         break;
                 }
             }
