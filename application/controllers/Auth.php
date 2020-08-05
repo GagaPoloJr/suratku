@@ -10,7 +10,7 @@ class Auth extends CI_Controller
     public function index()
     {
         if ($this->session->userdata('authenticated')) // Jika user sudah login (Session authenticated ditemukan)
-            redirect('admin/overview'); // Redirect ke page welcome
+            redirect('admin/index'); // Redirect ke page welcome
         $this->load->view('login'); // Load view login.php
     }
     public function login()

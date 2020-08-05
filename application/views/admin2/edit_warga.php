@@ -17,7 +17,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Detail Smartbook</h1>
+                        <h1 class="m-0 text-dark">Detail Data Warga || <?php echo $warga->nama; ?></h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <?php $this->load->view('template/breadcrumb.php'); ?>
@@ -33,7 +33,7 @@
                 <!-- Main row -->
                 <div class="row justify-content-center">
                    
-                    <div class="col-8">
+                    <div class="col-lg-8 col-md-12">
                         <div class="card">
                             <div class="card-header">
                                 <a href="<?php echo base_url("admin/warga") ?>" class="btn btn-primary"><i class="fas fa-arrow-left fa-fw"></i>&nbsp;Kembali</a>

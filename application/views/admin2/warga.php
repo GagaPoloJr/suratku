@@ -85,14 +85,8 @@
                                                         <th>No</th>
                                                         <th>Id</th>
                                                         <th>Nama Lengkap</th>
+                                                        <th>No KK</th>
                                                         <th>NIK / No KTP</th>
-                                                        <th>Alamat</th>
-                                                        <th>Jenis Kelamin</th>
-                                                        <th>Tempat Lahir</th>
-                                                        <th>Tanggal Lahir</th>
-                                                        <th>Status Perkawinan</th>
-                                                        <th>Agama</th>
-                                                        <th>Pekerjaan</th>
                                                         <th>Kebutuhan</th>
                                                         <th>Gambar KTP</th>
                                                         <th>Keterangan</th>
@@ -107,14 +101,8 @@
                                                             <td><?php echo $i ?></td>
                                                             <td><?php echo $s->id_warga; ?></td>
                                                             <td><?php echo $s->nama; ?></td>
+                                                            <td><?php echo $s->no_kk; ?></td>
                                                             <td><?php echo $s->nik; ?></td>
-                                                            <td><?php echo $s->alamat; ?></td>
-                                                            <td><?php echo jenis($s->j_kelamin); ?></td>
-                                                            <td><?php echo $s->tempat; ?></td>
-                                                            <td><?php echo $s->tgl_lahir; ?></td>
-                                                            <td><?php echo status($s->status); ?></td>
-                                                            <td><?php echo agama($s->agama); ?></td>
-                                                            <td><?php echo $s->pekerjaan; ?></td>
                                                             <td><?php $this->load->helper('kebutuhan_helper');
 
                                                                 if ($s->kebutuhan == "5") {
@@ -165,11 +153,14 @@
                                                             <td>
                                                                 <?php if ($s->keterangan == "0") { ?>
                                                                     <a data-toggle="tooltip" data-placement="top" title="konfirmasi" onclick="konfirmasi('<?php echo site_url('admin/konfirmasi_data/' . $s->id_warga) ?>')" href="#konfirmasidata" class="btn btn-xs btn-block btn-success"><i class="fas fa-check"></i></a>
+                                                                    <a data-toggle="tooltip" data-placement="top" title="Lihat data" href="<?php echo site_url('admin/detail_data_warga/' . $s->id_warga) ?>" class="btn btn-xs btn-block btn-dark"><i class="fas fa-eye"></i></a>
+
                                                                     <a data-toggle="tooltip" data-placement="top" title="ubah" href="<?php echo site_url('admin/editWarga/' . $s->id_warga) ?>" class="btn btn-xs btn-block btn-warning"><i class="fas fa-edit"></i></a>
-                                                                    <a data-toggle="tooltip" data-placement="top" title="hapus" onclick="deleteConfirm('<?php echo site_url('admin/hapus_data/' . $s->id_warga) ?>')" href="#!" class="btn btn-xs btn-block btn-danger"><i class="fas fa-trash"></i></a>
+                                                                    <a data-toggle="tooltip" data-placement="top" title="hapus" onclick="deleteConfirm('<?php echo site_url('admin/deleteWarga/' . $s->id_warga) ?>')" href="#!" class="btn btn-xs btn-block btn-danger"><i class="fas fa-trash"></i></a>
                                                                 <?php } ?>
                                                                 <?php if ($s->keterangan == "1" || $s->keterangan == "3") { ?>
                                                                     <a data-toggle="tooltip" data-placement="top" title="konfirmasi" onclick="konfirmasi('<?php echo site_url('admin/konfirmasi_data/' . $s->id_warga) ?>')" href="#konfirmasidata" class="btn btn-xs btn-block btn-success disabled"><i class="fas fa-check"></i></a>
+                                                                    <a data-toggle="tooltip" data-placement="top" title="Lihat data" href="<?php echo site_url('admin/detail_data_warga/' . $s->id_warga) ?>" class="btn btn-xs btn-block btn-dark"><i class="fas fa-eye"></i></a>
                                                                     <a data-toggle="tooltip" data-placement="top" title="print" href="<?php echo base_url() . 'admin/export_data_warga/' . $s->id_warga ?>" class="btn btn-xs btn-block btn-primary"><i class="fas fa-print"></i> </a>
                                                                 <?php } ?>
                                                             </td>
@@ -184,14 +175,8 @@
                                                         <th>No</th>
                                                         <th>Id</th>
                                                         <th>Nama Lengkap</th>
+                                                        <th>No KK</th>
                                                         <th>NIK / No KTP</th>
-                                                        <th>Alamat</th>
-                                                        <th>Jenis Kelamin</th>
-                                                        <th>Tempat Lahir</th>
-                                                        <th>Tanggal Lahir</th>
-                                                        <th>Status Perkawinan</th>
-                                                        <th>Agama</th>
-                                                        <th>Pekerjaan</th>
                                                         <th>Kebutuhan</th>
                                                         <th>Gambar KTP</th>
                                                         <th>Keterangan</th>
@@ -214,6 +199,9 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
+                                            <div class="small text-muted">
+                                                <p style="color: red;">* Harus diisi</p>
+                                            </div>
                                             <form id="myForm" action="<?php echo site_url('admin/warga') ?>" method="post" enctype="multipart/form-data">
                                                 <div class="form-group">
                                                     <label for="nama">Nama Lengkap*</label>
@@ -221,6 +209,11 @@
                                                     <div class="invalid-feedback">
                                                         <?php echo form_error('nama') ?>
                                                     </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="kk">No KK</label>
+                                                    <input class="form-control " type="text" name="no_kk" placeholder="Masukkan No KK" />
+
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="nik">NIK / No KTP*</label>
@@ -306,10 +299,17 @@
                                                         <option value="5">Surat Pengantar Akte Kelahiran An. </option>
                                                         <option value="6">Surat Pengantar Tambah Anggota Keluarga</option>
                                                         <option value="7">Surat Pengantar Pendatang Baru</option>
-                                                        <option value="tidak ada">Surat Pengantar Pendatang Kontol Baru</option>
+                                                        <option value="8">Lainnya</option>
                                                     </select>
                                                     <div class="invalid-feedback">
                                                         <?php echo form_error('kebutuhan') ?>
+                                                    </div>
+                                                </div>
+                                                <div style="display: none;" id="lainnya" class="form-group">
+                                                    <label for="lainnya">Kebutuhan *</label>
+                                                    <input class="form-control <?php echo form_error('lainnya') ? 'is-invalid' : '' ?>" type="text" name="lainnya" placeholder="Masukkan Kebutuhan lainnya" />
+                                                    <div class="invalid-feedback">
+                                                        <?php echo form_error('lainnya') ?>
                                                     </div>
                                                 </div>
                                                 <div style="display: none;" id="no_ktp" class="form-group">
@@ -322,20 +322,36 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div style="display: none;" id="no_kk" class="form-group" >
+                                                <div style="display: none;" id="no_kk" class="form-group">
                                                     <label for="exampleInputFile">Upload Gambar KK*</label>
                                                     <div class="custom-file">
-                                                        <input name="kk" type="file" class="custom-file-input <?php echo form_error('k') ? 'is-invalid' : '' ?>" id="exampleInputFile"></input>
+                                                        <input name="kk" type="file" class="custom-file-input <?php echo form_error('kk') ? 'is-invalid' : '' ?>" id="exampleInputFile"></input>
                                                         <label class="custom-file-label" for="exampleInputFile">Masukkan File Gambar KK</label>
                                                         <div class="invalid-feedback">
                                                             <?php echo form_error('kk') ?>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <!-- <div class="form-group">
+                                                    <label for="exampleInputFile">Upload Gambar Yang Dibutuhkan*</label>
+                                                    <div class="custom-file">
+                                                        <input name="files" type="file" class="custom-file-input <?php echo form_error('files') ? 'is-invalid' : '' ?>" id="exampleInputFile"></input>
+                                                        <label class="custom-file-label" for="exampleInputFile">Masukkan File Gambar</label>
+                                                        <div class="invalid-feedback">
+                                                            <?php echo form_error('files') ?>
+                                                        </div>
+                                                    </div>
+                                                </div> -->
+                                                <?php $this->load->view('form/akte.php'); ?>
+                                                <?php $this->load->view('form/domisili.php'); ?>
+                                                <?php $this->load->view('form/kk.php'); ?>
+
+
 
                                                 <div class="small text-muted">
-                                                    * required fields
+                                                    <p style="color: red;">* Harus diisi</p>
                                                 </div>
+
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -392,7 +408,7 @@
     <?php $this->load->view('template/js.php'); ?>
 
     <!-- Ekko Lightbox -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js" crossorigin="anonymous"></script>
 
 
 
@@ -417,14 +433,13 @@
 
         $(document).on("click", '[data-toggle="lightbox"]', function(e) {
             e.preventDefault();
-            $(this).ekkoLightbox();
+            $(this).ekkoLightbox({
+                alwaysShowClose: true
+            });
         });
-
-
-       
     </script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script> -->
- <script type="text/javascript" src="<?php echo base_url() .'assets/js/custom.js' ?>" ></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script> -->
+    <script type="text/javascript" src="<?php echo base_url() . 'assets/js/custom.js' ?>"></script>
 
 
 

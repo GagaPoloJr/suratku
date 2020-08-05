@@ -70,7 +70,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <h5>Jenis Kelamin</h5>
-                                                <input type="text" name="first_name" value="<?php echo  $d->j_kelamin; ?>" required class="form-control" disabled="">
+                                                <input type="text" name="first_name" value="<?php echo  jenis($d->j_kelamin); ?>" required class="form-control" disabled="">
                                             </div>
                                             <div class="form-group">
                                                 <h5>Tempat, Tanggal Lahir</h5>
@@ -80,11 +80,11 @@
                                             </div>
                                             <div class="form-group">
                                                 <h5>Status Perkawinan</h5>
-                                                <input type="text" name="first_name" value="<?php echo  $d->status; ?>" required class="form-control" disabled="">
+                                                <input type="text" name="first_name" value="<?php echo  status($d->status); ?>" required class="form-control" disabled="">
                                             </div>
                                             <div class="form-group">
                                                 <h5>Agama</h5>
-                                                <input type="text" name="first_name" value="<?php echo  $d->agama; ?>" required class="form-control" disabled="">
+                                                <input type="text" name="first_name" value="<?php echo  agama($d->agama); ?>" required class="form-control" disabled="">
                                             </div>
                                             <div class="form-group">
                                                 <h5>Pekerjaan</h5>

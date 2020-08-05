@@ -29,25 +29,16 @@ class Admin extends MY_Controller
         $this->load->view('admin/overview', $data);
     }
 
-    // public function laporan_pdf(){
+    public function kegiatan(){
+        $this->load->database();
+        $this->load->view('lurah/kegiatan');
 
-    //     $data = array(
-    //         "dataku" => array(
-    //             "nama" => "Petani Kode",
-    //             "url" => "http://petanikode.com"
-    //         )
-    //     );
-    
-   
-    
-    //     $this->pdf->setPaper('A4', 'potrait');
-    //     $this->pdf->filename = "laporan-petanikode.pdf";
-    //     $this->pdf->load_view('admin2/laporan_pdf', $data);
-    
-    
-    // }
+
+    }
+
     public function lurah(){
         // $data['warga'] = $this->db->query('select * from data_warga where keterangan ="1"')->result();
+        $this->load->helper('kebutuhan_helper');
         $this->load->database();
         $data['warga'] = $this->SmartbookModel->get_data_warga();
         $data['rt'] = $this->SmartbookModel->get_data_rt_lurah();
@@ -68,12 +59,19 @@ class Admin extends MY_Controller
 
         $this->load->view('lurah/lihat_data', $data);
     }
+    public function detail_data_warga($id)
+    {
+        $this->load->helper('kebutuhan_helper');
+        $this->load->database();
+        $data['warga'] = $this->db->query("select * from data_warga where id_warga= $id")->result();
+        $data['rw'] = $this->SmartbookModel->get_data_rw();
+      
+
+        $this->load->view('admin2/detail_data_warga', $data);
+    }
 
     function konfirmasi_lurah($id){
         date_default_timezone_set('Asia/Jakarta');
-
-      
-
         $data = array(
             'tgl_proses' => date('Y-m-d H:i:s'),
             'verifikasi' => '1'
@@ -148,6 +146,8 @@ class Admin extends MY_Controller
      
         if ($validation->run()) {
             $warga->save();
+            $this->proses();
+
             $this->session->set_flashdata('success', 'Berhasil disimpan');
             redirect(base_url() . 'admin/warga');
         }
@@ -169,6 +169,66 @@ class Admin extends MY_Controller
             redirect(base_url());
           }
 
+    }
+    
+    function proses()
+	{
+		$config['upload_path']          = './upload/data/';
+		$config['allowed_types']        = 'gif|jpg|jpeg|png';
+		$config['max_size']             = 1024;
+		// $config['max_width']            = 2048;
+		// $config['max_height']           = 1000;
+		$config['encrypt_name'] 		= true;
+		$this->load->library('upload',$config);
+        // $keterangan_berkas = $this->input->post('keterangan_berkas');
+        // $id_warga = $this->input->post('id_warga');
+        $id_user =  $this->session->userdata('id');
+
+		$jumlah_berkas = count($_FILES['kk']['name']);
+		for($i = 0; $i < $jumlah_berkas;$i++)
+		{
+            if(!empty($_FILES['kk']['name'][$i])){
+ 
+				$_FILES['file']['name'] = $_FILES['kk']['name'][$i];
+				$_FILES['file']['type'] = $_FILES['kk']['type'][$i];
+				$_FILES['file']['tmp_name'] = $_FILES['kk']['tmp_name'][$i];
+				$_FILES['file']['error'] = $_FILES['kk']['error'][$i];
+				$_FILES['file']['size'] = $_FILES['kk']['size'][$i];
+	   
+				if($this->upload->do_upload('file')){
+					
+					$uploadData = $this->upload->data();
+					$data['gambar'] = $uploadData['file_name'];
+					$data['user_id'] = $id_user;
+					// $data['tipe_kk'] = $uploadData['file_ext'];
+					// $data['ukuran_kk'] = $uploadData['file_size'];
+					$this->db->insert('gambar',$data);
+				}
+			}
+		}
+ 
+		redirect('admin/warga');
+    }
+    public function editProfil($id = null)
+    {
+        $user_edit = $this->SmartbookModel;
+        $validation = $this->form_validation;
+        $validation->set_rules($user_edit->rules());
+
+        if ($validation->run()) {
+            $user_edit->update_profil();
+            $this->session->set_flashdata('success', 'Berhasil disimpan');
+            redirect(site_url('admin/editProfil/'.$user_edit->id));
+        }
+
+        if ($this->form_validation->run() == FALSE) {
+            $errors = validation_errors();
+            $this->session->set_flashdata('form_error', $errors);
+        }
+
+        $data["user"] = $user_edit->getByIdUser($id);
+        if (!$data["user"]) show_404();
+        $this->load->view("admin2/edit_profil", $data);
     }
 
     public function editWarga($id = null)
@@ -217,14 +277,17 @@ class Admin extends MY_Controller
         $this->session->set_flashdata('danger', 'Data Berhasil dihapus');
         redirect(base_url() . 'admin/warga');
     }
-    // public function overview()
-    // {
-    //     $data['smartbook'] = $this->db->query('select ID as id,COUNT(ID) as count from smartbook')->result();
-    //     $data['peminjaman'] = $this->db->query('select ID as id,COUNT(ID) as count from peminjaman')->result();
-    //     $data['kode'] = $this->db->query('select ID as id,COUNT(ID) as count from kode')->result();
-    //     $this->load->view('admin/overview', $data);
-    // }
 
+    public function deleteWarga($id = null)
+    {
+        if (!isset($id)) show_404();
+        if ($this->SmartbookModel->delete($id)) {
+        $this->session->set_flashdata('danger', 'Data Berhasil dihapus');
+            redirect(site_url('admin/warga'));
+        }
+    }
+
+    
     
     public function user()
     {
@@ -245,19 +308,32 @@ class Admin extends MY_Controller
         $data['user'] = $this->db->query('select * from user')->result();
         $this->load->view('admin/user', $data);
     }
-
-    public function berita(){
-        $this->load->database();
-        $data['warga'] = $this->SmartbookModel->get_data_warga();
-        $data['rt'] = $this->SmartbookModel->get_data_rt_lurah();
-        if($this->session->userdata('level')=='2') {
-            $this->load->view('lurah/lurah', $data);
-
-          }else{
-            echo "Anda tidak berhak mengakses halaman ini";
-            redirect(base_url());
-          }
      
+
+    
+
+    
+    public function berita(){
+        // $this->load->helper('kebutuhan_helper');
+
+        $warga = $this->SmartbookModel;
+        $validation = $this->form_validation;
+        $validation->set_rules($warga->rules1());
+
+        if ($validation->run()) {
+            $warga->save_berita();
+            $this->session->set_flashdata('success', 'Berhasil disimpan');
+            redirect(base_url() . 'admin/berita');
+        }
+
+        if ($this->form_validation->run() == FALSE) {
+            $errors = validation_errors();
+            $this->session->set_flashdata('form_error', $errors);
+        }
+
+        $data['rw'] = $this->SmartbookModel->get_data_rw();
+        $data['berita'] = $this->db->query('select * from berita')->result();
+        $this->load->view('Lurah/berita', $data);
 
     }
 }

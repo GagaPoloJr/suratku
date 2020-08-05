@@ -4,6 +4,10 @@ class SmartbookModel extends CI_Model
 {
     private $_table = "smartbook";
     private $_table1 = "data_warga";
+    private $_table2= "berita";
+    private $_table3= "user";
+
+
 
 
     // public $id;
@@ -88,6 +92,29 @@ class SmartbookModel extends CI_Model
             ],
         ];
     }
+    public function rules1()
+    {
+        return [
+            [
+                'field' => 'judul',
+                'label' => 'judul',
+                'rules' => 'required',
+                'errors' => array('required' => '%s Belum Diisi')
+            ],
+            [
+                'field' => 'isi',
+                'label' => 'isi',
+                'rules' => 'required',
+                'errors' => array('required' => '%s Belum Diisi')
+            ],
+            [
+                'field' => 'tanggal',
+                'label' => 'tanggal',
+                'rules' => 'required',
+                'errors' => array('required' => '%s Belum Diisi')
+            ],
+        ];
+    }
 
     public function getAll()
     {
@@ -97,6 +124,10 @@ class SmartbookModel extends CI_Model
     public function getById($id)
     {
         return $this->db->get_where($this->_table1, ["id_warga" => $id])->row();
+    }
+    public function getByIdUser($id)
+    {
+        return $this->db->get_where($this->_table3, ["id" => $id])->row();
     }
 
     function get_data($table)
@@ -108,7 +139,7 @@ class SmartbookModel extends CI_Model
     function insert_data($data, $table)
     {
         $this->db->insert($table, $data);
-        return $this->db->insert_id();
+       
     }
 
     // fungsi untuk mengedit data
@@ -147,6 +178,8 @@ class SmartbookModel extends CI_Model
         $post = $this->input->post();
         $this->nama = $post["nama"];
         $this->nik = $post["nik"];
+        $this->no_kk = $post["no_kk"];
+
         $this->alamat = $post["alamat"];
         $this->j_kelamin = $post["jenis"];
         $this->tempat = $post["lahir"];
@@ -158,16 +191,66 @@ class SmartbookModel extends CI_Model
         $this->keterangan = "0";
         $this->id_user = $this->session->userdata('id');
         $this->gambar_ktp = $this->_uploadKTP();
+        // $this->gambar_bebas = $this->proses();
+        // $this->gambar_bebas = $this->send();
+
         
         return $this->db->insert($this->_table1, $this);
     }
+
+    public function send()
+   {
+      $data = [];
+ 
+      $count = count($_FILES['files']['name']);
+    
+      for($i=0;$i > $count;$i++){
+    
+         if(!empty($_FILES['files']['name'][$i])){
+    
+            $_FILES['file']['name'] = $_FILES['files']['name'][$i];
+            $_FILES['file']['type'] = $_FILES['files']['type'][$i];
+            $_FILES['file']['tmp_name'] = $_FILES['files']['tmp_name'][$i];
+            $_FILES['file']['error'] = $_FILES['files']['error'][$i];
+            $_FILES['file']['size'] = $_FILES['files']['size'][$i];
+ 
+            $config['upload_path'] = './upload/data/'; 
+            $config['allowed_types'] = 'jpg|jpeg|png|gif';
+            $config['max_size'] = '5000';
+            $config['file_name'] = $_FILES['files']['name'][$i];
+ 
+            $this->load->library('upload',$config); 
+    
+            if($this->upload->do_upload('file')){
+ 
+               $uploadData = $this->upload->data();
+               // mendefinisikan data array dari hasil upload
+               $filename = $uploadData['file_name'];
+               $image[$i] =  $filename;
+               // membuat data array untuk disimpan ke database
+               $content = [
+                  'gambar_bebas' => $image[$i]
+               ];
+               $this->insert_data($content, "data_warga" );
+               // Untuk menampilkan jumlah data yang diupload
+               $data['totalFiles'][] = $filename;
+            }
+            else{
+                redirect('admin/warga', 'refresh');
+            }
+         }
+      }
+      
+   } 
+
 
     public function _uploadKTP()
     {
         $config['upload_path']          = './upload/data/';
         $config['allowed_types']        = 'jpg|jpeg|png';
         $config['overwrite']            = true;
-        $config['file_name']            = "suratpengantar-";
+        $config['file_name']            = "no_ktp" .$this->id;
+        $config['encrypt_name']            = true;
         $config['max_size']             = 1024; // 1MB
         $field_name = "ktp";
 
@@ -176,11 +259,28 @@ class SmartbookModel extends CI_Model
         if (!$this->upload->do_upload($field_name)) {
             $error = array('error' => $this->upload->display_errors());
             $this->session->set_flashdata('error', $error['error']);
-            redirect('admin/save', 'refresh');
+            redirect('admin/warga', 'refresh');
         } else {
             return $this->upload->data("file_name");
         }
     }
+
+    public function _deleteImage($id)
+{
+    $foto = $this->getById($id);
+    if ($foto->gambar_ktp != NULL) {
+	    $filename = explode(".", $foto->gambar_ktp)[0];
+		return array_map('unlink', glob(FCPATH."upload/data/$filename.*"));
+    }
+}
+
+public function delete($id)
+{
+    $this->_deleteImage($id);
+ 
+    return $this->db->delete($this->_table1, array("id_warga" => $id));
+}
+
 
     function get_data_warga()
 	{
@@ -237,6 +337,7 @@ class SmartbookModel extends CI_Model
         $this->id_warga = $post["id"];
         $this->nama = $post["nama"];
         $this->nik = $post["nik"];
+        $this->nik = $post["no_kk"];
         $this->alamat = $post["alamat"];
         $this->j_kelamin = $post["jenis"];
         $this->tempat = $post["lahir"];
@@ -258,25 +359,48 @@ class SmartbookModel extends CI_Model
         return $this->db->update($this->_table1, $this, array('id_warga' => $post['id']));
     }
 
+    public function update_profil()
+    {
+        $post = $this->input->post();
+        $this->id = $post["id"];
+        $this->username = $post["username"];
+        $this->password = $post["password"];
+        return $this->db->update($this->_table3, $this, array('id' => $post['id']));
+    }
+
+
 
     public function save_berita()
     {
         $post = $this->input->post();
-        $this->nama = $post["nama"];
-        $this->nik = $post["nik"];
-        $this->alamat = $post["alamat"];
-        $this->j_kelamin = $post["jenis"];
-        $this->tempat = $post["lahir"];
-        $this->tgl_lahir = $post["tgl"];
-        $this->status = $post["status"];
-        $this->agama = $post["agama"];
-        $this->pekerjaan = $post["pekerjaan"];
-        $this->kebutuhan = $post["kebutuhan"];
-        $this->keterangan = "0";
-        $this->id_user = $this->session->userdata('id');
-        $this->gambar_ktp = $this->_uploadKTP();
+        $this->judul = $post["judul"];
+        $this->isi_berita = $post["isi"];
+        $this->tanggal_berita = $post["tanggal"];
+        // $this->id_user = $this->session->userdata('id');
+        $this->upload_berita = $this->_uploadBerita();
         
-        return $this->db->insert($this->_table1, $this);
+        return $this->db->insert($this->_table2, $this);
+    }
+
+
+    public function _uploadBerita()
+    {
+        $config['upload_path']          = './upload/berita/';
+        $config['allowed_types']        = 'jpg|jpeg|png|doc|docx|pdf';
+        $config['overwrite']            = true;
+        $config['file_name']            = "hehehe-";
+        $config['max_size']             = 2048; // 1MB
+        $field_name = "upload_berita";
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload($field_name)) {
+            $error = array('error' => $this->upload->display_errors());
+            $this->session->set_flashdata('error', $error['error']);
+            redirect('admin/save_berita', 'refresh');
+        } else {
+            return $this->upload->data("file_name");
+        }
     }
 
 
@@ -312,12 +436,6 @@ class SmartbookModel extends CI_Model
         return $this->db->update($this->_table, $this, array('id' => $post['id']));
     }
 
-    public function delete($id)
-    {
-        $this->_deletedatask($id);
-        $this->_deletedatadukung($id);
-        return $this->db->delete($this->_table, array("id" => $id));
-    }
 
     public function _uploaddatask()
     {

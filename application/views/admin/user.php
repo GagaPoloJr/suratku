@@ -51,7 +51,7 @@
                                         <?php echo $this->session->flashdata('form_error'); ?>
                                     </div>
                                 <?php endif; ?>
-                                <form id="myForm" action="<?php echo base_url('admin/user/') ?>" method="post" enctype="multipart/form-data">
+                                <form id="myForm" action="<?php echo base_url('admin/user') ?>" method="post" enctype="multipart/form-data">
                                     <div class="form-group">
                                         <label for="username">Username*</label>
                                         <input class="form-control <?php echo form_error('username') ? 'is-invalid' : '' ?>" type="text" name="username" placeholder="Masukkan username" />
