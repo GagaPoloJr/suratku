@@ -254,7 +254,7 @@
     </div>
 
     <?php $this->load->view('template/footer.php'); ?>
-    <?php $this->load->view('template/js1.php'); ?>
+    <?php $this->load->view('template/js.php'); ?>
     <script>
         function deleteConfirm(url) {
             $('#btn-delete').attr('href', url);

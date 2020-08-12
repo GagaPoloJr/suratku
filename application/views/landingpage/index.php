@@ -40,9 +40,10 @@
             </div>
         </div>
     </nav>
-  
+
     <!-- Services-->
-    <section class="page-section gambar-pucuk" id="services">
+    <section class="page-section" id="services">
+        <div class="masthead-overlay"></div>
         <div class="container">
             <div class="text-center">
                 <!-- <h2 class="section-heading text-uppercase">pimpinan</h2> -->
@@ -58,18 +59,19 @@
                         <h4 class="my-3">E-Commerce</h4>
                         <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
                     </div> -->
-                    <div class="col-12">
-                          <h3>
-                              <u>Kelurahan Labuhbaru Barat</u>
-                          </h3>
-                          <br><br>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
+                <div class="col-12">
+                    <h1>Selamat Datang!</h1>
+                    <h3>
+                        <u>Di Kelurahan Labuhbaru Barat</u>
+                    </h3>
+                    <br><br>
+                </div>
+                <div class="col-lg-4 col-md-6">
                     <div id="foto" class="card" style="width: 13rem;">
                         <img class="card-img-top" src="<?php echo base_url() . 'dist/img/wali1.jpg' ?>" alt="Camat payung sekaki">
                         <div class="card-body">
                             <h4 style="font-weight: bold;" class="card-text badge badge-danger">Firdaus , S.T, M.T</h4>
-                            <p class="card-text">  <b> Walikota Pekanbaru</b></p>
+                            <p class="card-text"> <b> Walikota Pekanbaru</b></p>
                         </div>
                     </div>
                 </div>
@@ -82,12 +84,12 @@
                         </div>
                     </div>
                 </div>
-                <div  class="col-lg-4 col-md-6">
-                    <div  id="foto" class="card" style="width: 13rem;">
+                <div class="col-lg-4 col-md-6">
+                    <div id="foto" class="card" style="width: 13rem;">
                         <img class="card-img-top" src="<?php echo base_url() . 'dist/img/sekda1.jpg' ?>" alt="Camat payung sekaki">
                         <div class="card-body">
-                        <h4 style="font-weight: bold;" class="card-text badge badge-danger">M. Jamil, M.Si</h4>
-                            <p class="card-text">  <b>Sekretaris Kota Pekanbaru</b> </p>
+                            <h4 style="font-weight: bold;" class="card-text badge badge-danger">M. Jamil, M.Si</h4>
+                            <p class="card-text"> <b>Sekretaris Kota Pekanbaru</b> </p>
                         </div>
                     </div>
                 </div>
@@ -97,16 +99,16 @@
                         <img class="card-img-top" src="<?php echo base_url() . 'dist/img/camat-1.jpg' ?>" alt="Camat payung sekaki">
                         <div class="card-body">
                             <h4 style="font-weight: bold;" class="card-text badge badge-danger">Fauzan, S.STP, M.Si</h4>
-                            <p class="card-text">  <b>Camat Payung Sekaki</b> </p>
+                            <p class="card-text"> <b>Camat Payung Sekaki</b> </p>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
-                    <div id="foto"class="card" style="width: 13rem;">
+                    <div id="foto" class="card" style="width: 13rem;">
                         <img class="card-img-top" src="<?php echo base_url() . 'dist/img/lurah-1.jpg' ?>" alt="Lurah labuhbaru barat">
                         <div class="card-body">
                             <h4 style="font-weight: bold;" class="card-text badge badge-danger">Wahyu Nofiyandri, M.Pd</h4>
-                            <p class="card-text">  <b> Lurah Labuhbaru Barat</b></p>
+                            <p class="card-text"> <b> Lurah Labuhbaru Barat</b></p>
 
                         </div>
                     </div>
@@ -117,11 +119,11 @@
         </div>
     </section>
 
-      <!-- Masthead-->
-      <header class="masthead">
+    <!-- Masthead-->
+    <header class="masthead">
         <div class="container">
-            <div class="masthead-subheading">Selamat Datang!</div>
-            <div class="masthead-heading text-uppercase">Di Sistem Informasi Manajemen Pelayanan</div>
+            <!-- <div class="masthead-subheading">Selamat Datang!</div> -->
+            <div class="masthead-heading text-uppercase">Sistem Informasi Manajemen Pelayanan</div>
             <div class="masthead-footer">Kelurahan Labuhbaru Barat</div>
             <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">Lihat</a>
         </div>
@@ -130,7 +132,7 @@
     <section class="page-section bg-light" id="portfolio">
         <div class="container">
             <div class="text-center">
-                <h2 class="section-heading text-uppercase badge badge-warning" >Visi dan Misi</h2>
+                <h2 class="section-heading text-uppercase badge badge-warning">Visi dan Misi</h2>
                 <br>
                 <!-- <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3> -->
             </div>
@@ -146,21 +148,49 @@
                     <br>
                     <ol style="text-align:left;">
                         <li>Meningkatkan Sumber Daya Manusia (SDM) yang Bertaqwa, Mandiri, Tangguh dan Berdaya Saing Tinggi</li>
-                         <li>Mewujudkan Pembangunan Masyarakat Madani Dalam Lingkup Masyarakat Berbudaya Melayu</li>
-                         <li>Mewujudkan Tata Kelola Kota Cerdas dan Penyediaan Infrastruktur yang Baik</li>
-                         <li>Mewujudkan Pembangunan Ekonomi Berbasiskan Ekonomi Kerakyatan dan Ekonomi Padat  Modal, pada Tiga Sektor Unggulan, yaitu Jasa, Perdagangan dan Industri (olahan dan MICE)</li>
-                         <li>Mewujudkan Lingkungan Perkotaan yang Layak Huni (Liveable City) dan Ramah Lingkungan (Green City)</li>
+                        <li>Mewujudkan Pembangunan Masyarakat Madani Dalam Lingkup Masyarakat Berbudaya Melayu</li>
+                        <li>Mewujudkan Tata Kelola Kota Cerdas dan Penyediaan Infrastruktur yang Baik</li>
+                        <li>Mewujudkan Pembangunan Ekonomi Berbasiskan Ekonomi Kerakyatan dan Ekonomi Padat Modal, pada Tiga Sektor Unggulan, yaitu Jasa, Perdagangan dan Industri (olahan dan MICE)</li>
+                        <li>Mewujudkan Lingkungan Perkotaan yang Layak Huni (Liveable City) dan Ramah Lingkungan (Green City)</li>
 
-                   
+
 
                     </ol>
                 </div>
-                
+
             </div>
         </div>
     </section>
+
+    <!-- halaman informasi -->
+    <section class="page-section">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-heading text-uppercase">Informasi Pelayanan Surat</h2>
+            </div>
+            <div id="accordion">
+
+                <div id="nilai" class="card">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                1. Harmonis
+                            </button> <i class="fas fa-plus float-right "></i>
+                        </h5>
+                    </div>
+
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                            Organisasi mahasiswa Universitas Diponegoro yang terdiri dari berbagai entitas harus dipadukan dalam segi rasa, pemikiran, mimpi, dan perbuatan. Dalam upaya menyelaraskan hal tersebut, maka konflik sudah bukan menjadi hal yang tabu dalam prosesnya. Akan tetapi, konflik tersebut harus konstruktif dan substantif agar tetap mengarah kepada tujuan bersama organisasi mahasiswa Universitas Diponegoro. Nilai Harmonis ini bertujuan agar BEM Undip dapat memberikan jawaban dalam sebuah permasalahan yang sudah menahun pada ketidakselarasannya arah gerak di Universitas Diponegoro. Oleh karenanya, BEM Undip hadir membawa mimpi besar yang akan menavigasi organisasi mahasiswa Universitas Diponegoro dengan melibatkan seluruh entitas dengan menitik beratkan pada timbal balik kedua pihak agar maksimal dalam mencapai cita cita luhur bersama, yaitu kejayaan Undip dan Indonesia
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
     <!-- About-->
-        <!-- <section class="page-section" id="about">
+    <!-- <section class="page-section" id="about">
             <div class="container">
                 <div class="text-center">
                     <h2 class="section-heading text-uppercase">About</h2>
@@ -276,7 +306,7 @@
         </div>
     </section> -->
     <!-- Clients-->
-    
+
     <!-- Footer-->
     <footer class="footer py-4">
         <div class="container">
@@ -294,7 +324,7 @@
             </div>
         </div>
     </footer>
- 
+
     <!-- Bootstrap core JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>

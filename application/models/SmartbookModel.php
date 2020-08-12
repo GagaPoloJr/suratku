@@ -4,8 +4,8 @@ class SmartbookModel extends CI_Model
 {
     private $_table = "smartbook";
     private $_table1 = "data_warga";
-    private $_table2= "berita";
-    private $_table3= "user";
+    private $_table2 = "berita";
+    private $_table3 = "user";
 
 
 
@@ -139,7 +139,6 @@ class SmartbookModel extends CI_Model
     function insert_data($data, $table)
     {
         $this->db->insert($table, $data);
-       
     }
 
     // fungsi untuk mengedit data
@@ -175,6 +174,10 @@ class SmartbookModel extends CI_Model
 
     public function save()
     {
+        $this->load->helper('kebutuhan_helper');
+        $lokasi = 'upload/data';
+        $tipe_file = 'jpeg|jpg|png';
+
         $post = $this->input->post();
         $this->nama = $post["nama"];
         $this->nik = $post["nik"];
@@ -190,58 +193,20 @@ class SmartbookModel extends CI_Model
         $this->kebutuhan = $post["kebutuhan"];
         $this->keterangan = "0";
         $this->id_user = $this->session->userdata('id');
-        $this->gambar_ktp = $this->_uploadKTP();
-        // $this->gambar_bebas = $this->proses();
-        // $this->gambar_bebas = $this->send();
+        // $this->gambar_ktp = $this->_uploadKTP();
+        // $this->gambar_kk = $this->_uploadKK();
+        $this->gambar_ktp = sf_upload('ktp', 'upload/data/', 'jpeg|jpg|png', 1000000, 'ktp1');
+        // $this->gambar_1= sf_upload('ktp', 'upload/data/', 'jpeg|jpg|png', 1000000, 'ktp2');
+        // $this->gambar_2 = sf_upload('ktp', 'upload/data/', 'jpeg|jpg|png', 1000000, 'ktp3');
+        // $this->gambar_3 = sf_upload('ktp', 'upload/data/', 'jpeg|jpg|png', 1000000, 'ktp4');
 
-        
+
+       
+
+
+
         return $this->db->insert($this->_table1, $this);
     }
-
-    public function send()
-   {
-      $data = [];
- 
-      $count = count($_FILES['files']['name']);
-    
-      for($i=0;$i > $count;$i++){
-    
-         if(!empty($_FILES['files']['name'][$i])){
-    
-            $_FILES['file']['name'] = $_FILES['files']['name'][$i];
-            $_FILES['file']['type'] = $_FILES['files']['type'][$i];
-            $_FILES['file']['tmp_name'] = $_FILES['files']['tmp_name'][$i];
-            $_FILES['file']['error'] = $_FILES['files']['error'][$i];
-            $_FILES['file']['size'] = $_FILES['files']['size'][$i];
- 
-            $config['upload_path'] = './upload/data/'; 
-            $config['allowed_types'] = 'jpg|jpeg|png|gif';
-            $config['max_size'] = '5000';
-            $config['file_name'] = $_FILES['files']['name'][$i];
- 
-            $this->load->library('upload',$config); 
-    
-            if($this->upload->do_upload('file')){
- 
-               $uploadData = $this->upload->data();
-               // mendefinisikan data array dari hasil upload
-               $filename = $uploadData['file_name'];
-               $image[$i] =  $filename;
-               // membuat data array untuk disimpan ke database
-               $content = [
-                  'gambar_bebas' => $image[$i]
-               ];
-               $this->insert_data($content, "data_warga" );
-               // Untuk menampilkan jumlah data yang diupload
-               $data['totalFiles'][] = $filename;
-            }
-            else{
-                redirect('admin/warga', 'refresh');
-            }
-         }
-      }
-      
-   } 
 
 
     public function _uploadKTP()
@@ -249,14 +214,14 @@ class SmartbookModel extends CI_Model
         $config['upload_path']          = './upload/data/';
         $config['allowed_types']        = 'jpg|jpeg|png';
         $config['overwrite']            = true;
-        $config['file_name']            = "no_ktp" .$this->id;
+        $config['file_name']            = "no_ktp";
         $config['encrypt_name']            = true;
         $config['max_size']             = 1024; // 1MB
-        $field_name = "ktp";
+        // $field_name = "ktp";
 
         $this->load->library('upload', $config);
 
-        if (!$this->upload->do_upload($field_name)) {
+        if (!$this->upload->do_upload('ktp')) {
             $error = array('error' => $this->upload->display_errors());
             $this->session->set_flashdata('error', $error['error']);
             redirect('admin/warga', 'refresh');
@@ -264,71 +229,91 @@ class SmartbookModel extends CI_Model
             return $this->upload->data("file_name");
         }
     }
+    public function _uploadKK()
+    {
+        $config['upload_path']          = './upload/data/';
+        $config['allowed_types']        = 'jpg|jpeg|png';
+        // $config['overwrite']            = true;
+        $config['file_name']            = "kk";
+        $config['encrypt_name']            = true;
+        $config['max_size']             = 1024; // 1MB
+        // $field_name = "kk";
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('kk')) {
+            $error = array('error' => $this->upload->display_errors());
+            $this->session->set_flashdata('error', $error['error']);
+            redirect('admin/warga', 'refresh');
+        } else {
+            return $this->upload->data('file_name');
+        }
+    }
 
     public function _deleteImage($id)
-{
-    $foto = $this->getById($id);
-    if ($foto->gambar_ktp != NULL) {
-	    $filename = explode(".", $foto->gambar_ktp)[0];
-		return array_map('unlink', glob(FCPATH."upload/data/$filename.*"));
+    {
+        $foto = $this->getById($id);
+        if ($foto->gambar_ktp != NULL) {
+            $filename = explode(".", $foto->gambar_ktp)[0];
+            return array_map('unlink', glob(FCPATH . "upload/data/$filename.*"));
+        }
     }
-}
 
-public function delete($id)
-{
-    $this->_deleteImage($id);
- 
-    return $this->db->delete($this->_table1, array("id_warga" => $id));
-}
+    public function delete($id)
+    {
+        $this->_deleteImage($id);
+
+        return $this->db->delete($this->_table1, array("id_warga" => $id));
+    }
 
 
     function get_data_warga()
-	{
-		$this->db->select('data_warga.nama AS warga, data_warga.id_warga, user.nama, data_warga.kebutuhan, data_masuk.*');
-		$this->db->from('data_masuk');
-		$this->db->join('data_warga', 'data_masuk.id_data= data_warga.id_warga ');
+    {
+        $this->db->select('data_warga.nama AS warga, data_warga.id_warga, user.nama, data_warga.kebutuhan, data_masuk.*');
+        $this->db->from('data_masuk');
+        $this->db->join('data_warga', 'data_masuk.id_data= data_warga.id_warga ');
         $this->db->join('user', 'data_masuk.id_user = user.id ');
         // $multipleWhere = ['name' => $name, 'email' => $email, 'status' => $status];
         $where = "keterangan='1' OR keterangan='3'";
         $this->db->where($where);
-		$query = $this->db->get();
-		return $query->result();
+        $query = $this->db->get();
+        return $query->result();
     }
 
-    function get_data_rw(){
+    function get_data_rw()
+    {
         $id =  $this->session->userdata('id');
         $this->db->select('data_rw.nama, data_rw.RW');
-		$this->db->from('user');
-		$this->db->join('data_rw', 'user.id_rw= data_rw.id_rw ');
+        $this->db->from('user');
+        $this->db->join('data_rw', 'user.id_rw= data_rw.id_rw ');
         $where = "user.id= $id ";
         $this->db->where($where);
-		$query = $this->db->get();
-		return $query->result();
-
+        $query = $this->db->get();
+        return $query->result();
     }
-    function get_data_rt(){
-       
+    function get_data_rt()
+    {
+
         $this->db->select('*, user.nama AS nama_rt ');
-		$this->db->from('user');
-		$this->db->join('data_rw', 'user.id_rw= data_rw.id_rw ');
-        // $where = "user.id= $id ";
-        // $this->db->where($where);
-		$query = $this->db->get();
-		return $query->result();
-
-    }
-    function get_data_rt_lurah(){
-       
-        $this->db->select('*, user.nama AS nama_rt, data_rw.nama AS nama_rw ');
-		$this->db->from('user');
+        $this->db->from('user');
         $this->db->join('data_rw', 'user.id_rw= data_rw.id_rw ');
-		$this->db->join('data_masuk', 'user.id= data_masuk.id_user ');
-        
         // $where = "user.id= $id ";
         // $this->db->where($where);
-		$query = $this->db->get();
-		return $query->result();
+        $query = $this->db->get();
+        return $query->result();
+    }
+    function get_data_rt_lurah()
+    {
 
+        $this->db->select('*, user.nama AS nama_rt, data_rw.nama AS nama_rw ');
+        $this->db->from('user');
+        $this->db->join('data_rw', 'user.id_rw= data_rw.id_rw ');
+        $this->db->join('data_masuk', 'user.id= data_masuk.id_user ');
+
+        // $where = "user.id= $id ";
+        // $this->db->where($where);
+        $query = $this->db->get();
+        return $query->result();
     }
 
     public function update_warga()
@@ -378,7 +363,7 @@ public function delete($id)
         $this->tanggal_berita = $post["tanggal"];
         // $this->id_user = $this->session->userdata('id');
         $this->upload_berita = $this->_uploadBerita();
-        
+
         return $this->db->insert($this->_table2, $this);
     }
 
@@ -404,7 +389,7 @@ public function delete($id)
     }
 
 
-    
+
 
     public function update()
     {

@@ -125,6 +125,21 @@
                                             ); ?>
                                             <a data-darkbox data-toggle="lightbox" class="imggallery" href="<?php echo $show; ?>"><?php echo img($image_properties); ?></a>
                                         </div>
+
+                                        <div class="form-group">
+                                            <h5>Gambar KK</h5>
+                                            <?php
+                                            $show = base_url() . 'upload/data/' . $d->gambar_kk;
+                                            print_r($show);
+                                            $image_properties = array(
+                                                'src' => base_url() . 'upload/data/' . $d->gambar_kk,
+                                                'alt' => 'gambar_kk',
+                                                'class' => 'post_images',
+                                                'width' => '100',
+                                                'rel' => 'lightbox'
+                                            ); ?>
+                                            <a data-darkbox data-toggle="lightbox" class="imggallery" href="<?php echo $show; ?>"><?php echo img($image_properties); ?></a>
+                                        </div>
                                     <?php } ?>
                                     <!-- /.card-body -->
                                 </div>

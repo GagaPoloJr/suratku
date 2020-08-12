@@ -99,7 +99,7 @@
                                                                 <?php if ($berita->upload_berita == NULL) { 
                                                                     echo "tidak ada file pendukung"; }
                                                                     else { ?>
-                                                            <a class="btn btn-info" href="<?php echo base_url(). 'upload/berita/' .$berita->upload_berita; ?>">download file</a>
+                                                            <a class="btn btn-info" href="<?php echo base_url(). 'admin/download_berita/' .$berita->upload_berita; ?>">download file</a>
                                                                     <?php } ?>
                                                         </td>
                                                         </tr>

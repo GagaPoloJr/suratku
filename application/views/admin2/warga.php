@@ -89,6 +89,8 @@
                                                         <th>NIK / No KTP</th>
                                                         <th>Kebutuhan</th>
                                                         <th>Gambar KTP</th>
+                                                        <th>Gambar KK</th>
+
                                                         <th>Keterangan</th>
                                                         <th>Download Surat Pengantar</th>
                                                         <th>Aksi</th>
@@ -130,6 +132,7 @@
                                                                 <?php } ?>
 
                                                             </td>
+                                                            <td><?php echo $s->gambar_kk ?></td>
 
                                                             <td><?php if ($s->keterangan == "0") {
                                                                     echo "<label class='badge badge-danger' >Belum Dikonfirmasi  </label>";
@@ -179,6 +182,8 @@
                                                         <th>NIK / No KTP</th>
                                                         <th>Kebutuhan</th>
                                                         <th>Gambar KTP</th>
+                                                        <th>Gambar KK</th>
+
                                                         <th>Keterangan</th>
                                                         <th>Download Surat Pengantar</th>
                                                         <th>Aksi</th>
@@ -312,17 +317,19 @@
                                                         <?php echo form_error('lainnya') ?>
                                                     </div>
                                                 </div>
-                                                <div style="display: none;" id="no_ktp" class="form-group">
-                                                    <label for="exampleInputFile">Upload Gambar KTP*</label>
+                                            <?php for ($i = 1; $i <= 5; $i++){ ?>
+                                                <div  id="no_ktp" class="form-group">
+                                                    <label for="exampleInputFile">Upload Gambar Pendukung <?php echo $i?>*</label>
                                                     <div class="custom-file">
-                                                        <input name="ktp" type="file" class="custom-file-input <?php echo form_error('ktp') ? 'is-invalid' : '' ?>" id="exampleInputFile"></input>
-                                                        <label class="custom-file-label" for="exampleInputFile">Masukkan File Gambar KTP</label>
+                                                        <input name="ktp<?php echo $i?>" type="file" class="custom-file-input <?php echo form_error('ktp') ? 'is-invalid' : '' ?>" id="exampleInputFile"></input>
+                                                        <label class="custom-file-label" for="exampleInputFile">Masukkan File Gambar Pendukung <?php echo $i?></label>
                                                         <div class="invalid-feedback">
                                                             <?php echo form_error('ktp') ?>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div style="display: none;" id="no_kk" class="form-group">
+                                                <?php } ?>
+                                                <!-- <div  id="no_kk" class="form-group">
                                                     <label for="exampleInputFile">Upload Gambar KK*</label>
                                                     <div class="custom-file">
                                                         <input name="kk" type="file" class="custom-file-input <?php echo form_error('kk') ? 'is-invalid' : '' ?>" id="exampleInputFile"></input>
@@ -331,17 +338,8 @@
                                                             <?php echo form_error('kk') ?>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <!-- <div class="form-group">
-                                                    <label for="exampleInputFile">Upload Gambar Yang Dibutuhkan*</label>
-                                                    <div class="custom-file">
-                                                        <input name="files" type="file" class="custom-file-input <?php echo form_error('files') ? 'is-invalid' : '' ?>" id="exampleInputFile"></input>
-                                                        <label class="custom-file-label" for="exampleInputFile">Masukkan File Gambar</label>
-                                                        <div class="invalid-feedback">
-                                                            <?php echo form_error('files') ?>
-                                                        </div>
-                                                    </div>
                                                 </div> -->
+                                         
                                                 <?php $this->load->view('form/akte.php'); ?>
                                                 <?php $this->load->view('form/domisili.php'); ?>
                                                 <?php $this->load->view('form/kk.php'); ?>
@@ -439,7 +437,7 @@
         });
     </script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script> -->
-    <script type="text/javascript" src="<?php echo base_url() . 'assets/js/custom.js' ?>"></script>
+    <!-- <script type="text/javascript" src="<?php echo base_url() . 'assets/js/custom.js' ?>"></script> -->
 
 
 

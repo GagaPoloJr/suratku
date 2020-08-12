@@ -14,8 +14,9 @@ class Admin extends MY_Controller
         // $this->load->library('pdf');
         $this->load->library('mypdf.php');
         $this->load->helper('date');
+        $this->load->helper('kebutuhan_helper');
     }
-    
+
 
     public function index()
     {
@@ -29,33 +30,31 @@ class Admin extends MY_Controller
         $this->load->view('admin/overview', $data);
     }
 
-    public function kegiatan(){
+    public function kegiatan()
+    {
         $this->load->database();
         $this->load->view('lurah/kegiatan');
-
-
     }
 
-    public function lurah(){
+    public function lurah()
+    {
         // $data['warga'] = $this->db->query('select * from data_warga where keterangan ="1"')->result();
         $this->load->helper('kebutuhan_helper');
         $this->load->database();
         $data['warga'] = $this->SmartbookModel->get_data_warga();
         $data['rt'] = $this->SmartbookModel->get_data_rt_lurah();
-        if($this->session->userdata('level')=='2') {
+        if ($this->session->userdata('level') == '2') {
             $this->load->view('lurah/lurah', $data);
-
-          }else{
+        } else {
             echo "Anda tidak berhak mengakses halaman ini";
             redirect(base_url());
-          }
-     
+        }
     }
     public function detail_data($id)
     {
         $this->load->database();
         $data['warga'] = $this->db->query("select * from data_warga where id_warga= $id")->result();
-      
+
 
         $this->load->view('lurah/lihat_data', $data);
     }
@@ -65,12 +64,13 @@ class Admin extends MY_Controller
         $this->load->database();
         $data['warga'] = $this->db->query("select * from data_warga where id_warga= $id")->result();
         $data['rw'] = $this->SmartbookModel->get_data_rw();
-      
+
 
         $this->load->view('admin2/detail_data_warga', $data);
     }
 
-    function konfirmasi_lurah($id){
+    function konfirmasi_lurah($id)
+    {
         date_default_timezone_set('Asia/Jakarta');
         $data = array(
             'tgl_proses' => date('Y-m-d H:i:s'),
@@ -81,7 +81,7 @@ class Admin extends MY_Controller
         );
 
         $data1 = array(
-           
+
             'keterangan' => '3'
         );
         $where1 = array(
@@ -92,15 +92,13 @@ class Admin extends MY_Controller
 
         $this->session->set_flashdata('success', 'Data Berhasil Diverifikasi');
         redirect(base_url() . 'admin/lurah');
-        
-        
     }
-    public function tampil_data_rt(){
-        if($this->session->userdata('level')=='2') {
-        $data['rt'] = $this->SmartbookModel->get_data_rt();
-        $this->load->view('lurah/data_rt', $data);
-        }
-        else{
+    public function tampil_data_rt()
+    {
+        if ($this->session->userdata('level') == '2') {
+            $data['rt'] = $this->SmartbookModel->get_data_rt();
+            $this->load->view('lurah/data_rt', $data);
+        } else {
             echo "Anda tidak berhak mengakses halaman ini";
             redirect(base_url());
         }
@@ -108,17 +106,18 @@ class Admin extends MY_Controller
 
 
 
-    public function konfirmasi_data($id){
+    public function konfirmasi_data($id)
+    {
         date_default_timezone_set('Asia/Jakarta');
         $data['konfirmasi'] =  $this->db->query("select * from data_warga where id_warga ='$id'")->result();
         $konfirmasi = $data['konfirmasi'];
 
-        foreach ($konfirmasi as $k){
+        foreach ($konfirmasi as $k) {
             $id_warga = $k->id_warga;
             $id_user = $k->id_user;
         }
 
-        $data1 = array (
+        $data1 = array(
             'id_data' => $id_warga,
             'id_user' => $id_user,
             'tgl_masuk' => date('Y-m-d H:i:s'),
@@ -134,19 +133,18 @@ class Admin extends MY_Controller
         $this->SmartbookModel->update_data($where, $data, 'data_warga');
         $this->session->set_flashdata('success', 'Data Berhasil Dikonfirmasi');
         redirect(base_url() . 'admin/warga');
-     
-     
     }
 
-    public function warga(){
+    public function warga()
+    {
         $this->load->helper('kebutuhan_helper');
         $warga = $this->SmartbookModel;
         $validation = $this->form_validation;
         $validation->set_rules($warga->rules());
-     
+
         if ($validation->run()) {
             $warga->save();
-            $this->proses();
+            // $this->proses();
 
             $this->session->set_flashdata('success', 'Berhasil disimpan');
             redirect(base_url() . 'admin/warga');
@@ -159,56 +157,17 @@ class Admin extends MY_Controller
         $user = $this->session->userdata('id');
         $data['warga'] = $this->db->query("select * from data_warga where id_user= $user")->result();
         $data['rw'] = $this->SmartbookModel->get_data_rw();
-      
 
-        if($this->session->userdata('level')=='1') {
+
+        if ($this->session->userdata('level') == '1') {
             $this->load->view('admin2/warga', $data);
-
-          }else{
+        } else {
             echo "Anda tidak berhak mengakses halaman ini";
             redirect(base_url());
-          }
-
+        }
     }
-    
-    function proses()
-	{
-		$config['upload_path']          = './upload/data/';
-		$config['allowed_types']        = 'gif|jpg|jpeg|png';
-		$config['max_size']             = 1024;
-		// $config['max_width']            = 2048;
-		// $config['max_height']           = 1000;
-		$config['encrypt_name'] 		= true;
-		$this->load->library('upload',$config);
-        // $keterangan_berkas = $this->input->post('keterangan_berkas');
-        // $id_warga = $this->input->post('id_warga');
-        $id_user =  $this->session->userdata('id');
 
-		$jumlah_berkas = count($_FILES['kk']['name']);
-		for($i = 0; $i < $jumlah_berkas;$i++)
-		{
-            if(!empty($_FILES['kk']['name'][$i])){
- 
-				$_FILES['file']['name'] = $_FILES['kk']['name'][$i];
-				$_FILES['file']['type'] = $_FILES['kk']['type'][$i];
-				$_FILES['file']['tmp_name'] = $_FILES['kk']['tmp_name'][$i];
-				$_FILES['file']['error'] = $_FILES['kk']['error'][$i];
-				$_FILES['file']['size'] = $_FILES['kk']['size'][$i];
-	   
-				if($this->upload->do_upload('file')){
-					
-					$uploadData = $this->upload->data();
-					$data['gambar'] = $uploadData['file_name'];
-					$data['user_id'] = $id_user;
-					// $data['tipe_kk'] = $uploadData['file_ext'];
-					// $data['ukuran_kk'] = $uploadData['file_size'];
-					$this->db->insert('gambar',$data);
-				}
-			}
-		}
- 
-		redirect('admin/warga');
-    }
+
     public function editProfil($id = null)
     {
         $user_edit = $this->SmartbookModel;
@@ -218,7 +177,7 @@ class Admin extends MY_Controller
         if ($validation->run()) {
             $user_edit->update_profil();
             $this->session->set_flashdata('success', 'Berhasil disimpan');
-            redirect(site_url('admin/editProfil/'.$user_edit->id));
+            redirect(site_url('admin/editProfil/' . $user_edit->id));
         }
 
         if ($this->form_validation->run() == FALSE) {
@@ -253,19 +212,19 @@ class Admin extends MY_Controller
         $this->load->view("admin2/edit_warga", $data);
     }
 
-    public function export_data_warga($id){
+    public function export_data_warga($id)
+    {
         $this->load->helper('kebutuhan_helper');
         $data['warga'] = $this->db->query("select * from data_warga where id_warga =$id ")->result();
         $data['rw'] = $this->SmartbookModel->get_data_rw();
         $this->mypdf->generate_data_warga('admin2/laporan_pdf', $data);
-
     }
-    public function export_data_verifikasi($id){
+    public function export_data_verifikasi($id)
+    {
         $this->load->helper('kebutuhan_helper');
         $data['warga'] = $this->db->query("select * from data_warga where id_warga =$id ")->result();
         $data['rw'] = $this->SmartbookModel->get_data_rw();
         $this->mypdf->generate_data_verif('admin2/pdf_verifikasi', $data);
-
     }
 
     public function hapus_data($id)
@@ -282,13 +241,13 @@ class Admin extends MY_Controller
     {
         if (!isset($id)) show_404();
         if ($this->SmartbookModel->delete($id)) {
-        $this->session->set_flashdata('danger', 'Data Berhasil dihapus');
+            $this->session->set_flashdata('danger', 'Data Berhasil dihapus');
             redirect(site_url('admin/warga'));
         }
     }
 
-    
-    
+
+
     public function user()
     {
         $user = $this->Admin_model;
@@ -308,12 +267,13 @@ class Admin extends MY_Controller
         $data['user'] = $this->db->query('select * from user')->result();
         $this->load->view('admin/user', $data);
     }
-     
 
-    
 
-    
-    public function berita(){
+
+
+
+    public function berita()
+    {
         // $this->load->helper('kebutuhan_helper');
 
         $warga = $this->SmartbookModel;
@@ -334,6 +294,18 @@ class Admin extends MY_Controller
         $data['rw'] = $this->SmartbookModel->get_data_rw();
         $data['berita'] = $this->db->query('select * from berita')->result();
         $this->load->view('Lurah/berita', $data);
-
     }
+
+    public function download_berita($id){
+        $this->load->helper('download');
+            force_download('upload/berita/'.$id ,NULL);
+        
+    }
+
+
+
+
+
+
+  
 }

@@ -9,152 +9,73 @@ class Article extends CI_Controller
         $this->load->view('article/index');
     }
 
-    public function About()
-    {
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-
-        $data['about'] = $this->db->get('about')->result_array();
-
-        $data['title'] = 'About' . ' ( ' . count($data['about'])  . ' ) ';
-
-        $this->form_validation->set_rules('title', 'Title', 'required');
-
-
-        if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('templates/topbar', $data);
-            $this->load->view('article/about', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $title = $this->input->post('title');
-            $deskritpion = $this->input->post('deskription');
-            $upload_image = $_FILES['image'];
-
-            if ($upload_image) {
-                $config['allowed_types'] = 'gif|jpg|png';
-                $config['max_size'] = '2048';
-                $config['upload_path'] = './assets/article/img/about/';
-
-                $this->load->library('upload', $config);
-
-                if (!$this->upload->do_upload('image')) {
-                    echo $this->upload->display_errors();
-                    die();
-                } else {
-                    $data = [
-                        'title' => $this->input->post('title'),
-                        'deskription' => $this->input->post('deskription'),
-                        'image' => $this->upload->data('file_name')
-                    ];
-
-                    $this->db->insert('about', $data);
-
-                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New About Added!</div>');
-                    redirect('article/about');
-                }
-            }
-        }
-    }
-
-    public function editAbout($id_about)
-    {
-        $data['title'] = 'Edit About';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-
-        $data['about'] = $this->db->get_where('about', ['id_about' => $id_about])->row_array();
-
-        $this->form_validation->set_rules('title', 'Title', 'required');
-        $this->form_validation->set_rules('deskription', 'Deskription', 'required');
-
-        if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('templates/topbar', $data);
-            $this->load->view('article/editAbout', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $id_about = $this->input->post('id_about');
-            $title = $this->input->post('title');
-            $deskription = $this->input->post('deskription');
-            $upload_image = $_FILES['image']['name'];
-
-            if ($upload_image) {
-                $config['allowed_types'] = 'gif|jpg|png';
-                $config['max_size'] = '2048';
-                $config['upload_path'] = './assets/article/img/about/';
-
-                $this->load->library('upload', $config);
-
-                if (!$this->upload->do_upload('image')) {
-                    echo $this->upload->display_errors();
-                    die();
-                } else {
-                    $upload_image = $this->upload->data('file_name');
-                    $old_image = $data['about']['image'];
-                    if ($old_image != "") {
-                        unlink('./assets/article/img/about/' . $old_image);
-                    }
-
-                    $data = [
-                        'id_about' => $id_about,
-                        'title' => $title,
-                        'deskription' => $deskription,
-                        'image' => $upload_image
-                    ];
-
-                    $this->db->where('id_about', $id_about);
-                    $this->db->update('about', $data);
-                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">About has been updated!</div>');
-                    redirect('article/about');
-                }
-            }
-
-            $data = [
-                'id_about' => $this->input->post('id_about'),
-                'title' => $this->input->post('title'),
-                'deskription' => $this->input->post('deskription')
-            ];
-
-            $this->db->where('id_about', $id_about);
-            $this->db->update('about', $data);
-
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">About has been updated!</div>');
-            redirect('article/about');
-        }
-    }
-
-    public function deleteAbout($id_about)
-    {
-
-        $about = $this->db->get_where('about', ['id_about' => $id_about])->row_array();
-
-        if ($about['image'] != "") {
-            unlink('./assets/article/img/about/' . $about['image']);
-        }
-
-        $this->db->where('id_about', $id_about);
-        $this->db->delete('about');
-
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">About success Delete!</div>');
-        redirect('article/about');
-    }
 
     public function post()
     {
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('user', ['id' => $this->session->userdata('id')])->row_array();
         $this->load->model('Article_model', 'article');
 
         $data['post'] = $this->article->getNameKategori();
         $data['kategori'] = $this->db->get('kategori')->result_array();
 
         $data['title'] = 'Post' . ' ( ' . count($data['post'])  . ' ) ';
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar', $data);
         $this->load->view('article/post', $data);
-        $this->load->view('templates/footer');
+       
+    }
+
+    public function addNewPost() {
+
+        $data['post'] = $this->db->get('post')->result_array();
+        $data['kategori'] = $this->db->get('kategori')->result_array();
+
+        $data['title'] = 'Add Post';
+
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('body', 'Body', 'required');
+
+        if ($this->form_validation->run() == false) {
+            $this->load->view('article/addNewPost', $data);
+        } else {
+            $id_user = $this->input->post('id_user');
+            $id_kategori = $this->input->post('id_kategori');
+            $slug_post = url_title($this->input->post('title'), 'dash', TRUE);
+            $title = $this->input->post('title');
+            $body = $this->input->post('body');
+            $upload_image = $_FILES['image'];
+            $status = $this->input->post('status');
+
+            if ($upload_image) {
+                $config['allowed_types'] = 'gif|jpg|png';
+                $config['max_size'] = '2048';
+                $config['upload_path'] = './upload/article/';
+
+                $this->load->library('upload', $config);
+
+                if (!$this->upload->do_upload('image')) {
+                    echo $this->upload->display_errors();
+                    die();
+                } else {
+                    $data = [
+                        'id_user' => $id_user,
+                        'id_kategori' => $this->input->post('id_kategori'),
+                        'slug_post' => $slug_post,
+                        'title' => $title,
+                        'body' => $body,
+                        'status' => $status,
+                        'image' => $this->upload->data('file_name'),
+                        'date_post' => date('Y-m-d H:i:s')
+                    ];
+
+                    $this->db->insert('post', $data);
+
+                    // $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New Post Added!</div>');
+                    redirect('article/post');
+                }
+            }
+        }
+
+      
+
     }
 
     public function addPost()

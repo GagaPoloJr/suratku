@@ -89,7 +89,7 @@
                             <div class="icon">
                                 <i class="ion ion-archive"></i>
                             </div>
-                            <a href="<?php echo base_url("admin/smartbook") ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="<?php echo base_url("admin/warga") ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>                
                     <div class="col-lg-6 col-md-6">
@@ -104,7 +104,7 @@
                             <div class="icon">
                                 <i class="ion ion-archive"></i>
                             </div>
-                            <a href="<?php echo base_url("admin/peminjaman") ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="<?php echo base_url("admin/warga") ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>  
                     <div class="col-lg-12 col-md-6">
@@ -119,7 +119,7 @@
                         <div class="icon">
                             <i class="ion ion-archive"></i>
                         </div>
-                        <a href="<?php echo base_url("admin/peminjaman") ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="<?php echo base_url("admin/warga") ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>                   
                 </div> 
@@ -139,7 +139,7 @@
                             <div class="icon">
                                 <i class="ion ion-archive"></i>
                             </div>
-                            <a href="<?php echo base_url("admin/smartbook") ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="<?php echo base_url("admin/lurah") ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>                
                     <div class="col-lg-6 col-md-6">
@@ -154,7 +154,7 @@
                             <div class="icon">
                                 <i class="ion ion-archive"></i>
                             </div>
-                            <a href="<?php echo base_url("admin/peminjaman") ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="<?php echo base_url("admin/lurah") ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>           
                 </div> 

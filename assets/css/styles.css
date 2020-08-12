@@ -10265,9 +10265,9 @@
             padding-bottom: 6rem;
             text-align: center;
             color: #fff;
-            background-image: url("../img/pekanbaru_1.jpg");
+            background-image: url("../img/kantor_1.jpg");
             background-repeat: no-repeat;
-            background-attachment: scroll;
+            background-attachment: fixed;
             background-position: center center;
             background-size: cover;
         }
@@ -10729,6 +10729,12 @@
             opacity: .4;
         }
         
-        .gambar-pucuk {
-            background-image: url(../img/pucuk.png);
+        .masthead-overlay {
+            /* position: absolute; */
+            background: url(../img/pucuk.png);
+            background-repeat: repeat;
+            width: 100%;
+            height: 100%;
+            /* z-index: -1; */
+            opacity: .4;
         }
