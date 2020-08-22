@@ -52,6 +52,25 @@ if (!function_exists('jenis')) {
     }
 }
 
+if (!function_exists('level')) {
+    function level($level)
+    {
+        switch ($level) {
+            case 1:
+                $level = "RT atau RW";
+                break;
+            case 2:
+                $level = "Admin atau Staff";
+                break;
+
+            default:
+                $level = "tidak ada";
+                break;
+        }
+        return $level;
+    }
+}
+
 if (!function_exists('status')) {
     function status($status)
     {

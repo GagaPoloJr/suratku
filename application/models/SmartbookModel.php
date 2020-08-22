@@ -2,7 +2,6 @@
 
 class SmartbookModel extends CI_Model
 {
-    private $_table = "smartbook";
     private $_table1 = "data_warga";
     private $_table2 = "berita";
     private $_table3 = "user";
@@ -380,9 +379,10 @@ class SmartbookModel extends CI_Model
         $this->load->library('upload', $config);
 
         if (!$this->upload->do_upload($field_name)) {
-            $error = array('error' => $this->upload->display_errors());
-            $this->session->set_flashdata('error', $error['error']);
-            redirect('admin/save_berita', 'refresh');
+            echo"tidak ada file pendukung";
+            // $error = array('error' => $this->upload->display_errors());
+            // $this->session->set_flashdata('error', $error['error']);
+            // redirect('admin/save_berita', 'refresh');
         } else {
             return $this->upload->data("file_name");
         }

@@ -67,11 +67,14 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="level">Level*</label>
-                                        <input class="form-control <?php echo form_error('level') ? 'is-invalid' : '' ?>" type="text" name="level" placeholder="Masukkan Level" />
-                                        <div class="invalid-feedback">
-                                            <?php echo form_error('level') ?>
-                                        </div>
+                                    <label for="password">Level*</label>
+
+                                    <select name="status" class="form-control" id="status">
+                                                        <option value="">--pilih level--</option>
+                                                        <option value="1">RT atau RW</option>
+                                                        <option value="2">Admin atau Staff</option>
+                                                     
+                                                    </select>
                                     </div>
                                     <input class="btn btn-success" type="submit" name="btn" value="Simpan" />
                                 </form>

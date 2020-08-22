@@ -62,10 +62,10 @@
                                         <?php echo $this->session->flashdata('form_error'); ?>
                                     </div>
                                 <?php endif; ?>
-                                <div style="width: 100%;" id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                <div  id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <table id="example1" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+                                            <table  width="100%" id="example1" class="table table-bordered table-hover dataTable table-striped" role="grid" aria-describedby="example2_info">
                                                 <thead>
                                                     <tr>
                                                         <th>No</th>
@@ -75,6 +75,7 @@
                                                         <th>RW</th>
                                                         <th>username</th>
                                                         <th>password</th>
+                                                        <th>Aksi</th>
                                                     
                                                     </tr>
                                                 </thead>
@@ -89,6 +90,10 @@
                                                             <td><?php echo $s->RW; ?></td>
                                                             <td><?php echo $s->username; ?></td>
                                                             <td><?php echo $s->password; ?></td>
+                                                            <td>
+                                                            <a class="badge badge-success">Edit</a>
+                                                    <a class="badge badge-danger" href="#!">Delete</a>
+                                                            </td>
 
 
                                                           
@@ -107,6 +112,8 @@
                                                         <th>RW</th>
                                                         <th>username</th>
                                                         <th>password</th>
+                                                        <th>Aksi</th>
+
                                                     </tr>
                                                 </tfoot>
                                             </table>

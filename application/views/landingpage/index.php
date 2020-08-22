@@ -1,69 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Sistem Informasi Manajemen Pelayanan</title>
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
-    <!-- Font Awesome icons (free version)-->
-    <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
-    <!-- Google fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="<?php echo base_url() . 'assets/css/styles.css' ?>" rel="stylesheet" />
-</head>
+<?php $this->load->view('template/header_utama'); ?>
 
 <body id="page-top">
-    <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
-        <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="#page-top"><img src="<?php echo base_url() . 'dist/img/pku.png' ?>" alt="" /></a>
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                Menu
-                <i class="fas fa-bars ml-1"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav text-uppercase ml-auto">
-                    <!-- <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#services">Pimpinan</a></li> -->
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Visi dan Misi</a></li>
-                    <!-- <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#team">Team</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li> -->
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="<?php echo base_url() . 'auth' ?>">LOGIN</a></li>
-
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php $this->load->view('template/navbar_utama'); ?>
 
     <!-- Services-->
     <section class="page-section" id="services">
         <div class="masthead-overlay"></div>
         <div class="container">
-            <div class="text-center">
-                <!-- <h2 class="section-heading text-uppercase">pimpinan</h2> -->
-                <!-- <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3> -->
-            </div>
+
             <br><br>
-            <div id="pimpinan" class="row text-lg-center text-md-center text-sm-center">
-                <!-- <div class="col-md-4"> -->
-                <!-- <span class="fa-stack fa-4x">
-                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                            <i class="fas fa-shopping-cart fa-stack-1x fa-inverse"></i>
-                        </span>
-                        <h4 class="my-3">E-Commerce</h4>
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
-                    </div> -->
-                <div class="col-12">
-                    <h1>Selamat Datang!</h1>
+            <div class="col-12">
+                <div class="text-center">
+                    <!-- <h2 class="section-heading text-uppercase">pimpinan</h2> -->
+                    <br>
+                    <br><br>
+                    <h1 class="section-heading text-uppercase">Selamat Datang!</h1>
                     <h3>
                         <u>Di Kelurahan Labuhbaru Barat</u>
                     </h3>
+                    <!-- <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3> -->
+                </div>
+            </div>
+
+            <div id="pimpinan" class="row text-lg-center text-md-center text-sm-center">
+                <div class="col-12">
+
+
                     <br><br>
                 </div>
                 <div class="col-lg-4 col-md-6">
@@ -163,178 +125,258 @@
     </section>
 
     <!-- halaman informasi -->
-    <section class="page-section">
+    <section class="page-section" id="pelayanan">
         <div class="container">
             <div class="text-center">
                 <h2 class="section-heading text-uppercase">Informasi Pelayanan Surat</h2>
+                <hr style="border-width:3px">
+                <br><br>
+
             </div>
             <div id="accordion">
 
                 <div id="nilai" class="card">
                     <div class="card-header" id="headingOne">
                         <h5 class="mb-0">
-                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                1. Harmonis
-                            </button> <i class="fas fa-plus float-right "></i>
+                            <button id="tombol-informasi" class="btn collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                PENGURUSAN AKTE LAHIR
                         </h5>
                     </div>
-
                     <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                         <div class="card-body">
-                            Organisasi mahasiswa Universitas Diponegoro yang terdiri dari berbagai entitas harus dipadukan dalam segi rasa, pemikiran, mimpi, dan perbuatan. Dalam upaya menyelaraskan hal tersebut, maka konflik sudah bukan menjadi hal yang tabu dalam prosesnya. Akan tetapi, konflik tersebut harus konstruktif dan substantif agar tetap mengarah kepada tujuan bersama organisasi mahasiswa Universitas Diponegoro. Nilai Harmonis ini bertujuan agar BEM Undip dapat memberikan jawaban dalam sebuah permasalahan yang sudah menahun pada ketidakselarasannya arah gerak di Universitas Diponegoro. Oleh karenanya, BEM Undip hadir membawa mimpi besar yang akan menavigasi organisasi mahasiswa Universitas Diponegoro dengan melibatkan seluruh entitas dengan menitik beratkan pada timbal balik kedua pihak agar maksimal dalam mencapai cita cita luhur bersama, yaitu kejayaan Undip dan Indonesia
+                            <ol class="lower">
+                                <li>SURAT PENGANTAR RT / RW SETEMPAT</li>
+                                <li> FC. KK & KTP AYAH / IBU</li>
+                                <li>FC. KTP 2 ORANG SAKSI</li>
+                                <li>FC. SURAT KET. LAHIR DARI BIDAN / RUMAH SAKIT</li>
+                                <li>FC. SURAT NIKAH / AKTE NIKAH CATATAN SIPIL</li>
+                            </ol>
                         </div>
                     </div>
                 </div>
+
+                <div id="nilai" class="card">
+                    <div class="card-header" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button id="tombol-informasi" class="btn collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                PENGURUSAN AKTE KEMATIAN
+                        </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body">
+                            <ol class="lower">
+                                <li>SURAT PENGANTAR RT / RW SETEMPAT</li>
+                                <li>FC. KK & KTP JENAZAH</li>
+                                <li>FC. KTP PELAPOR</li>
+                                <li>FC. KTP 2 ORANG SAKSI</li>
+                                <li>FC. SURAT KET. KEMATIAN DARI RUMAH SAKIT</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="nilai" class="card">
+                    <div class="card-header" id="headingThree">
+                        <h5 class="mb-0">
+                            <button id="tombol-informasi" class="btn collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                PENGURUSAN AKTE NIKAH CATATAN SIPIL
+                        </h5>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="card-body">
+                            <ol class="lower">
+                                <li>SURAT PENGANTAR RT / RW SETEMPAT</li>
+                                <li>FC. KK & KTP SUAMI – ISTRI </li>
+                                <li>FC. AKTE LAHIR / IJAZAH TERAKHIR SUAMI – ISTRI </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="nilai" class="card">
+                    <div class="card-header" id="headingFour">
+                        <h5 class="mb-0">
+                            <button id="tombol-informasi" class="btn collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                PENGURUSAN PENGANTAR NIKAH – KUA
+                        </h5>
+                    </div>
+                    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                        <div class="card-body">
+                            <ol class="lower">
+                                <li>FC. KK & KTP YANG BERSANGKUTAN</li>
+                                <li>FC. KTP KEDUA ORANGTUA / WALI</li>
+                                <li>ASLI & FC. SURAT PENGANTAR DARI RT / RW</li>
+                                <li>PAS PHOTO 3 X 4 ( 3 LEMBAR )</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="nilai" class="card">
+                    <div class="card-header" id="headingFive">
+                        <h5 class="mb-0">
+                            <button id="tombol-informasi" class="btn collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                SURAT PINDAH
+                        </h5>
+                    </div>
+                    <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+                        <div class="card-body">
+                            <ol class="lower">
+                                <li>SURAT PENGANTAR RT / RW SETEMPAT</li>
+                                <li>FC. KK & KTP YANG BERSANGKUTAN</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="nilai" class="card">
+                    <div class="card-header" id="headingSix">
+                        <h5 class="mb-0">
+                            <button id="tombol-informasi" class="btn collapsed" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                PENGURUSAN KARTU KELUARGA ( KK ) BARU
+                        </h5>
+                    </div>
+                    <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
+                        <div class="card-body">
+                            <ol class="lower">
+                                <li>SURAT PENGANTAR RT / RW SETEMPAT</li>
+                                <li>SURAT PINDAH DARI DAERAH ASAL ( JIKA BERASAL DARI LUAR LABUHBARU BARAT)</li>
+                                <li>FC. KTP & KK SEMULA (INDUK)</li>
+                                <li>FC. SURAT NIKAH / AKTE NIKAH</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="nilai" class="card">
+                    <div class="card-header" id="headingSeven">
+                        <h5 class="mb-0">
+                            <button id="tombol-informasi" class="btn collapsed" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                                SURAT KETERANGAN USAHA
+                        </h5>
+                    </div>
+                    <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion">
+                        <div class="card-body">
+                            <ol class="lower">
+                                <li>ISI BLANGKO ( DIKETAHUI RT / RW SETEMPAT)</li>
+                                <li> FC. KK & KTP</li>
+                                <li>FOTO TEMPAT USAHA</li>
+                                <li>SURAT IZIN LINGKUNGAN</li>
+                                <li>FC. TANDA LUNAS PBB TAHUN BERJALAN</li>
+                                <li>FC. AKTA NOTARIS (KHUSUS PT / CV)</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="nilai" class="card">
+                    <div class="card-header" id="headingEight">
+                        <h5 class="mb-0">
+                            <button id="tombol-informasi" class="btn collapsed" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                                SURAT KETERANGAN BELUM MEMILIKI RUMAH , BELUM MENIKAH, PENGHASILAN, TIDAK MAMPU, TIDAK BEKERJA, GAIB, DLL
+                        </h5>
+                    </div>
+                    <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordion">
+                        <div class="card-body">
+                            <ol class="lower">
+                                <li>ISI BLANGKO ( DIKETAHUI RT / RW SETEMPAT)</li>
+                                <li>FC. KK & KTP YANG BERSANGKUTAN</li>
+                                <li>FC. KTP 2 ORANG SAKSI</li>
+                                <li>FC. SURAT KET. LAHIR DARI BIDAN / RUMAH SAKIT</li>
+                                <li>FC. SURAT NIKAH / AKTE NIKAH CATATAN SIPIL</li>
+
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="nilai" class="card">
+                    <div class="card-header" id="headingNine">
+                        <h5 class="mb-0">
+                            <button id="tombol-informasi" class="btn collapsed" data-toggle="collapse" data-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+                                SURAT KETERANGAN DOMISILI
+                        </h5>
+                    </div>
+                    <div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="#accordion">
+                        <div class="card-body">
+                            <ol class="lower">
+                                <li>SURAT PENGANTAR RT / RW SETEMPAT</li>
+                                <li> FC. KK & KTP yang BERSANGKUTAN</li>
+                                <li>FC. KK PENJAMIN (JIKA YANG BERSANGKUTAN MEMILIKI KK & KTP LUAR KOTA)</li>
+                                <li>FC. SURAT KET. LAHIR DARI BIDAN / RUMAH SAKIT</li>
+                                <li>FC. SURAT NIKAH / AKTE NIKAH CATATAN SIPIL</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="nilai" class="card">
+                    <div class="card-header" id="headingTen">
+                        <h5 class="mb-0">
+                            <button id="tombol-informasi" class="btn collapsed" data-toggle="collapse" data-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+                                SURAT AHLI WARIS
+                        </h5>
+                    </div>
+                    <div id="collapseTen" class="collapse" aria-labelledby="headingTen" data-parent="#accordion">
+                        <div class="card-body">
+                            <ol class="lower">
+                                <li>BUAT SURAT PERNYATAAN AHLI WARIS (CONTOH ADA DI KANTOR LURAH)</li>
+                                <li> FC. AKTA KEMATIAN</li>
+                                <li>FC. SURAT NIKAH ALMARHUM / ALMARHUMAH</li>
+                                <li>FC. KK & KTP SEMUA AHLI WARIS</li>
+                                <li>FC. AKTA LAHIR / IJAZAH / SURAT NIKAH SEMUA AHLI WARIS</li>
+                                <li>FC. KTP 2 ORANG SAKSI</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
         </div>
 
     </section>
-    <!-- About-->
-    <!-- <section class="page-section" id="about">
-            <div class="container">
+
+    <!-- Berita-->
+    <section class="page-section bg-light" id="portfolio">
+        <div class="container">
+            <div class="col-lg-12 col-sm-6 mb-4">
                 <div class="text-center">
-                    <h2 class="section-heading text-uppercase">About</h2>
-                    <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
-                </div>
-                <ul class="timeline">
-                    <li>
-                        <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/1.jpg" alt="" /></div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4>2009-2011</h4>
-                                <h4 class="subheading">Our Humble Beginnings</h4>
-                            </div>
-                            <div class="timeline-body">
-                                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="timeline-inverted">
-                        <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/2.jpg" alt="" /></div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4>March 2011</h4>
-                                <h4 class="subheading">An Agency is Born</h4>
-                            </div>
-                            <div class="timeline-body">
-                                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/3.jpg" alt="" /></div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4>December 2012</h4>
-                                <h4 class="subheading">Transition to Full Service</h4>
-                            </div>
-                            <div class="timeline-body">
-                                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="timeline-inverted">
-                        <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/4.jpg" alt="" /></div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4>July 2014</h4>
-                                <h4 class="subheading">Phase Two Expansion</h4>
-                            </div>
-                            <div class="timeline-body">
-                                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="timeline-inverted">
-                        <div class="timeline-image">
-                            <h4>
-                                Be Part
-                                <br />
-                                Of Our
-                                <br />
-                                Story!
-                            </h4>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </section> -->
-    <!-- Team-->
-    <!-- <section class="page-section bg-light" id="team">
-        <div class="container">
-            <div class="text-center">
-                <h2 class="section-heading text-uppercase">Our Amazing Team</h2>
-                <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
-            </div>
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="team-member">
-                        <img class="mx-auto rounded-circle" src="assets/img/team/1.jpg" alt="" />
-                        <h4>Kay Garland</h4>
-                        <p class="text-muted">Lead Designer</p>
-                        <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="team-member">
-                        <img class="mx-auto rounded-circle" src="assets/img/team/2.jpg" alt="" />
-                        <h4>Larry Parker</h4>
-                        <p class="text-muted">Lead Marketer</p>
-                        <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="team-member">
-                        <img class="mx-auto rounded-circle" src="assets/img/team/3.jpg" alt="" />
-                        <h4>Diana Petersen</h4>
-                        <p class="text-muted">Lead Developer</p>
-                        <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
+                    <h2 class="section-heading text-uppercase badge badge-warning">BERITA terbaru</h2>
+                    <br>
+                    <!-- <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3> -->
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-8 mx-auto text-center">
-                    <p class="large text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
-                </div>
+            <div class="row text-center">
+                <?php foreach ($terbaru as $new) : ?>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <img style="max-height: 180px;" src="<?= base_url('upload/article/') . $new->image; ?>" class="card-img-top" alt="<?= $new->title; ?>">
+                            <div class="card-body">
+                                <h4 class="card-title"><?= $new->title; ?></h4>
+                                <p class="card-text"><?= word_limiter($new->body, 50); ?></p>
+                                <a href="<?= base_url('page/detail_artikel/') . $new->slug_post; ?>" class="btn btn-primary">Detail</a>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Diperbaharui 3 menit yang lalu</small>
+                            </div>
+                        </div>
+                    </div>
+                   
+                <?php endforeach; ?>
+                <br><br><br><br>
+                <div class="col-12">
+                        <a type="button" class="btn btn-info" href="<?= base_url('page/artikel_list') ?>" >Lihat lebih banyak</a>
+                    </div>
+
             </div>
         </div>
-    </section> -->
-    <!-- Clients-->
+    </section>
 
-    <!-- Footer-->
-    <footer class="footer py-4">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-4 text-lg-left">Copyright © Your Website 2020</div>
-                <div class="col-lg-4 my-3 my-lg-0">
-                    <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-                <div class="col-lg-4 text-lg-right">
-                    <a class="mr-3" href="#!">Privacy Policy</a>
-                    <a href="#!">Terms of Use</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <?php $this->load->view('template/footer_utama'); ?>
 
-    <!-- Bootstrap core JS-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
-    <!-- Third party plugin JS-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-    <!-- Contact form JS-->
-    <script src="assets/mail/jqBootstrapValidation.js"></script>
-    <script src="assets/mail/contact_me.js"></script>
-    <!-- Core theme JS-->
-    <script src=" <?php echo base_url() . 'assets/js/scripts.js' ?>"></script>
+
+
 </body>
 
 </html>

@@ -18,8 +18,8 @@ class Article_model extends CI_Model
     // List post  main page
     public function post()
     {
-        $this->db->select('post.*,kategori.name_kategori,kategori.slug_kategori,user.name');
-        $this->db->from('post');
+        $this->db->select('post.*,kategori.name_kategori,kategori.slug_kategori,user.nama_pjg');
+        $this->db->from('post');    
         // join
         $this->db->join('kategori', 'kategori.id_kategori = post.id_kategori', 'LEFT');
         $this->db->join('user', 'user.id = post.id_user', 'LEFT');
@@ -34,7 +34,7 @@ class Article_model extends CI_Model
     // detail post
     public function detail($slug_post)
     {
-        $this->db->select('post.*,kategori.name_kategori,kategori.slug_kategori,user.name');
+        $this->db->select('post.*,kategori.name_kategori,kategori.slug_kategori,user.nama_pjg');
         $this->db->from('post');
         // join
         $this->db->join('kategori', 'kategori.id_kategori = post.id_kategori', 'LEFT');
