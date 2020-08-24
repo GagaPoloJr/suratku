@@ -17,7 +17,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Tambah Postingan Baru</h1>
+                        <h1 class="m-0 text-dark">Edit Artikel Judul <?php echo $title ?></h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <?php $this->load->view('template/breadcrumb.php'); ?>
@@ -42,27 +42,17 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <?php if ($this->session->flashdata('success')) : ?>
-                                    <div class="alert alert-success" role="alert">
-                                        <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true" class="fa fa-times"></span></button>
-                                        <?php echo $this->session->flashdata('success'); ?>
-                                    </div>
-                                <?php endif; ?>
-                                <?php if ($this->session->flashdata('form_error')) : ?>
-                                    <div class="alert alert-danger" role="alert">
-                                        <?php echo $this->session->flashdata('form_error'); ?>
-                                    </div>
-                                <?php endif; ?>
-                                <form id="myForm" action="<?php echo site_url('article/addNewPost') ?>" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="id_user" value="<?php echo $this->session->userdata('id') ?>" />
+                              
+                                <form id="myForm" action="<?php echo site_url('article/editPost') ?>" method="post" enctype="multipart/form-data">
                                     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
 
+                                    <input type="hidden" name="id_user" value="<?php echo $this->session->userdata('id') ?>" />
+                                    <input type="hidden" name="id_post" value="<?= $post['id_post']; ?>">
                                     <div class="form-group">
                                         <label for="tittle">Judul Postingan*</label>
-                                        <input class="form-control <?php echo form_error('title') ? 'is-invalid' : '' ?>" type="text" name="title" placeholder="Masukkan Judul Postingan" />
-                                        <div class="invalid-feedback">
-                                            <?php echo form_error('title') ?>
-                                        </div>
+                                        <input class="form-control <?php echo form_error('title') ? 'is-invalid' : '' ?>" type="text" name="title" placeholder="Masukkan Judul Postingan" value="<?= $post['title']; ?>">
+                                        <?= form_error('title', '<small class="text-danger pl-3">', '</small>'); ?>
+
                                     </div>
                                     <div class="form-group">
                                         <div class="input-group-prepend">
@@ -74,23 +64,33 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <div class="col-sm-3">
+                                            <img src="<?= base_url('./upload/article/') . $post['image']; ?>" class="img-thumbnail">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="kategori">Kategori</label>
                                         <select class="form-control" name="id_kategori" id="id_kategori">
                                             <?php foreach ($kategori as $ka) : ?>
-                                                <option value="<?= $ka['id_kategori']; ?>"><?= $ka['name_kategori']; ?></option>
+                                                <option value="<?= $ka['id_kategori']; ?>" <?php if ($post['id_kategori'] == $ka['id_kategori']) {
+                                                                                                echo "selected";
+                                                                                            } ?>>
+                                                    <?= $ka['name_kategori']; ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="status">Status</label>
                                         <select class="form-control" name="status" id="status">
-                                            <option>Publish</option>
-                                            <option>Draft</option>
+                                            <option value="publish">Publish</option>
+                                            <option value="Draft" <?php if ($post['status'] == 'Draft') {
+                                                                        echo "selected";
+                                                                    } ?>>Draft</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="body">Body</label>
-                                        <textarea name="body" class="form-control tinymce" id="body"></textarea>
+                                        <textarea name="body" class="form-control tinymce" id="body"><?= $post['body']; ?></textarea>
                                         <?= form_error('body', '<small class="text-danger pl-3">', '</small>'); ?>
                                     </div>
 

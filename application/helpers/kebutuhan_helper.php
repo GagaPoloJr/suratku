@@ -118,8 +118,48 @@ if (!function_exists('agama')) {
     }
 }
 
+if (!function_exists('rw')) {
+    function nama_rw($rw)
+    {
+        switch ($rw) {
+            case 1:
+                $rw = "RW 01";
+                break;
+            case 2:
+                $rw = "RW 02";
+                break;
+            case 3:
+                $rw = "RW 03";
+                break;
+            case 4:
+                $rw = "RW 04";
+                break;
+            case 5:
+                $rw = "RW 05";
+                break;
+            case 6:
+                $rw = "RW 06";
+                break;
+            case 7:
+                $rw = "RW 07";
+                break;
+            case 8:
+                $rw = "RW 08";
+                break;
+            case 9:
+                $rw = "RW 09";
+                break;
+            case 10:
+                $rw = "RW 10";
+                break;
 
-
+            default:
+                $rw = "tidak ada";
+                break;
+        }
+        return $rw;
+    }
+}
 
 
 
@@ -149,14 +189,33 @@ function sf_upload($nama_gambar, $lokasi_gambar, $tipe_gambar, $ukuran_gambar, $
         $config['width'] = 800;
         $config['height'] = 800;
         $config['new_image'] = './upload/data/' . $dfile;
-       $CI->load->library('image_lib', $config);
-       $CI->image_lib->resize();
+        $CI->load->library('image_lib', $config);
+        $CI->image_lib->resize();
         return $dfile;
     }
-    return "default.jpg";
+    return "default.png";
 }
 
 
 
 
 
+if (!function_exists('format_indo')) {
+    function format_indo($date)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        // array hari dan bulan
+        $Hari = array("Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu");
+        $Bulan = array("Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+
+        // pemisahan tahun, bulan, hari, dan waktu
+        $tahun = substr($date, 0, 4);
+        $bulan = substr($date, 5, 2);
+        $tgl = substr($date, 8, 2);
+        $waktu = substr($date, 11, 5);
+        $hari = date("w", strtotime($date));
+        $result = $Hari[$hari] . ", " . $tgl . " " . $Bulan[(int)$bulan - 1] . " " . $tahun . " " . $waktu;
+
+        return $result;
+    }
+}

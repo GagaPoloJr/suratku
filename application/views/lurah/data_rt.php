@@ -91,6 +91,8 @@
                                                             <td><?php echo $s->username; ?></td>
                                                             <td><?php echo $s->password; ?></td>
                                                             <td>
+                                                            <a href="#" class="badge badge-primary" data-toggle="modal" data-target="#lihat">Lihat</a>
+
                                                             <a class="badge badge-success">Edit</a>
                                                     <a class="badge badge-danger" href="#!">Delete</a>
                                                             </td>
@@ -121,11 +123,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal fade" id="tambahbaru" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal fade" id="lihat" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLongTitle">Tambah Data Baru</h5>
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Detail data <?php echo $rt['nama_pjg']; ?></h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>

@@ -34,14 +34,14 @@
         <!-- /.content-header -->
 
         <!-- Main content -->
-        <section class="content">
+        <section class="content ">
             <div class="container-fluid">
                 <!-- Main row -->
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                             <h2>List Data Masuk</h2>
+                             <h2>List Data Pegawai Kelurahan Labuhbaru Barat</h2>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -62,92 +62,62 @@
                                         <?php echo $this->session->flashdata('form_error'); ?>
                                     </div>
                                 <?php endif; ?>
-                                <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                <div  id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <table style="width: 100%;" id="example1" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+                                            <table  width="100%" id="example1" class="table table-bordered table-hover dataTable table-striped" role="grid" aria-describedby="example2_info">
                                                 <thead>
                                                     <tr>
                                                         <th>No</th>
-                                                        <th>Id</th>
                                                         <th>Nama Lengkap</th>
-                                                        <th>RT/RW</th>
-                                                        <th>Kebutuhan</th>
-                                                        <th>Tgl Data Masuk</th>
-                                                        <th>Tgl Data Dikonfirmasi</th>
-                                                        <th>Keterangan</th>                                                     
+                                                        <th>Jabatan</th>
+                                                      
+                                                        <th>username</th>
+                                                        <th>password</th>
                                                         <th>Aksi</th>
+                                                    
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <?php $i = 1;
-                                                    foreach ($warga as $s => $key) {  ?>
+                                                    foreach ($rt as $s) {  ?>
                                                         <tr>
                                                             <td><?php echo $i ?></td>
-                                                            <td><?php echo $key->id_warga; ?></td>
-                                                            <td><?php echo $key->warga; ?></td>
-                                                            <td><?php echo $key->nama; echo"/"; echo $rt[$s]->RW; ?></td>
-                                                            <td><?php $this->load->helper('kebutuhan_helper');
-                                                           
-                                                           if( $key->kebutuhan =="5"){
-                                                               echo keb($key->kebutuhan); echo($key->warga);
-                                                           }
-                                                           else{
-                                                               echo keb($key->kebutuhan);
-                                                               } ?></td>
-                                                            <td><?php
-                                                            if( $key->tgl_masuk == null){
-                                                                echo "Tanggal belum ada";
-                                                            }
-                                                            else{
-                                                                echo format_indo( $key->tgl_masuk); 
-                                                            } ?>
-                                                 
-                                                        </td>
-                                                            <td><?php
-                                                            if( $key->tgl_proses == null){
-                                                                echo "Tanggal belum ada";
-                                                            }
-                                                            else{
-                                                                echo format_indo( $key->tgl_proses); 
-                                                            } ?></td>
-                                                            <td ><?php
-                                                            if( $key->verifikasi == 0){
-                                                                echo "<div class='badge badge-danger' >belum diverifikasi </div>";
-                                                            }
-                                                            if( $key->verifikasi == 1){
-                                                                echo "<div class='badge badge-success' >data berhasil diverifikasi  </div>";
-                                                            }
-                                                             ?></td>
+                                                            <td><?php echo $s->nama_pjg; ?></td>
+                                                            <td><?php echo $s->jabatan; ?></td>
+                                                            <td><?php echo $s->username; ?></td>
+                                                            <td><?php echo $s->password; ?></td>
                                                             <td>
-                                                                <?php  if( $key->verifikasi == 1){ ?>
-                                                             <a data-toggle="tooltip"  data-placement="top" title="konfirmasi" href="<?php echo site_url('admin/konfirmasi_lurah/' . $key->id_data) ?>" class="btn btn-xs btn-block btn-info disabled"><i class="fas fa-check"></i></a>
-                                                              <a data-toggle="tooltip" data-placement="top" title="Lihat data" href="<?php echo site_url('admin/detail_data/' . $key->id_warga) ?>" class="btn btn-xs btn-block btn-primary"><i class="fas fa-eye"></i></a>
-                                                               <a data-toggle="tooltip" data-placement="top" title="print data" href="<?php echo site_url('admin/export_data_verifikasi/' . $key->id_warga) ?>" class="btn btn-xs btn-block btn-primary"><i class="fas fa-print"></i></a>
-                                                                
-                                                          <?php  } ?>
-                                                          <?php  if( $key->verifikasi == 0){ ?>
-                                                                <a data-toggle="tooltip" data-placement="top" title="konfirmasi" href="<?php echo site_url('admin/konfirmasi_lurah/' . $key->id_data) ?>" class="btn btn-xs btn-block btn-info"><i class="fas fa-check"></i></a>
-                                                                <a data-toggle="tooltip" data-placement="top" title="Lihat data" href="<?php echo site_url('admin/detail_data/' . $key->id_warga) ?>" class="btn btn-xs btn-block btn-primary"><i class="fas fa-eye"></i></a>
-                                                                <!-- <a data-toggle="tooltip" data-placement="top" title="hapus" onclick="deleteConfirm('<?php echo site_url('admin/hapus_data/' . $s->id) ?>')" href="#!" class="btn btn-xs btn-block btn-danger"><i class="fas fa-trash"></i></a> -->
-                                                                <!-- <a data-toggle="tooltip" data-placement="top" title="print" href="<?php echo base_url() . 'admin/export_data_warga/' . $s->id ?>" class="btn btn-xs btn-block btn-primary"><i class="fas fa-print"></i> </a> -->
-                                                                <?php  } ?>
+                                                            <?php if($this->session->userdata('id')=='2'): ?>
+                                                                <a class="badge badge-success">Edit</a>
+
+                                                            <?php else: ?>
+
+                                                            <?php endif ?>
+
+                                                            <?php if($s->jabatan == 'Lurah'): ?>
+
+                                                            <?php else: ?>
+                                                            <a class="badge badge-danger" href="#!">Delete</a>
                                                             </td>
+                                                            <?php endif ?>
+
+
+                                                          
+
                                                         </tr>
                                                         <?php $i++; ?>
+
                                                     <?php } ?>
                                                 </tbody>
                                                 <tfoot>
                                                     <tr>
                                                     <th>No</th>
-                                                        <th>Id</th>
                                                         <th>Nama Lengkap</th>
-                                                        <th>RT/RW</th>
-                                                        <th>Kebutuhan</th>
-                                                        <th>Tgl Data Masuk</th>
-                                                        <th>Tgl Data Dikonfirmasi</th>   
-                                                        <th>Keterangan</th>                                                     
+                                                        <th>username</th>
+                                                        <th>password</th>
                                                         <th>Aksi</th>
+
                                                     </tr>
                                                 </tfoot>
                                             </table>
@@ -155,6 +125,7 @@
                                     </div>
                                 </div>
                             </div>
+                         
                             <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">

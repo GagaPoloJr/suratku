@@ -9,7 +9,7 @@ class Article extends MY_Controller
         $this->load->view('article/index');
     }
 
-
+    // untuk menampilkan data artikel
     public function post()
     {
         if ($this->session->userdata('level') == "2") {
@@ -26,7 +26,7 @@ class Article extends MY_Controller
             redirect(base_url() . 'admin');
         }
     }
-
+    // untuk menambah data artikel baru
     public function addNewPost()
     {
         if ($this->session->userdata('level') == "2") {
@@ -55,9 +55,7 @@ class Article extends MY_Controller
                     $config['width'] = '900';
                     $config['height'] = '650';
                     $config['upload_path'] = './upload/article/';
-
                     $this->load->library('upload', $config);
-
                     if (!$this->upload->do_upload('image')) {
                         echo $this->upload->display_errors();
                         die();
@@ -72,10 +70,8 @@ class Article extends MY_Controller
                             'image' => $this->upload->data('file_name'),
                             'date_post' => date('Y-m-d H:i:s')
                         ];
-
                         $this->db->insert('post', $data);
-
-                        // $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New Post Added!</div>');
+                        $this->session->set_flashdata('success', 'Post Berhasil Ditambahkan!');
                         redirect('article/post');
                     }
                 }
@@ -84,86 +80,18 @@ class Article extends MY_Controller
             redirect(base_url() . 'admin');
         }
     }
-
-    public function addPost()
-    {
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-
-        $data['post'] = $this->db->get('post')->result_array();
-        $data['kategori'] = $this->db->get('kategori')->result_array();
-
-        $data['title'] = 'Add Post';
-
-        $this->form_validation->set_rules('title', 'Title', 'required');
-        $this->form_validation->set_rules('body', 'Body', 'required');
-
-
-        if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('templates/topbar', $data);
-            $this->load->view('article/add-post', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $id_user = $this->input->post('id_user');
-            $id_kategori = $this->input->post('id_kategori');
-            $slug_post = url_title($this->input->post('title'), 'dash', TRUE);
-            $title = $this->input->post('title');
-            $body = $this->input->post('body');
-            $upload_image = $_FILES['image'];
-            $status = $this->input->post('status');
-
-            if ($upload_image) {
-                $config['allowed_types'] = 'gif|jpg|png';
-                $config['max_size'] = '2048';
-                $config['upload_path'] = './assets/article/img/post/';
-
-                $this->load->library('upload', $config);
-
-                if (!$this->upload->do_upload('image')) {
-                    echo $this->upload->display_errors();
-                    die();
-                } else {
-                    $data = [
-                        'id_user' => $this->input->post('id_user'),
-                        'id_kategori' => $this->input->post('id_kategori'),
-                        'slug_post' => url_title($this->input->post('title'), 'dash', TRUE),
-                        'title' => $this->input->post('title'),
-                        'body' => $this->input->post('body'),
-                        'status' => $this->input->post('status'),
-                        'image' => $this->upload->data('file_name'),
-                        'date_post' => date('Y-m-d H:i:s')
-                    ];
-
-                    $this->db->insert('post', $data);
-
-                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New Post Added!</div>');
-                    redirect('article/post');
-                }
-            }
-        }
-    }
-
-
+    // untuk mengubah data artikel
     public function editPost($id_post)
     {
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-
+        $data['user'] = $this->db->get_where('user', ['level' => $this->session->userdata('level')])->row_array();
         $data['post'] = $this->db->get_where('post', ['id_post' => $id_post])->row_array();
         $data['kategori'] = $this->db->get('kategori')->result_array();
-
         $data['title'] = 'Edit Post';
-
         $this->form_validation->set_rules('title', 'Title', 'required');
         $this->form_validation->set_rules('body', 'Body', 'required');
-
-
         if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('templates/topbar', $data);
-            $this->load->view('article/edit-post', $data);
-            $this->load->view('templates/footer');
+
+            $this->load->view('article/editPost', $data);
         } else {
             $id_post = $this->input->post('id_post');
             $id_user = $this->input->post('id_user');
@@ -177,8 +105,7 @@ class Article extends MY_Controller
             if ($upload_image) {
                 $config['allowed_types'] = 'gif|jpg|png';
                 $config['max_size'] = '2048';
-                $config['upload_path'] = './assets/article/img/post/';
-
+                $config['upload_path'] = './upload/article/';
                 $this->load->library('upload', $config);
 
                 if (!$this->upload->do_upload('image')) {
@@ -188,9 +115,8 @@ class Article extends MY_Controller
                     $upload_image = $this->upload->data('file_name');
 
                     if ($data['post']['image'] != "") {
-                        unlink('./assets/article/img/post/' . $data['post']['image']);
+                        unlink('./upload/article/' . $data['post']['image']);
                     }
-
                     $data = [
                         'id_post' => $this->input->post('id_post'),
                         'id_user' => $this->input->post('id_user'),
@@ -202,14 +128,12 @@ class Article extends MY_Controller
                         'image' => $upload_image,
                         'date_post' => date('Y-m-d H:i:s')
                     ];
-
                     $this->db->where('id_post', $id_post);
                     $this->db->update('post', $data);
-                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Post has been updated!</div>');
+                    $this->session->set_flashdata('success', 'Data Berhasil Diupdate!');
                     redirect('article/post');
                 }
             }
-
             $data = [
                 'id_post' => $this->input->post('id_post'),
                 'id_user' => $this->input->post('id_user'),
@@ -220,31 +144,27 @@ class Article extends MY_Controller
                 'status' => $this->input->post('status'),
                 'date_post' => date('Y-m-d H:i:s')
             ];
-
             $this->db->where('id_post', $id_post);
             $this->db->update('post', $data);
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Post has been updated!</div>');
+            $this->session->set_flashdata('success', 'Data Berhasil Diupdate!');
+
             redirect('article/post');
         }
     }
-
+    // untuk menghapus postingan artikel
     public function deletePost($id_post)
     {
         $post = $this->db->get_where('post', ['id_post' => $id_post])->row_array();
 
         if ($post['image'] != "") {
-            unlink('./assets/article/img/post/' . $post['image']);
+            unlink('./upload/article/' . $post['image']);
         }
-
         $this->db->where('id_post', $id_post);
         $this->db->delete('post');
-
-        $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Postingan berhasil dihapus!
-        <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true" class="fa fa-times"></span></button></div>');
         redirect('article/post');
     }
 
-
+    // untuk membuat kategori
     public function kategori()
     {
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();

@@ -112,12 +112,14 @@
                                                                                             } ?>" required class="form-control" disabled="">
                                         </div>
 
-                                        <div class="form-group">
-                                            <h5>Gambar KTP</h5>
+                                    <?php } ?>
+                                    <?php foreach ($gambar as  $d) { ?>
+                                    <div class="form-group">
+                                            <h5>Gambar Pendukung</h5>
                                             <?php
-                                            $show = base_url() . 'upload/data/' . $d->gambar_ktp;
+                                            $show = base_url() . 'upload/data/' . $d->gambar;
                                             $image_properties = array(
-                                                'src' => base_url() . 'upload/data/' . $d->gambar_ktp,
+                                                'src' => base_url() . 'upload/data/' .  $d->gambar,
                                                 'alt' => 'gambar_ktp',
                                                 'class' => 'post_images',
                                                 'width' => '100',
@@ -125,23 +127,8 @@
                                             ); ?>
                                             <a data-darkbox data-toggle="lightbox" class="imggallery" href="<?php echo $show; ?>"><?php echo img($image_properties); ?></a>
                                         </div>
-
-                                        <div class="form-group">
-                                            <h5>Gambar KK</h5>
-                                            <?php
-                                            $show = base_url() . 'upload/data/' . $d->gambar_kk;
-                                            print_r($show);
-                                            $image_properties = array(
-                                                'src' => base_url() . 'upload/data/' . $d->gambar_kk,
-                                                'alt' => 'gambar_kk',
-                                                'class' => 'post_images',
-                                                'width' => '100',
-                                                'rel' => 'lightbox'
-                                            ); ?>
-                                            <a data-darkbox data-toggle="lightbox" class="imggallery" href="<?php echo $show; ?>"><?php echo img($image_properties); ?></a>
-                                        </div>
-                                    <?php } ?>
                                     <!-- /.card-body -->
+                                    <?php } ?>
                                 </div>
                             </div>
                             <div class="modal fade" id="tambahbaru" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -298,7 +285,9 @@
 
         $(document).on("click", '[data-toggle="lightbox"]', function(e) {
             e.preventDefault();
-            $(this).ekkoLightbox();
+            $(this).ekkoLightbox({
+                alwaysShowClose: true
+            });
         });
     </script>
 

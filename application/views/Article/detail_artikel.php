@@ -18,6 +18,12 @@
     <link href="<?php echo base_url() . 'assets/css/styles.css' ?>" rel="stylesheet" />
     <link href="<?php echo base_url() . 'assets/css/detail.css' ?>" rel="stylesheet" />
 
+    <style>
+        #gambar_berita{
+            text-align: center;
+        }
+    </style>
+
     <title>Detail Berita | Sistem Informasi Manajemen Pelayanan</title>
 </head>
 
@@ -28,7 +34,7 @@
             <div class="col-md-10 mb-5">
                 <h1 class="text-center"><?= $post['title']; ?></h1>
                 <h6 class="text-muted text-center">Ditulis oleh admin, dipublikasikan pada <?= $post['date']; ?>. Kategori <?= $post['name_kategori']; ?></h6>
-                <img id="gambar_berita" src="<?= base_url('upload/article/' . $post['image']); ?>" class="img-fluid" alt="">
+                <img id="gambar_berita" src="<?= base_url('upload/article/' . $post['image']); ?>" class="img-fluid " alt="">
                 <p> <i> <?= $post['title']; ?></i></p>
                 
                 <p><?= $post['body']; ?></p>
@@ -37,6 +43,12 @@
     </div>
 
    <?php $this->load->view('template/footer_utama') ?>
+
+      <script>
+            $(document).ready(function() {
+                bsCustomFileInput.init();
+            });
+        </script>
 </body>
 
 </html>

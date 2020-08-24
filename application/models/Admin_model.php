@@ -39,6 +39,9 @@ class Admin_model extends CI_Model
     public function save()
     {
         $post = $this->input->post();
+        $this->nama_pjg = $post["nama_pjg"];
+        $this->nama = $post["nama_rt"];
+        $this->id_rw = $post["rw"];
         $this->username = $post["username"];
         $this->password = $post["password"];
         $this->level = $post["level"];

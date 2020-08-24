@@ -5,9 +5,9 @@
     <?php $this->load->view('template/head.php'); ?>
     <style>
         a.disabled {
-  pointer-events: none;
-  cursor: default;
-}
+            pointer-events: none;
+            cursor: default;
+        }
     </style>
 </head>
 
@@ -22,16 +22,16 @@
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
-                <?php foreach ($rw as $nama) { ?>
+                    <?php foreach ($rw as $nama) { ?>
                         <div class="col-sm-6">
                             <h1 class="m-0 text-dark"> <?php echo $this->session->userdata('nama');
-                                                                    echo "/";
-                                                                    echo $nama->RW;
-                                                                    echo " - ";
-                                                                    echo $this->session->userdata('nama_lengkap')  ?></h1>
+                                                        echo "/";
+                                                        echo $nama->RW;
+                                                        echo " - ";
+                                                        echo $this->session->userdata('nama_lengkap')  ?></h1>
                         </div><!-- /.col -->
                     <?php } ?>
-        
+
                     <div class="col-sm-6">
                         <?php $this->load->view('template/breadcrumb.php'); ?>
                     </div><!-- /.col -->
@@ -48,11 +48,11 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                             <h2>Berita Kelurahan Labuhbaru Barat</h2>
-                             <br>   
-                             <?php if  ( $this->session->userdata('level') == "2") { ?>
-                             <a href="#" class="btn btn-success" data-toggle="modal" data-target="#tambahbaru"><i class="fas fa-plus fa-fw"></i>&nbsp;Tambah Data Baru</a>
-                             <?php } ?>
+                                <h2>Berita Kelurahan Labuhbaru Barat</h2>
+                                <br>
+                                <?php if ($this->session->userdata('level') == "2") { ?>
+                                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#tambahbaru"><i class="fas fa-plus fa-fw"></i>&nbsp;Tambah Data Baru</a>
+                                <?php } ?>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -76,7 +76,7 @@
                                 <div style="width: 100%;" id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <table  width="100%" id="example1" class="table table-bordered table-hover dataTable table-striped" role="grid" aria-describedby="example2_info">
+                                            <table width="100%" id="example1" class="table table-bordered table-hover dataTable table-striped" role="grid" aria-describedby="example2_info">
                                                 <thead>
                                                     <tr>
                                                         <th>No</th>
@@ -84,7 +84,7 @@
                                                         <th>Tanggal Acara</th>
                                                         <th>Isi</th>
                                                         <th>File Berita</th>
-                            
+
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -93,15 +93,15 @@
                                                         <tr>
                                                             <td><?php echo $i ?></td>
                                                             <td><?php echo $berita->judul; ?></td>
-                                                            <td><?php echo $berita->tanggal_berita; ?></td>
+                                                            <td><?php echo format_indo($berita->tanggal_berita) ; ?></td>
                                                             <td><?php echo $berita->isi_berita; ?></td>
                                                             <td>
-                                                                <?php if ($berita->upload_berita == NULL) { 
-                                                                    echo "tidak ada file pendukung"; }
-                                                                    else { ?>
-                                                            <a class="btn btn-info" href="<?php echo base_url(). 'admin/download_berita/' .$berita->upload_berita; ?>">download file</a>
-                                                                    <?php } ?>
-                                                        </td>
+                                                                <?php if ($berita->upload_berita == NULL) {
+                                                                    echo "tidak ada file pendukung";
+                                                                } else { ?>
+                                                                    <a class="btn btn-info" href="<?php echo base_url() . 'admin/download_berita/' . $berita->upload_berita; ?>">download file</a>
+                                                                <?php } ?>
+                                                            </td>
                                                         </tr>
                                                         <?php $i++; ?>
 
@@ -109,7 +109,7 @@
                                                 </tbody>
                                                 <tfoot>
                                                     <tr>
-                                                    <th>No</th>
+                                                        <th>No</th>
                                                         <th>Judul</th>
                                                         <th>Tanggal Acara</th>
                                                         <th>Isi</th>
@@ -132,6 +132,8 @@
                                         </div>
                                         <div class="modal-body">
                                             <form id="myForm" action="<?php echo site_url('admin/berita') ?>" method="post" enctype="multipart/form-data">
+                                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+
                                                 <div class="form-group">
                                                     <label for="judul">Judul Berita</label>
                                                     <input class="form-control <?php echo form_error('judul') ? 'is-invalid' : '' ?>" type="text" name="judul" placeholder="Masukkan Judul Berita" />
@@ -141,7 +143,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="isi">Isi</label>
-                                                        <textarea class="form-control" <?php echo form_error('isi') ? 'is-invalid' : '' ?>" placeholder="Masukkan isi" name="isi"></textarea>
+                                                    <textarea class="form-control" <?php echo form_error('isi') ? 'is-invalid' : '' ?>" placeholder="Masukkan isi" name="isi"></textarea>
                                                     <div class="invalid-feedback">
                                                         <?php echo form_error('isi') ?>
                                                     </div>
@@ -153,7 +155,7 @@
                                                         <?php echo form_error('tanggal') ?>
                                                     </div>
                                                 </div>
-                                                <div  class="form-group">
+                                                <div class="form-group">
                                                     <label for="exampleInputFile">Upload File Berita Acara* <span><small>jika ada</small></span></label>
                                                     <div class="custom-file">
                                                         <input name="upload_berita" type="file" class="custom-file-input <?php echo form_error('upload_berita') ? 'is-invalid' : '' ?>" id="exampleInputFile"></input>

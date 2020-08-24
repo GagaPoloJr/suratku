@@ -49,6 +49,8 @@
                             <div class="card-body">
                                 <div class="card-body">
                                     <form action="" enctype="multipart/form-data" method="POST">
+                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label" for="title">Judul Album : </label>
                                             <input name="Title" id="Title" class="form-control col-sm-8" type="text" placeholder="Masukkan Judul Album">

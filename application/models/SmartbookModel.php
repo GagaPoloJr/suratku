@@ -1,30 +1,20 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
+
+// ini merupakan model untuk keberlangsungan admin
+
+
 class SmartbookModel extends CI_Model
 {
     private $_table1 = "data_warga";
     private $_table2 = "berita";
     private $_table3 = "user";
+    private $_table4 = "data_gambar";
 
 
 
 
-    // public $id;
-    // public $kode;
-    // public $nama;
-    // public $uraian;
-    // public $tanggal;
-    // public $sk;
-    // public $jenis;
-    // public $kota;
-    // public $jumlah;
-    // public $petugas;
-    // public $datask;
-    // public $datadukung;
-    // public $jenisdok;
-    // public $keadaan;
-    // public $dus;
-    // public $urut;
+
 
     public function rules()
     {
@@ -32,6 +22,12 @@ class SmartbookModel extends CI_Model
             [
                 'field' => 'nama',
                 'label' => 'nama',
+                'rules' => 'required',
+                'errors' => array('required' => '%s Belum Diisi')
+            ],
+            [
+                'field' => 'no_kk',
+                'label' => 'no_kk',
                 'rules' => 'required',
                 'errors' => array('required' => '%s Belum Diisi')
             ],
@@ -78,17 +74,18 @@ class SmartbookModel extends CI_Model
                 'errors' => array('required' => '%s Belum Diisi')
             ],
             [
-                'field' => 'pekerjaan',
-                'label' => 'pekerjaan',
-                'rules' => 'required',
-                'errors' => array('required' => '%s Belum Diisi')
-            ],
-            [
                 'field' => 'kebutuhan',
                 'label' => 'kebutuhan',
                 'rules' => 'required',
                 'errors' => array('required' => '%s Belum Diisi')
             ],
+            [
+                'field' => 'pekerjaan',
+                'label' => 'pekerjaan',
+                'rules' => 'required',
+                'errors' => array('required' => '%s Belum Diisi')
+            ],
+
         ];
     }
     public function rules1()
@@ -114,6 +111,18 @@ class SmartbookModel extends CI_Model
             ],
         ];
     }
+    public function rules2()
+    {
+        return [
+            [
+                'field' => 'password',
+                'label' => 'password',
+                'rules' => 'required',
+                'errors' => array('required' => '%s Belum Diisi')
+            ]
+           
+        ];
+    }
 
     public function getAll()
     {
@@ -123,6 +132,14 @@ class SmartbookModel extends CI_Model
     public function getById($id)
     {
         return $this->db->get_where($this->_table1, ["id_warga" => $id])->row();
+    }
+    public function getByIdGambarWarga($id)
+    {
+        return $this->db->get_where($this->_table4, ["id_warga" => $id])->row();
+    }
+    public function getByIdGambar($id)
+    {
+        return $this->db->get_where($this->_table4, ["id_gambar" => $id])->row();
     }
     public function getByIdUser($id)
     {
@@ -171,17 +188,35 @@ class SmartbookModel extends CI_Model
         $this->db->insert_batch($table, $data);
     }
 
+    function id_warga()
+    {
+        $q = $this->db->query("SELECT MAX(RIGHT(id_warga,4)) AS kd_max FROM data_warga WHERE DATE(tanggal)=CURDATE()");
+        $kd = "";
+        if ($q->num_rows() > 0) {
+            foreach ($q->result() as $k) {
+                $tmp = ((int)$k->kd_max) + 1;
+                $kd = sprintf("%04s", $tmp);
+            }
+        } else {
+            $kd = "0001";
+        }
+        date_default_timezone_set('Asia/Jakarta');
+        return date('dmy') . "LBB" . $kd;
+    }
+
+
+
+
     public function save()
     {
         $this->load->helper('kebutuhan_helper');
-        $lokasi = 'upload/data';
-        $tipe_file = 'jpeg|jpg|png';
+
 
         $post = $this->input->post();
+        $this->id_warga =  $post["id"];
         $this->nama = $post["nama"];
         $this->nik = $post["nik"];
         $this->no_kk = $post["no_kk"];
-
         $this->alamat = $post["alamat"];
         $this->j_kelamin = $post["jenis"];
         $this->tempat = $post["lahir"];
@@ -192,20 +227,66 @@ class SmartbookModel extends CI_Model
         $this->kebutuhan = $post["kebutuhan"];
         $this->keterangan = "0";
         $this->id_user = $this->session->userdata('id');
+
         // $this->gambar_ktp = $this->_uploadKTP();
         // $this->gambar_kk = $this->_uploadKK();
-        $this->gambar_ktp = sf_upload('ktp', 'upload/data/', 'jpeg|jpg|png', 1000000, 'ktp1');
         // $this->gambar_1= sf_upload('ktp', 'upload/data/', 'jpeg|jpg|png', 1000000, 'ktp2');
         // $this->gambar_2 = sf_upload('ktp', 'upload/data/', 'jpeg|jpg|png', 1000000, 'ktp3');
         // $this->gambar_3 = sf_upload('ktp', 'upload/data/', 'jpeg|jpg|png', 1000000, 'ktp4');
 
-
-       
-
-
-
-        return $this->db->insert($this->_table1, $this);
+        $this->db->insert($this->_table1, $this);
+        $this->gambar_upload();
     }
+
+    function gambar_upload()
+    {
+        $kode = $this->input->post('id');
+
+        $nmfile = $kode . "_gambar";
+        $config['file_name']             = $nmfile;
+        $config['upload_path']          = './upload/data/';
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['max_size']             = 2048;
+        // $config['encrypt_name']         = true;
+        $this->load->library('upload', $config);
+
+        $jumlah_berkas = count($_FILES['ktp']['name']);
+        for ($i = 0; $i < $jumlah_berkas; $i++) {
+            if (!empty($_FILES['ktp']['name'][$i])) {
+
+                $_FILES['file']['name'] = $_FILES['ktp']['name'][$i];
+                $_FILES['file']['type'] = $_FILES['ktp']['type'][$i];
+                $_FILES['file']['tmp_name'] = $_FILES['ktp']['tmp_name'][$i];
+                $_FILES['file']['error'] = $_FILES['ktp']['error'][$i];
+                $_FILES['file']['size'] = $_FILES['ktp']['size'][$i];
+
+                if ($this->upload->do_upload('file')) {
+
+                    $uploadData = $this->upload->data();
+                    $this->load->library('image_lib');
+                    $this->image_lib->initialize(array(
+                        'image_library' => 'gd2', //library yang kita gunakan
+                        'source_image' => './upload/data/' . $uploadData['file_name'],
+                        'maintain_ratio' => TRUE,
+                        'quality' => '60%',
+                        'width' => 800,
+                        'height' => 800,
+                        'new_iamge' => './upload/data/' . $uploadData['file_name']
+                    ));
+                    $this->image_lib->resize();
+
+
+                    $data['gambar_pendukung'] = $uploadData['file_name'];
+                    $data['id_warga'] = $kode;
+                    $this->db->insert('data_gambar', $data);
+                } else {
+                    $data['error_msg'] = $this->upload->display_errors();
+                }
+            }
+        }
+    }
+
+
 
 
     public function _uploadKTP()
@@ -228,40 +309,23 @@ class SmartbookModel extends CI_Model
             return $this->upload->data("file_name");
         }
     }
-    public function _uploadKK()
-    {
-        $config['upload_path']          = './upload/data/';
-        $config['allowed_types']        = 'jpg|jpeg|png';
-        // $config['overwrite']            = true;
-        $config['file_name']            = "kk";
-        $config['encrypt_name']            = true;
-        $config['max_size']             = 1024; // 1MB
-        // $field_name = "kk";
 
-        $this->load->library('upload', $config);
-
-        if (!$this->upload->do_upload('kk')) {
-            $error = array('error' => $this->upload->display_errors());
-            $this->session->set_flashdata('error', $error['error']);
-            redirect('admin/warga', 'refresh');
-        } else {
-            return $this->upload->data('file_name');
-        }
-    }
 
     public function _deleteImage($id)
     {
-        $foto = $this->getById($id);
-        if ($foto->gambar_ktp != NULL) {
-            $filename = explode(".", $foto->gambar_ktp)[0];
+        $foto = $this->getByIdGambarWarga($id);
+        if ($foto->gambar_pendukung != NULL) {
+            $filename = explode(".", $foto->gambar_pendukung)[0];
             return array_map('unlink', glob(FCPATH . "upload/data/$filename.*"));
         }
     }
 
+
+
     public function delete($id)
     {
         $this->_deleteImage($id);
-
+        $this->db->delete($this->_table4, array("id_warga" => $id));
         return $this->db->delete($this->_table1, array("id_warga" => $id));
     }
 
@@ -301,6 +365,19 @@ class SmartbookModel extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+
+    function get_data_pegawai()
+    {
+
+        $this->db->select('*, nama AS jabatan');
+        $this->db->from('user');
+
+        $where = "level= 2 ";
+        $this->db->where($where);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     function get_data_rt_lurah()
     {
 
@@ -330,24 +407,36 @@ class SmartbookModel extends CI_Model
         $this->agama = $post["agama"];
         $this->pekerjaan = $post["pekerjaan"];
         $this->kebutuhan = $post["kebutuhan"];
-        // if (!empty($_FILES["datask"]["name"])) {
-        //     $this->datask = $this->_uploaddatask();
-        // } else {
-        //     $this->datask = $post["old_datask"];
-        // }
-        // if (!empty($_FILES["datadukung"]["name"])) {
-        //     $this->datadukung = $this->_uploaddatadukung();
-        // } else {
-        //     $this->datadukung = $post["old_datadukung"];
-        // }
         return $this->db->update($this->_table1, $this, array('id_warga' => $post['id']));
+
+    
     }
+
+    public function _deleteGambar($id)
+    {
+        $foto = $this->getByIdGambar($id);
+        if ($foto->gambar_pendukung != NULL) {
+            $filename = explode(".", $foto->gambar_pendukung)[0];
+            return array_map('unlink', glob(FCPATH . "upload/data/$filename.*"));
+        }
+    }
+
+    public function delete_gambar($id)
+    {
+        $this->_deleteGambar($id);
+        return $this->db->delete($this->_table4, array("id_gambar" => $id));
+    }
+
+    
+   
+
 
     public function update_profil()
     {
         $post = $this->input->post();
         $this->id = $post["id"];
         $this->username = $post["username"];
+        $this->nama_pjg = $post["nama"];
         $this->password = $post["password"];
         return $this->db->update($this->_table3, $this, array('id' => $post['id']));
     }
@@ -379,7 +468,7 @@ class SmartbookModel extends CI_Model
         $this->load->library('upload', $config);
 
         if (!$this->upload->do_upload($field_name)) {
-            echo"tidak ada file pendukung";
+            echo "tidak ada file pendukung";
             // $error = array('error' => $this->upload->display_errors());
             // $this->session->set_flashdata('error', $error['error']);
             // redirect('admin/save_berita', 'refresh');
@@ -405,7 +494,7 @@ class SmartbookModel extends CI_Model
         $this->jumlah = $post["jumlah"];
         $this->petugas = $post["petugas"];
         if (!empty($_FILES["datask"]["name"])) {
-            $this->datask = $this->_uploaddatask();
+            // $this->datask = $this->_uploaddatask();
         } else {
             $this->datask = $post["old_datask"];
         }
@@ -422,24 +511,7 @@ class SmartbookModel extends CI_Model
     }
 
 
-    public function _uploaddatask()
-    {
-        $config['upload_path']          = './upload/data/';
-        $config['allowed_types']        = 'pdf|doc|docx|xls|xlsx';
-        $config['overwrite']            = true;
-        $config['max_size']             = 1024; // 1MB
-        $field_name = "datask";
-
-        $this->load->library('upload', $config);
-
-        if (!$this->upload->do_upload($field_name)) {
-            $error = array('error' => $this->upload->display_errors());
-            $this->session->set_flashdata('error', $error['error']);
-            redirect('admin/uploadScan/' . $this->id, 'refresh');
-        } else {
-            return $this->upload->data("file_name");
-        }
-    }
+  
 
     public function _uploaddatadukung()
     {

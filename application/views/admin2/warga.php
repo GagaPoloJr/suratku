@@ -4,6 +4,7 @@
 <head>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel="stylesheet" crossorigin="anonymous">
     <?php $this->load->view('template/head.php'); ?>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
     <style>
         a.disabled {
@@ -79,7 +80,7 @@
                                 <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <table id="example1"  width="100%" class="table table-bordered table-hover dataTable table-striped" role="grid" aria-describedby="example2_info">
+                                            <table id="example1" width="100%" class="table table-bordered table-hover dataTable table-striped" role="grid" aria-describedby="example2_info">
                                                 <thead>
                                                     <tr>
                                                         <th>No</th>
@@ -88,8 +89,7 @@
                                                         <th>No KK</th>
                                                         <th>NIK / No KTP</th>
                                                         <th>Kebutuhan</th>
-                                                        <th>Gambar KTP</th>
-                                                        <th>Gambar KK</th>
+                                                  
 
                                                         <th>Keterangan</th>
                                                         <th>Download Surat Pengantar</th>
@@ -113,26 +113,7 @@
                                                                 } else {
                                                                     echo keb($s->kebutuhan);
                                                                 } ?></td>
-                                                            <td><?php
-                                                                if ($s->gambar_ktp == null) {
-                                                                    echo "KTP belum di upload";
-                                                                } else {
-
-                                                                    $show = base_url() . 'upload/data/' . $s->gambar_ktp;
-                                                                    $image_properties = array(
-                                                                        'src' => base_url() . 'upload/data/' . $s->gambar_ktp,
-                                                                        'alt' => 'gambar_ktp',
-                                                                        'class' => 'post_images',
-                                                                        'width' => '100',
-                                                                        'rel' => 'lightbox'
-                                                                    ); ?>
-
-
-                                                                    <a data-toggle="lightbox" class="imggallery" href="<?php echo $show; ?>"><?php echo img($image_properties); ?></a>
-                                                                <?php } ?>
-
-                                                            </td>
-                                                            <td><?php echo $s->gambar_kk ?></td>
+                                                          
 
                                                             <td><?php if ($s->keterangan == "0") {
                                                                     echo "<label class='badge badge-danger' >Belum Dikonfirmasi  </label>";
@@ -181,8 +162,7 @@
                                                         <th>No KK</th>
                                                         <th>NIK / No KTP</th>
                                                         <th>Kebutuhan</th>
-                                                        <th>Gambar KTP</th>
-                                                        <th>Gambar KK</th>
+                                                     
 
                                                         <th>Keterangan</th>
                                                         <th>Download Surat Pengantar</th>
@@ -208,6 +188,8 @@
                                                 <p style="color: red;">* Harus diisi</p>
                                             </div>
                                             <form id="myForm" action="<?php echo site_url('admin/warga') ?>" method="post" enctype="multipart/form-data">
+                                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+                                                <input name="id" type="text" value="<?php echo $kode; ?>" hidden>
                                                 <div class="form-group">
                                                     <label for="nama">Nama Lengkap*</label>
                                                     <input class="form-control <?php echo form_error('nama') ? 'is-invalid' : '' ?>" type="text" name="nama" placeholder="Masukkan Nama Lengkap" />
@@ -216,9 +198,11 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="kk">No KK</label>
-                                                    <input class="form-control " type="text" name="no_kk" placeholder="Masukkan No KK" />
-
+                                                    <label for="no_kk">No KK</label>
+                                                    <input class="form-control  <?php echo form_error('kk') ? 'is-invalid' : '' ?>" " type="text" name="no_kk" placeholder="Masukkan No KK" />
+                                                    <div class="invalid-feedback">
+                                                        <?php echo form_error('no_kk') ?>
+                                                    </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="nik">NIK / No KTP*</label>
@@ -236,7 +220,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="jenis">Jenis Kelamin*</label>
-                                                    <select name="jenis" class="form-control" id="jenis1">
+                                                    <select name="jenis" class="form-control  <?php echo form_error('alamat') ? 'is-invalid' : '' ?>" id="jenis1">
                                                         <option value="">--pilih jenis kelamin--</option>
                                                         <option value="1">Laki-Laki</option>
                                                         <option value="2">Perempuan</option>
@@ -254,14 +238,14 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="tgl">tanggal lahir*</label>
-                                                    <input class="form-control <?php echo form_error('sk') ? 'is-invalid' : '' ?>" type="date" name="tgl" placeholder="Masukkan tanggal lahir" />
+                                                    <input class="form-control <?php echo form_error('tgl') ? 'is-invalid' : '' ?>" type="date" name="tgl" placeholder="Masukkan tanggal lahir" />
                                                     <div class="invalid-feedback">
                                                         <?php echo form_error('tgl') ?>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="status">Status Perkawinan*</label>
-                                                    <select name="status" class="form-control" id="status">
+                                                    <select name="status" class="form-control  <?php echo form_error('status') ? 'is-invalid' : '' ?>" id="status">
                                                         <option value="">--pilih Status Perkawinan--</option>
                                                         <option value="1">Kawin</option>
                                                         <option value="2">belum kawin</option>
@@ -272,7 +256,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="agama">Agama*</label>
-                                                    <select name="agama" class="form-control" id="agama">
+                                                    <select name="agama" class="form-control  <?php echo form_error('agama') ? 'is-invalid' : '' ?>" id="agama">
                                                         <option value="">--pilih Agama--</option>
                                                         <option value="1">Islam</option>
                                                         <option value="2">Kristen</option>
@@ -295,7 +279,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="kebutuhan">Kebutuhan*</label>
-                                                    <select name="kebutuhan" class="form-control" id="kebutuhan" onchange="showDiv(this)">
+                                                    <select name="kebutuhan" class="form-control <?php echo form_error('kebutuhan') ? 'is-invalid' : '' ?>" id="kebutuhan">
                                                         <option>--pilih Kebutuhan Surat--</option>
                                                         <option value="1">Kartu Keluarga</option>
                                                         <option value="2">Kartu Tanda Penduduk (KTP)</option>
@@ -317,33 +301,19 @@
                                                         <?php echo form_error('lainnya') ?>
                                                     </div>
                                                 </div>
-                                            <?php for ($i = 1; $i <= 5; $i++){ ?>
-                                                <div  id="no_ktp" class="form-group">
-                                                    <label for="exampleInputFile">Upload Gambar Pendukung <?php echo $i?>*</label>
-                                                    <div class="custom-file">
-                                                        <input name="ktp<?php echo $i?>" type="file" class="custom-file-input <?php echo form_error('ktp') ? 'is-invalid' : '' ?>" id="exampleInputFile"></input>
-                                                        <label class="custom-file-label" for="exampleInputFile">Masukkan File Gambar Pendukung <?php echo $i?></label>
-                                                        <div class="invalid-feedback">
-                                                            <?php echo form_error('ktp') ?>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <?php } ?>
-                                                <!-- <div  id="no_kk" class="form-group">
-                                                    <label for="exampleInputFile">Upload Gambar KK*</label>
-                                                    <div class="custom-file">
-                                                        <input name="kk" type="file" class="custom-file-input <?php echo form_error('kk') ? 'is-invalid' : '' ?>" id="exampleInputFile"></input>
-                                                        <label class="custom-file-label" for="exampleInputFile">Masukkan File Gambar KK</label>
-                                                        <div class="invalid-feedback">
-                                                            <?php echo form_error('kk') ?>
-                                                        </div>
-                                                    </div>
-                                                </div> -->
-                                         
-                                                <?php $this->load->view('form/akte.php'); ?>
-                                                <?php $this->load->view('form/domisili.php'); ?>
-                                                <?php $this->load->view('form/kk.php'); ?>
 
+                                                <div id="no_ktp" class="form-group">
+
+                                                    <label>Upload Gambar Pendukung*</label>
+                                                    <input name="ktp[]" multiple="" type="file" class="form-control <?php echo form_error('ktp[]') ? 'is-invalid' : '' ?>" id="exampleInputFile"></input>
+
+
+                                                    <?php echo form_error('ktp[]', '<p class="frm_err">', '  </p>'); ?>
+
+                                                    <button style="margin: 10px 0;" name="tambah" id="tambah" class="btn btn-success" type="button"> <i class="fa fa-plus"> </i> Form</button>
+
+
+                                                </div>
 
 
                                                 <div class="small text-muted">
@@ -436,8 +406,38 @@
             });
         });
     </script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script> -->
-    <!-- <script type="text/javascript" src="<?php echo base_url() . 'assets/js/custom.js' ?>"></script> -->
+
+    <script>
+        $(document).ready(function() {
+            var html = `
+            <div id="no_ktp" class="form-group">
+                
+                    <input name="ktp[]" type="file" class="form-control <?php echo form_error('ktp[]') ? 'is-invalid' : '' ?>" id="exampleInputFile"></input>
+                    <button style="margin-top:10px;" name="remove" id="remove" class="btn btn-danger" type="button" ><i class="fa fa-trash">
+                    </i> hapus</button>
+                    <br>
+
+                    <div class="invalid-feedback">
+                        <?php echo form_error('ktp[]') ?>
+                    </div>
+
+                </div>`
+            var max = 10;
+            var x = 1;
+            $("#tambah").click(function() {
+                if (x < max) {
+                    $("#no_ktp").append(html);
+                    x++;
+                }
+            });
+            $("#no_ktp").on('click', '#remove', function() {
+                $(this).closest('div').remove();
+
+                x--;
+            })
+        })
+    </script>
+
 
 
 

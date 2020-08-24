@@ -18,8 +18,9 @@
         <div class="card">
             <div class="card-body login-card-body">
                 <form action="<?php echo base_url('auth/login') ?>" method="post">
+                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Username" name="username">
+                        <input type="text" class="form-control" placeholder="Username" name="username" >
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>

@@ -33,6 +33,8 @@
 <br><br>
 <div class="page-section bg-light">
 <form action="<?= base_url('page/artikel_list'); ?>" method="post">
+<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+
 
     <div class="container">
         <div class="row">
@@ -89,7 +91,7 @@
                                 <img style="max-height: 180px; width:100%;" src="<?= base_url('upload/article/') . $po['image']; ?>" class="card-img-top" alt="<?= $po['title']; ?>">
                                 <div class="card-body">
                                     <h4 class="card-title"><?= $po['title']; ?></h4>
-                                    <p class="card-text"><?= word_limiter($po['body'], 50); ?></p>
+                                    <p class="card-text"><?= word_limiter($po['body'], 30); ?></p>
                                     <a href="<?= base_url('page/detail_artikel/') . $po['slug_post']; ?>" class="btn btn-primary">Detail</a>
                                 </div>
                                 <div class="card-footer">

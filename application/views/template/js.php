@@ -59,23 +59,8 @@
                 });
             });
         </script>
-        <script>
+       <script>
             $(document).ready(function() {
                 bsCustomFileInput.init();
-            });
-
-            $(function() {
-                $('.date-own').datepicker({
-                    minViewMode: 2,
-                    format: 'yyyy'
-                })
-
-                $('.select2').select2()
-
-                //Initialize Select2 Elements
-                $('.select2bs4').select2({
-                    theme: 'bootstrap4',
-                    placeholder: "Masukkan Bulan"
-                })
             });
         </script>
