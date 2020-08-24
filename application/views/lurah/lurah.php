@@ -127,7 +127,7 @@
                                                                 
                                                           <?php  } ?>
                                                           <?php  if( $key->verifikasi == 0){ ?>
-                                                                <a data-toggle="tooltip" data-placement="top" title="konfirmasi" href="<?php echo site_url('admin/konfirmasi_lurah/' . $key->id_data) ?>" class="btn btn-xs btn-block btn-info"><i class="fas fa-check"></i></a>
+                                                                <button data-toggle="tooltip" data-placement="top" title="konfirmasi"  onclick="konfirmasi('<?php echo site_url('admin/konfirmasi_lurah/' . $key->id_data) ?>')" href="#konfirmasidata"  class="btn btn-xs btn-block btn-info"><i class="fas fa-check"></i></button>
                                                                 <a data-toggle="tooltip" data-placement="top" title="Lihat data" href="<?php echo site_url('admin/detail_data/' . $key->id_warga) ?>" class="btn btn-xs btn-block btn-primary"><i class="fas fa-eye"></i></a>
                                                                 <!-- <a data-toggle="tooltip" data-placement="top" title="hapus" onclick="deleteConfirm('<?php echo site_url('admin/hapus_data/' . $s->id) ?>')" href="#!" class="btn btn-xs btn-block btn-danger"><i class="fas fa-trash"></i></a> -->
                                                                 <!-- <a data-toggle="tooltip" data-placement="top" title="print" href="<?php echo base_url() . 'admin/export_data_warga/' . $s->id ?>" class="btn btn-xs btn-block btn-primary"><i class="fas fa-print"></i> </a> -->
@@ -172,6 +172,23 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Apakah Anda Yakin?</h5>
+                                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">Data yang sudah di konfirmasi tidak bisa diubah.</div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                            <a id="btn-confirm" class="btn btn-warning" href="#">Konfirmasi</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <!-- /.card -->
                     </div>
@@ -187,6 +204,11 @@
         function deleteConfirm(url) {
             $('#btn-delete').attr('href', url);
             $('#deleteModal').modal();
+        }
+
+        function konfirmasi(url) {
+            $('#btn-confirm').attr('href', url);
+            $('#confirmModal').modal();
         }
     </script>
     <script>

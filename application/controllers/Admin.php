@@ -93,6 +93,7 @@ class Admin extends MY_Controller
     {
         $this->load->database();
         $data['warga'] = $this->db->query("select * from data_warga where id_warga= '$id'")->result();
+        $data['gambar'] = $this->db->query("select gambar_pendukung as gambar from data_gambar dg JOIN data_warga dw ON dg.id_warga = dw.id_warga  where dg.id_warga='$id'")->result();
         $this->load->view('lurah/lihat_data', $data);
     }
     // untuk verifikasi data agar keluar tombol print

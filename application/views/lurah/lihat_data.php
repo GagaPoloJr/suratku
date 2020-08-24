@@ -17,7 +17,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark"> Halo <?php echo $this->session->userdata('username');  ?></h1>
+                        <h1 class="m-0 text-dark"> Halo <?php echo $this->session->userdata('nama_lengkap');  ?></h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <?php $this->load->view('template/breadcrumb.php'); ?>
@@ -99,6 +99,22 @@
                                         </div>
                                     <?php } ?>
                                     <!-- /.card-body -->
+                                    <?php foreach ($gambar as  $d) { ?>
+                                        <div class="form-group">
+                                            <h5>Gambar Pendukung</h5>
+                                            <?php
+                                            $show = base_url() . 'upload/data/' . $d->gambar;
+                                            $image_properties = array(
+                                                'src' => base_url() . 'upload/data/' .  $d->gambar,
+                                                'alt' => 'gambar_ktp',
+                                                'class' => 'post_images',
+                                                'width' => '100',
+                                                'rel' => 'lightbox'
+                                            ); ?>
+                                            <a data-darkbox data-toggle="lightbox" class="imggallery" href="<?php echo $show; ?>"><?php echo img($image_properties); ?></a>
+                                        </div>
+                                        <!-- /.card-body -->
+                                    <?php } ?>
                                 </div>
                             </div>
 
@@ -113,6 +129,9 @@
 
     <?php $this->load->view('template/footer.php'); ?>
     <?php $this->load->view('template/js.php'); ?>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js" crossorigin="anonymous"></script>
+
     <script>
         function deleteConfirm(url) {
             $('#btn-delete').attr('href', url);
@@ -123,6 +142,12 @@
         $(function() {
             $('[data-toggle="tooltip"]').tooltip()
         })
+        $(document).on("click", '[data-toggle="lightbox"]', function(e) {
+            e.preventDefault();
+            $(this).ekkoLightbox({
+                alwaysShowClose: true
+            });
+        });
     </script>
 
 

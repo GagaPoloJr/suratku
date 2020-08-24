@@ -43,6 +43,8 @@
         <script src="<?php echo base_url('plugins/datatables/jquery.dataTables.js') ?>"></script>
         <script src="<?php echo base_url('plugins/datatables-bs4/js/dataTables.bootstrap4.js') ?>"></script>
         <script src="<?php echo base_url() . '/plugins/bs-custom-file-input/bs-custom-file-input.min.js' ?>"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js" crossorigin="anonymous"></script>
+
         <script>
             $(function() {
                 $("#example1").DataTable({
@@ -59,7 +61,7 @@
                 });
             });
         </script>
-       <script>
+        <script>
             $(document).ready(function() {
                 bsCustomFileInput.init();
             });
