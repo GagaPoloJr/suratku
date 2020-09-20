@@ -3,14 +3,6 @@
 
 <head>
     <?php $this->load->view('template/head.php'); ?>
-    <link rel="stylesheet" href="<?php echo base_url('dist/css/custom.css') ?>">
-
-    <style>
-        a.disabled {
-            pointer-events: none;
-            cursor: default;
-        }
-    </style>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -25,10 +17,8 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark"></h1>
+                        <h1 class="m-0 text-dark">Tambah Galeri</h1>
                     </div><!-- /.col -->
-
-
                     <div class="col-sm-6">
                         <?php $this->load->view('template/breadcrumb.php'); ?>
                     </div><!-- /.col -->
@@ -38,100 +28,76 @@
         <!-- /.content-header -->
 
         <!-- Main content -->
-        <section class="content ">
+        <section class="content">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
+                <!-- Main row -->
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <a class="btn btn-primary" href="">Kembali</a>
+                                <a href="<?php echo base_url("admin/kegiatan") ?>" class="btn btn-primary"><i class="fas fa-arrow-left fa-fw"></i>&nbsp;Kembali</a>
                             </div>
+                            <!-- /.card-header -->
                             <div class="card-body">
-                                <div class="card-body">
-                                    <form action="" enctype="multipart/form-data" method="POST">
-                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+                                <?php if ($this->session->flashdata('success')) : ?>
+                                    <div class="alert alert-success" role="alert">
+                                        <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true" class="fa fa-times"></span></button>
+                                        <?php echo $this->session->flashdata('success'); ?>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if ($this->session->flashdata('form_error')) : ?>
+                                    <div class="alert alert-danger" role="alert">
+                                        <?php echo $this->session->flashdata('form_error'); ?>
+                                    </div>
+                                <?php endif; ?>
+                                <form id="myForm" action="<?php echo base_url('admin/tambahGaleri') ?>" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
 
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label" for="title">Judul Album : </label>
-                                            <input name="Title" id="Title" class="form-control col-sm-8" type="text" placeholder="Masukkan Judul Album">
+                                    <div class="form-group">
+                                        <label for="judul">Judul Galeri*</label>
+                                        <input class="form-control <?php echo form_error('judul') ? 'is-invalid' : '' ?>" type="text" name="judul" placeholder="Masukkan Judul Galeri" />
+                                        <div class="invalid-feedback">
+                                            <?php echo form_error('judul') ?>
                                         </div>
-                                        <div class="clearfix"></div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label" for="exampleInputFile">Upload Thumbnail Galeri</label>
-                                            <div class="custom-file col-sm-8">
-                                                <input name="Featured" id="Featured" type="file" class="custom-file-input"></input>
-                                                <label style="color: grey;" class="custom-file-label" for="exampleInputFile">Upload Thumbnail Galeri anda</label>
-                                                <input type="hidden" class="form-control" name="featured_file" id="old_document" />
-
-                                            </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="image">Upload Thumbnail</span>
                                         </div>
-
-                                        <div class="clearfix"></div>
-                                        <div class="clearfix"></div>
-                                        <div class="clearfix"></div>
-
-
-                                        <div class="form-group">
-                                            <label>Upload Gallery Images</label>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" name="image" id="image" aria-describedby="inputGroupFileAddon01">
+                                            <label class="custom-file-label" for="image">Choose file Image</label>
                                         </div>
-                                        <div class="clearfix"></div>
-
-
-                                        <fieldset id="fileupload" action="ablums/do_upload" method="POST" enctype="multipart/form-data">
-                                            <div class="form-group row fileupload-buttonbar">
-                                                <label class="col-sm-2 col-form-label" for="tombol-galeri">Upload Galeri Gambar</label>
-                                                <div class="col-sm-10">
-                                                    <span class="btn btn-success fileinput-button">
-                                                        <i class="fas fa-plus"></i>
-                                                        <span>Tambah Foto...</span>
-                                                        <input type="file" name="userfile" multiple>
-                                                    </span>
-                                                    <button type="submit" class="btn btn-primary start">
-                                                        <i class="fas fa-upload"></i>
-                                                        <span>Mulai upload</span>
-                                                    </button>
-                                                    <button type="reset" class="btn btn-warning cancel">
-                                                        <i class="fas fa-ban"></i>
-                                                        <span>Batal upload</span>
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger delete">
-                                                        <i class="fas fa-trash"></i>
-                                                        <span>Hapus Semua</span>
-                                                    </button>
-                                                    <input type="checkbox" class="toggle">
-                                                    <!-- The global file processing state -->
-                                                    <span class="fileupload-process"></span>
-                                                </div>
-                                                <!-- The global progress state -->
-                                            
-
-                                        <div class="form-group">
-                                            <input type="hidden" name="process" value="true">
-                                            <input type="hidden" name="id" value="<?php echo (isset($record->id) ? $record->id : ''); ?>">
-                                            <button type="submit" class="btn btn-info">Submit</button>
-                                        </div>
-
-                                    </form>
-
-
-                                    </form>
-                                </div>
+                                    </div>
+                                  
+                                    <div class="form-group">
+                                        <label for="status">Link Google Drive</label>
+                                        <input class="form-control <?php echo form_error('title') ? 'is-invalid' : '' ?>" type="text" name="link" placeholder="Masukkan link dari google drive" />
+                                       
+                                    </div>
+                                    <input class="btn btn-success" type="submit" name="btn" value="Simpan" />
+                                </form>
                             </div>
+                            <div class="card-footer small text-muted">
+                                * required fields
+                            </div>
+                            <!-- /.card-body -->
                         </div>
+                        <!-- /.card -->
                     </div>
-
-
                 </div>
-                <!-- Main row -->
-              
             </div>
         </section>
-        <!-- /.content -->
+        <!-- /.Left col -->
+    </div>
+    <!-- /.row (main row) -->
+    </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
     </div>
 
     <?php $this->load->view('template/footer.php'); ?>
     <?php $this->load->view('template/js.php'); ?>
-
 </body>
 
 </html>

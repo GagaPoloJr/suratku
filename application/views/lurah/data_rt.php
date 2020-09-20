@@ -91,10 +91,10 @@
                                                             <td><?php echo $s->username; ?></td>
                                                             <td><?php echo $s->password; ?></td>
                                                             <td>
-                                                            <a href="#" class="badge badge-primary" data-toggle="modal" data-target="#lihat">Lihat</a>
+                                                            <a  href="<?php echo base_url(). 'admin/lihatDataRT/' .$s->id ?>" class="btn btn-primary">Lihat</a>
 
-                                                            <a class="badge badge-success">Edit</a>
-                                                    <a class="badge badge-danger" href="#!">Delete</a>
+                                                            <a href="<?php echo base_url(). 'admin/editDataRT/' .$s->id ?>" class="btn btn-success">Edit</a>
+                                                    <button class="btn btn-danger"href="#!" onclick="deleteConfirm('<?php echo base_url(). 'admin/deleteRT/' .$s->id  ?>')">Delete</button>
                                                             </td>
 
 
@@ -123,119 +123,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal fade" id="lihat" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLongTitle">Detail data <?php echo $rt['nama_pjg']; ?></h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form id="myForm" action="<?php echo site_url('admin/warga') ?>" method="post" enctype="multipart/form-data">
-                                                <div class="form-group">
-                                                    <label for="nama">Nama Lengkap*</label>
-                                                    <input class="form-control <?php echo form_error('nama') ? 'is-invalid' : '' ?>" type="text" name="nama" placeholder="Masukkan Nama Lengkap" />
-                                                    <div class="invalid-feedback">
-                                                        <?php echo form_error('nama') ?>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="nik">NIK / No KTP*</label>
-                                                    <input class="form-control <?php echo form_error('nik') ? 'is-invalid' : '' ?>" type="text" name="nik" placeholder="Masukkan NIK / No KTP" />
-                                                    <div class="invalid-feedback">
-                                                        <?php echo form_error('nik') ?>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="alamat">Alamat*</label>
-                                                    <input class="form-control <?php echo form_error('alamat') ? 'is-invalid' : '' ?>" type="text" name="alamat" placeholder="Masukkan Alamat" />
-                                                    <div class="invalid-feedback">
-                                                        <?php echo form_error('alamat') ?>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="jenis">Jenis Kelamin*</label>
-                                                    <select name="jenis" class="form-control" id="jenis1">
-                                                        <option value="">--pilih jenis kelamin--</option>
-                                                        <option value="laki-laki">Laki-Laki</option>
-                                                        <option value="perempuan">Perempuan</option>
-                                                    </select>
-                                                    <div class="invalid-feedback">
-                                                        <?php echo form_error('jenis') ?>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="lahir">Tempat Lahir*</label>
-                                                    <input class="form-control <?php echo form_error('lahir') ? 'is-invalid' : '' ?>" type="text" name="lahir" placeholder="Masukkan Tempat Lahir" />
-                                                    <div class="invalid-feedback">
-                                                        <?php echo form_error('lahir') ?>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="tgl">tanggal lahir*</label>
-                                                    <input class="form-control <?php echo form_error('sk') ? 'is-invalid' : '' ?>" type="date" name="tgl" placeholder="Masukkan tanggal lahir" />
-                                                    <div class="invalid-feedback">
-                                                        <?php echo form_error('tgl') ?>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="status">Status Perkawinan*</label>
-                                                    <select name="status" class="form-control" id="status">
-                                                        <option value="">--pilih Status Perkawinan--</option>
-                                                        <option value="kawin">Kawin</option>
-                                                        <option value="belum">belum kawin</option>
-                                                    </select>
-                                                    <div class="invalid-feedback">
-                                                        <?php echo form_error('status') ?>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="agama">Agama*</label>
-                                                    <select name="agama" class="form-control" id="agama">
-                                                        <option value="">--pilih Agama--</option>
-                                                        <option value="Islam">Islam</option>
-                                                        <option value="Kristen">Kristen</option>
-                                                        <option value="hindu">Hindu</option>
-                                                        <option value="buddha">Buddha</option>
-                                                        <option value="lainnya">lainnya</option>
-
-
-                                                    </select>
-                                                    <div class="invalid-feedback">
-                                                        <?php echo form_error('agama') ?>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="pekerjaan">Pekerjaan*</label>
-                                                    <input class="form-control <?php echo form_error('pekerjaan') ? 'is-invalid' : '' ?>" type="text" name="pekerjaan" placeholder="Masukkan Pekerjaan" />
-                                                    <div class="invalid-feedback">
-                                                        <?php echo form_error('pekerjaan') ?>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="kebutuhan">Kebutuhan*</label>
-                                                    <select name="kebutuhan" class="form-control" id="kebutuhan">
-                                                        <option value="">--pilih Kebutuhan Surat--</option>
-                                                        <option value="KTP">Kartu Keluarga</option>
-                                                    </select>
-                                                    <div class="invalid-feedback">
-                                                        <?php echo form_error('kebutuhan') ?>
-                                                    </div>
-                                                </div>
-                                                <div class="small text-muted">
-                                                    * required fields
-                                                </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <input class="btn btn-primary" type="submit" name="btn" value="Simpan" />
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                          
                             <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">

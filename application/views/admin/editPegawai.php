@@ -17,7 +17,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Tambah User</h1>
+                        <h1 class="m-0 text-dark">Edi Data Pegawai</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <?php $this->load->view('template/breadcrumb.php'); ?>
@@ -35,7 +35,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <a href="<?php echo base_url("admin") ?>" class="btn btn-primary"><i class="fas fa-arrow-left fa-fw"></i>&nbsp;Kembali</a>
+                                <a href="<?php echo base_url("admin/tampil_data_pegawai") ?>" class="btn btn-primary"><i class="fas fa-arrow-left fa-fw"></i>&nbsp;Kembali</a>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -50,19 +50,19 @@
                                         <?php echo $this->session->flashdata('form_error'); ?>
                                     </div>
                                 <?php endif; ?>
-                                <form id="myForm" action="<?php echo base_url('admin/user') ?>" method="post" enctype="multipart/form-data">
+                                <form id="myForm" action="<?php echo base_url('admin/editPegawai') ?>" method="post" enctype="multipart/form-data">
                                     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-
+                                    <input type="text" name="id" value="<?php echo $user->id ?>" hidden>
                                     <div class="form-group">
-                                        <label for="username">Nama Lengkap*</label>
-                                        <input class="form-control <?php echo form_error('nama_pjg') ? 'is-invalid' : '' ?>" type="text" name="nama_pjg" placeholder="Masukkan Nama Lengkap" />
+                                        <label for="nama_pjg">Nama Lengkap*</label>
+                                        <input class="form-control <?php echo form_error('nama_pjg') ? 'is-invalid' : '' ?>" type="text" name="nama_pjg" value="<?php echo $user->nama_pjg ?>" />
                                         <div class="invalid-feedback">
                                             <?php echo form_error('nama_pjg') ?>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="username">Nama RT / Jabatan*</label> <br> <small>*contoh: RT 01 / Staff jika anggota kelurahan</small>
-                                        <input class="form-control <?php echo form_error('nama_rt') ? 'is-invalid' : '' ?>" type="text" name="nama_rt" placeholder="Masukkan RT Berapa / Jabatan" />
+                                        <label for="nama_rt">Nama RT / Jabatan*</label> <br> <small>*contoh: RT 01 / Staff jika anggota kelurahan</small>
+                                        <input class="form-control <?php echo form_error('nama_rt') ? 'is-invalid' : '' ?>" type="text" name="nama_rt" value="<?php echo $user->nama ?>" readonly />
                                         <div class="invalid-feedback">
                                             <?php echo form_error('nama_rt') ?>
                                         </div>
@@ -73,46 +73,44 @@
 
                                         <select name="rw" class="form-control" id="rw">
                                             <option value="">--pilih RW--</option>
-                                            <option value="0">Tidak ada</option>
-                                            <option value="1">RW 1</option>
-                                            <option value="2">RW 2</option>
-                                            <option value="3">RW 3</option>
-                                            <option value="4">RW 4</option>
-                                            <option value="5">RW 5</option>
-                                            <option value="6">RW 6</option>
-                                            <option value="7">RW 7</option>
-                                            <option value="8">RW 8</option>
-                                            <option value="9">RW 9</option>
-                                            <option value="10">RW 10</option>
-
-
+                                            <?php if ($user->id_rw == 0) : ?>
+                                                <option value="0" selected>Tidak ada</option>
+                                            <?php endif; ?>
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="username">Username*</label>
-                                        <input class="form-control <?php echo form_error('username') ? 'is-invalid' : '' ?>" type="text" name="username" placeholder="Masukkan username" />
+                                        <input class="form-control <?php echo form_error('username') ? 'is-invalid' : '' ?>" type="text" name="username" value="<?php echo $user->username ?>" />
                                         <div class="invalid-feedback">
                                             <?php echo form_error('username') ?>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="password">Password*</label>
-                                        <input class="form-control <?php echo form_error('password') ? 'is-invalid' : '' ?>" type="password" name="password" placeholder="Masukkan Password" />
+                                        <input class="form-control <?php echo form_error('password') ? 'is-invalid' : '' ?>" type="password" name="password" value="<?php echo $user->password ?>" />
                                         <div class="invalid-feedback">
                                             <?php echo form_error('password') ?>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="password">Level*</label>
+                                    <?php if ($user->id ==  2) { ?>
+                                    <?php } else { ?>
+                                        <div class="form-group">
+                                            <label for="password">Level*</label>
+                                            <select name="level" class="form-control" id="level">
+                                                <option value="">--pilih level--</option>
+                                                <?php if ($user->level == 1) : ?>
+                                                    <option value="1" selected>RT atau RW</option>
+                                                    <option value="2">Admin atau Staff</option>
+                                                <?php endif ?>
+                                                <?php if ($user->level == 2) : ?>
+                                                    <option value="1">RT atau RW</option>
+                                                    <option value="2" selected>Admin atau Staff</option>
+                                                <?php endif ?>
+                                            </select>
+                                        </div>
+                                    <?php } ?>
 
-                                        <select name="level" class="form-control" id="level">
-                                            <option value="">--pilih level--</option>
-                                            <option value="1">RT atau RW</option>
-                                            <option value="2">Admin atau Staff</option>
-
-                                        </select>
-                                    </div>
-                                    <input class="btn btn-success" type="submit" name="btn" value="Simpan" />
+                                    <input class="btn btn-success" type="submit" name="btn" value="Update" />
                                 </form>
                             </div>
                             <div class="card-footer small text-muted">

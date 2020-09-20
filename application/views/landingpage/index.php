@@ -1,4 +1,31 @@
 <?php $this->load->view('template/header_utama'); ?>
+<style>
+    .container-img {
+        width: 100%;
+        height: 300px;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .img {
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+
+    .galeri-overlay {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(141, 217, 64, 1) 0%, rgba(255, 233, 84, 1) 78%);
+        position: absolute;
+        opacity: .3;
+    }
+    .judul-image{
+        color: #000;
+        z-index: 1;
+        text-decoration: none;
+    }
+</style>
 
 <body id="page-top">
     <?php $this->load->view('template/navbar_utama'); ?>
@@ -11,14 +38,12 @@
             <br><br>
             <div class="col-12">
                 <div class="text-center">
-                    <!-- <h2 class="section-heading text-uppercase">pimpinan</h2> -->
                     <br>
                     <br><br>
                     <h1 class="section-heading text-uppercase">Selamat Datang!</h1>
                     <h3>
                         <u>Di Kelurahan Labuhbaru Barat</u>
                     </h3>
-                    <!-- <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3> -->
                 </div>
             </div>
 
@@ -362,15 +387,41 @@
                             </div>
                         </div>
                     </div>
-                   
+
                 <?php endforeach; ?>
                 <br><br><br><br>
                 <div class="col-12">
-                        <a type="button" class="btn btn-info" href="<?= base_url('page/artikel_list') ?>" >Lihat lebih banyak</a>
-                    </div>
+                    <a type="button" class="btn btn-info" href="<?= base_url('page/artikel_list') ?>">Lihat lebih banyak</a>
+                </div>
 
             </div>
         </div>
+    </section>
+    <!-- galeri -->
+    <section class="page-section" id="pelayanan">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-heading text-uppercase">Kegiatan Kelurahan Labuhbaru Barat</h2>
+                <hr style="border-width:3px">
+                <br><br>
+
+            </div>
+            <div class="row text-center">
+                <?php foreach ($galeri as $galeri) : ?>
+                    <div class="col-md-4">
+                        <a href="<?php echo $galeri->link_galeri ?>" target="_blank">
+                            <div style="background-image: url(<?php echo base_url('upload/gallery/thumbs/') . $galeri->gambar_galeri ?>);" class="container-img  img d-flex justify-content-center align-items-center">
+                                <div class="galeri-overlay"></div>
+                                <div class="judul-image">
+                                    <h4><?php echo $galeri->judul ?></h4>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
     </section>
 
     <?php $this->load->view('template/footer_utama'); ?>

@@ -89,7 +89,6 @@
                                         <div class="form-group">
                                             <h5>Kebutuhan</h5>
                                             <input type="text" name="first_name" value="  <?php $this->load->helper('kebutuhan_helper');
-
                                                                                             if ($d->kebutuhan == "5") {
                                                                                                 echo keb($d->kebutuhan);
                                                                                                 echo ($d->nama);

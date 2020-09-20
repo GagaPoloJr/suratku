@@ -81,6 +81,12 @@ if (!function_exists('status')) {
             case 2:
                 $status = "Belum Kawin";
                 break;
+            case 3:
+                $status = "Duda";
+                break;
+            case 4:
+                $status = "Janda";
+                break;
 
             default:
                 $status = "tidak ada";
@@ -165,30 +171,30 @@ if (!function_exists('rw')) {
 
 
 
-function sf_upload($nama_gambar, $lokasi_gambar, $tipe_gambar, $ukuran_gambar, $name_file_form)
+function sf_upload($nama_gambar, $name_file_form)
 {
     $CI                      = &get_instance();
     $nmfile                  = $nama_gambar . "_" . time();
-    $config['upload_path']   = './' . $lokasi_gambar;
-    $config['allowed_types'] = $tipe_gambar;
-    $config['max_size']      = $ukuran_gambar;
+    $config['upload_path']   = './upload/gallery/thumbs';
+    $config['allowed_types'] ='gif|jpg|png|jpeg';
+    $config['max_size']      = 0;
     $config['file_name']     = $nmfile;
     $CI->upload              = null;
     $CI->load->library('upload', $config);
 
     if ($CI->upload->do_upload($name_file_form)) {
         $result1 = $CI->upload->data();
-        $result  = array('gambar' => $result1);
-        $dfile   = $result['gambar']['file_name'];
+        $result  = array('image' => $result1);
+        $dfile   = $result['image']['file_name'];
 
         $config['image_library'] = 'gd2';
-        $config['source_image'] = './upload/data/' . $dfile;
+        $config['source_image'] = './upload/gallery/thumbs/' . $dfile;
         $config['create_thumb'] = FALSE;
         $config['maintain_ratio'] = TRUE;
         $config['quality'] = '60%';
         $config['width'] = 800;
         $config['height'] = 800;
-        $config['new_image'] = './upload/data/' . $dfile;
+        $config['new_image'] = './upload/gallery/thumbs/' . $dfile;
         $CI->load->library('image_lib', $config);
         $CI->image_lib->resize();
         return $dfile;

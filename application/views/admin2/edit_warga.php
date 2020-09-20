@@ -123,10 +123,27 @@
                                             <?php if ($warga->status == "1") { ?>
                                                 <option value="1" selected>Kawin</option>
                                                 <option value="2">belum kawin</option>
+                                                <option value="3">Duda</option>
+                                                <option value="4">Janda</option>
+
                                             <?php } ?>
                                             <?php if ($warga->status == "2") { ?>
                                                 <option value="1">Kawin</option>
                                                 <option value="2" selected>belum kawin</option>
+                                                <option value="3">Duda</option>
+                                                <option value="4">Janda</option>
+                                            <?php } ?>
+                                            <?php if ($warga->status == "3") { ?>
+                                                <option value="1">Kawin</option>
+                                                <option value="2" >belum kawin</option>
+                                                <option value="3"selected>Duda</option>
+                                                <option value="4">Janda</option>
+                                            <?php } ?>
+                                            <?php if ($warga->status == "4") { ?>
+                                                <option value="1">Kawin</option>
+                                                <option value="2" >belum kawin</option>
+                                                <option value="3">Duda</option>
+                                                <option value="4"selected>Janda</option>
                                             <?php } ?>
                                         </select>
                                         <div class="invalid-feedback">
@@ -271,23 +288,17 @@
                                             <a data-darkbox data-toggle="lightbox" class="imggallery" href="<?php echo $show; ?>"><?php echo img($image_properties); ?></a>
                                         </div>
 
-                                        <button class="btn btn-danger" onclick="deleteConfirm('<?php echo site_url('admin/hapus_gambar/' .  $d->id_gambar) ?>')" href="#!"  type="button" name="btn">hapus gambar </button>
+                                        <button class="btn btn-danger" onclick="deleteConfirm('<?php echo site_url('admin/hapus_gambar/' .  $d->id_gambar) ?>')" href="#!" type="button" name="btn">hapus gambar </button>
 
 
                                         <!-- /.card-body -->
                                     <?php } ?>
 
                                     <div id="no_ktp" class="form-group">
-
                                         <label>Upload Gambar Pendukung*</label>
                                         <input name="ktp[]" multiple="" type="file" class="form-control <?php echo form_error('ktp[]') ? 'is-invalid' : '' ?>" id="exampleInputFile"></input>
-
-
                                         <?php echo form_error('ktp[]', '<p class="frm_err">', '  </p>'); ?>
-
-                                        <!-- <button style="margin: 10px 0;" name="tambah" id="tambah" class="btn btn-success" type="button"> <i class="fa fa-plus"> </i> Form</button> -->
-
-
+                                        <button style="margin: 10px 0;" name="tambah" id="tambah" class="btn btn-success" type="button"> <i class="fa fa-plus"> </i> Form</button>
                                     </div>
 
 
@@ -355,6 +366,37 @@
                 alwaysShowClose: true
             });
         });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            var html = `
+            <div id="no_ktp" class="form-group">
+                
+                    <input name="ktp[]" type="file" class="form-control <?php echo form_error('ktp[]') ? 'is-invalid' : '' ?>" id="exampleInputFile"></input>
+                    <button style="margin-top:10px;" name="remove" id="remove" class="btn btn-danger" type="button" ><i class="fa fa-trash">
+                    </i> hapus</button>
+                    <br>
+
+                    <div class="invalid-feedback">
+                        <?php echo form_error('ktp[]') ?>
+                    </div>
+
+                </div>`
+            var max = 10;
+            var x = 1;
+            $("#tambah").click(function() {
+                if (x < max) {
+                    $("#no_ktp").append(html);
+                    x++;
+                }
+            });
+            $("#no_ktp").on('click', '#remove', function() {
+                $(this).closest('div').remove();
+
+                x--;
+            })
+        })
     </script>
 
 </body>

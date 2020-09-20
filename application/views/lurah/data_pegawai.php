@@ -70,12 +70,9 @@
                                                     <tr>
                                                         <th>No</th>
                                                         <th>Nama Lengkap</th>
-                                                        <th>Jabatan</th>
-                                                      
-                                                        <th>username</th>
-                                                        <th>password</th>
-                                                        <th>Aksi</th>
-                                                    
+                                                        <th>Jabatan</th>                     
+                                                       
+                                                        <th>Aksi</th>                                                    
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -85,26 +82,15 @@
                                                             <td><?php echo $i ?></td>
                                                             <td><?php echo $s->nama_pjg; ?></td>
                                                             <td><?php echo $s->jabatan; ?></td>
-                                                            <td><?php echo $s->username; ?></td>
-                                                            <td><?php echo $s->password; ?></td>
-                                                            <td>
-                                                            <?php if($this->session->userdata('id')=='2'): ?>
-                                                                <a class="badge badge-success">Edit</a>
-
-                                                            <?php else: ?>
-
-                                                            <?php endif ?>
-
-                                                            <?php if($s->jabatan == 'Lurah'): ?>
-
-                                                            <?php else: ?>
-                                                            <a class="badge badge-danger" href="#!">Delete</a>
-                                                            </td>
-                                                            <?php endif ?>
-
-
                                                           
-
+                                                            <td>
+                                                            <?php if($s->jabatan == 'Lurah'): ?>
+                                                                <a href="<?php echo base_url(). 'admin/editPegawai/' .$s->id  ?>"  class="btn btn-success">Edit</a>
+                                                            <?php else: ?>
+                                                                <a href="<?php echo base_url(). 'admin/editPegawai/' .$s->id  ?>"  class="btn btn-success">Edit</a>
+                                                                <button href="#!" onclick="deleteConfirm('<?php echo base_url(). 'admin/deletePegawai/' .$s->id  ?>')" class="btn btn-danger" >Delete</button>                                                           
+                                                            </td>
+                                                            <?php endif ?>                                     
                                                         </tr>
                                                         <?php $i++; ?>
 
@@ -113,9 +99,7 @@
                                                 <tfoot>
                                                     <tr>
                                                     <th>No</th>
-                                                        <th>Nama Lengkap</th>
-                                                        <th>username</th>
-                                                        <th>password</th>
+                                                        <th>Nama Lengkap</th>             
                                                         <th>Aksi</th>
 
                                                     </tr>

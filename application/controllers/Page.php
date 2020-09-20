@@ -19,6 +19,7 @@ class Page extends CI_Controller
     {   
         // untuk menampilkan data artikel terbaru
         $data['terbaru'] = $this->db->query('select * from post where status="Publish" order by date_post desc limit 3')->result();
+        $data['galeri'] = $this->db->query('select * from galeri order by created_on desc')->result();
         $this->load->view('landingpage/index', $data);
     }
     // untuk menampilkan list artikel
@@ -61,6 +62,11 @@ class Page extends CI_Controller
         $data['title'] = 'Detail';
 
         $this->load->view('article/detail_artikel', $data);
+    }
+
+    public function tesgambar()
+    {
+        $this->load->view('lurah/tesgambar');
     }
 
 }

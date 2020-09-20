@@ -227,13 +227,11 @@ class SmartbookModel extends CI_Model
         $this->kebutuhan = $post["kebutuhan"];
         $this->keterangan = "0";
         $this->id_user = $this->session->userdata('id');
-
         // $this->gambar_ktp = $this->_uploadKTP();
         // $this->gambar_kk = $this->_uploadKK();
         // $this->gambar_1= sf_upload('ktp', 'upload/data/', 'jpeg|jpg|png', 1000000, 'ktp2');
         // $this->gambar_2 = sf_upload('ktp', 'upload/data/', 'jpeg|jpg|png', 1000000, 'ktp3');
         // $this->gambar_3 = sf_upload('ktp', 'upload/data/', 'jpeg|jpg|png', 1000000, 'ktp4');
-
         $this->db->insert($this->_table1, $this);
         $this->gambar_upload();
     }
@@ -407,9 +405,8 @@ class SmartbookModel extends CI_Model
         $this->agama = $post["agama"];
         $this->pekerjaan = $post["pekerjaan"];
         $this->kebutuhan = $post["kebutuhan"];
-        return $this->db->update($this->_table1, $this, array('id_warga' => $post['id']));
-
-    
+        $this->db->update($this->_table1, $this, array('id_warga' => $post['id']));
+        $this->gambar_upload();
     }
 
     public function _deleteGambar($id)
@@ -477,78 +474,4 @@ class SmartbookModel extends CI_Model
         }
     }
 
-
-
-
-    public function update()
-    {
-        $post = $this->input->post();
-        $this->id = $post["id"];
-        $this->kode = $post["kode"];
-        $this->nama = $post["nama"];
-        $this->uraian = $post["uraian"];
-        $this->tanggal = $post["tanggal"];
-        $this->sk = $post["sk"];
-        $this->jenis = $post["jenis"];
-        $this->kota = $post["kota"];
-        $this->jumlah = $post["jumlah"];
-        $this->petugas = $post["petugas"];
-        if (!empty($_FILES["datask"]["name"])) {
-            // $this->datask = $this->_uploaddatask();
-        } else {
-            $this->datask = $post["old_datask"];
-        }
-        if (!empty($_FILES["datadukung"]["name"])) {
-            $this->datadukung = $this->_uploaddatadukung();
-        } else {
-            $this->datadukung = $post["old_datadukung"];
-        }
-        $this->jenisdok = $post["jenisdok"];
-        $this->keadaan = $post["keadaan"];
-        $this->dus = $post["dus"];
-        $this->urut = $post["urut"];
-        return $this->db->update($this->_table, $this, array('id' => $post['id']));
-    }
-
-
-  
-
-    public function _uploaddatadukung()
-    {
-        $config['upload_path']          = './upload/data/';
-        $config['allowed_types']        = 'pdf|doc|docx|xls|xlsx';
-        $config['overwrite']            = true;
-        $config['max_size']             = 1024; // 1MB
-        $field_name = "datadukung";
-
-        $this->load->library('upload', $config);
-
-        if (!$this->upload->do_upload($field_name)) {
-            $error = array('error' => $this->upload->display_errors());
-            $this->session->set_flashdata('error', $error['error']);
-            redirect('admin/uploadScan/' . $this->id, 'refresh');
-        } else {
-            return $this->upload->data("file_name");
-        }
-    }
-
-    public function _deletedatask($id)
-    {
-        $scan = $this->getById($id);
-        if ($scan->datask != "default.pdf") {
-            $filename = explode(".", $scan->datask)[0];
-            // $filename2 = explode(".", $scan->datadukung)[0];
-            return array_map('unlink', glob(FCPATH . "upload/data/$filename.*"));
-            // return array_map('unlink', glob(FCPATH . "upload/data/$filename2.*"));
-        }
-    }
-
-    public function _deletedatadukung($id)
-    {
-        $scan = $this->getById($id);
-        if ($scan->datadukung != "default.pdf") {
-            $filename2 = explode(".", $scan->datadukung)[0];
-            return array_map('unlink', glob(FCPATH . "upload/data/$filename2.*"));
-        }
-    }
 }

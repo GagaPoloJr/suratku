@@ -8,6 +8,7 @@ class Admin extends MY_Controller
         parent::__construct();
         $this->load->model('LoginModel');
         $this->load->model('SmartbookModel');
+        $this->load->model('Album_model');
         $this->load->model('Admin_model');
         $this->load->library('mypdf.php');
         $this->load->helper('date');
@@ -50,6 +51,41 @@ class Admin extends MY_Controller
         $this->load->view('admin/user', $data);
     }
 
+    // untuk mengedit pegawai di halaman lurah
+    public function editPegawai($id = null)
+    {
+                $user_edit = $this->Admin_model;
+                $validation = $this->form_validation;
+                $validation->set_rules($user_edit->rules());
+
+                if ($validation->run()) {
+                    $user_edit->updatePegawai();
+
+                    $this->session->set_flashdata('success', 'Data Berhasil di ubah!');
+                    redirect(site_url('admin/tampil_data_pegawai'));
+                }
+
+                if ($this->form_validation->run() == FALSE) {
+                    $errors = validation_errors();
+                    $this->session->set_flashdata('form_error', $errors);
+                }
+                $data["user"] = $user_edit->getById($id);
+                $this->load->view("admin/editPegawai", $data);          
+    }
+
+    public function deletePegawai($id = null){
+        $where = array(
+            'id' => $id
+        );
+        $this->Admin_model->delete_data($where, 'user');
+        $this->session->set_flashdata('danger', 'Data Berhasil dihapus');
+        redirect(base_url() . 'admin/tampil_data_pegawai');
+    }
+
+
+
+
+
     // menampilkan data data RT di admin lurah
     public function tampil_data_rt()
     {
@@ -60,6 +96,44 @@ class Admin extends MY_Controller
             echo "Anda tidak berhak mengakses halaman ini";
             redirect(base_url());
         }
+    }
+
+    // unutk melihat data RT
+    public function lihatDataRT($id = null){
+        $user_edit = $this->Admin_model;
+        $data["user"] = $user_edit->getById($id);
+        $this->load->view("lurah/lihatDataRT", $data);       
+    }
+
+     // untuk mengedit data rt di halaman lurah
+     public function editDataRT($id = null)
+     {
+                 $user_edit = $this->Admin_model;
+                 $validation = $this->form_validation;
+                 $validation->set_rules($user_edit->rules());
+ 
+                 if ($validation->run()) {
+                     $user_edit->updateRT();
+ 
+                     $this->session->set_flashdata('success', 'Berhasil disimpan');
+                     redirect(site_url('admin/editDataRT/' . $user_edit->id));
+                 }
+ 
+                 if ($this->form_validation->run() == FALSE) {
+                     $errors = validation_errors();
+                     $this->session->set_flashdata('form_error', $errors);
+                 }
+                 $data["user"] = $user_edit->getById($id);
+                 $this->load->view("lurah/editDataRT", $data);          
+     }
+
+     public function deleteRT($id = null){
+        $where = array(
+            'id' => $id
+        );
+        $this->Admin_model->delete_data($where, 'user');
+        $this->session->set_flashdata('danger', 'Data Berhasil dihapus');
+        redirect(base_url() . 'admin/tampil_data_rt');
     }
 
     // menampilkan data data Pegawai kelurahan
@@ -156,8 +230,61 @@ class Admin extends MY_Controller
 
     public function kegiatan()
     {
+     
         $this->load->database();
-        $this->load->view('lurah/kegiatan');
+        $data['galeri'] = $this->db->query('select * from galeri')->result();
+        $this->load->view('lurah/kegiatan', $data);
+    }
+
+    public function tambahGaleri(){
+        $album = $this->Album_model;
+        $validation = $this->form_validation;
+        $validation->set_rules($album->rules());
+
+        if ($validation->run()) {
+            $album->tambah_galeri();
+            $this->session->set_flashdata('success', 'Data Berhasil ditambahkan');
+            redirect(base_url() . 'admin/kegiatan');
+
+        }
+
+        if ($this->form_validation->run() == FALSE) {
+            $errors = validation_errors();
+            $this->session->set_flashdata('form_error', $errors);
+        }
+
+      
+        $this->load->view('lurah/kegiatan_tambah');
+
+    }
+    public function editGaleri($id = null)
+    {
+                $user_edit = $this->Album_model;
+                $validation = $this->form_validation;
+                $validation->set_rules($user_edit->rules());
+
+                if ($validation->run()) {
+                    $user_edit->edit_galeri();
+
+                    $this->session->set_flashdata('success', 'Data Berhasil di ubah!');
+                    redirect(site_url('admin/kegiatan'));
+                }
+
+                if ($this->form_validation->run() == FALSE) {
+                    $errors = validation_errors();
+                    $this->session->set_flashdata('form_error', $errors);
+                }
+                $data["galeri"] = $user_edit->getIdGaleri($id);
+                $this->load->view("lurah/editKegiatan", $data);          
+    }
+
+    public function hapusGaleri($id =null)
+    {
+        if (!isset($id)) show_404();
+        if ($this->Album_model->hapus_galeri($id)) {
+            $this->session->set_flashdata('danger', 'Data Berhasil dihapus');
+            redirect(site_url('admin/kegiatan'));
+        }
     }
 
     /*                            Fungsi admin level 2 selesai             */
@@ -196,16 +323,7 @@ class Admin extends MY_Controller
         $validation->set_rules($warga->rules());
 
         if ($validation->run()) {
-            //     if (!$warga->gambar_upload()) {
-            //         $this->session->set_flashdata('danger', 'gagal');
-            //         redirect(base_url() . 'admin/warga');
-            //     } 
-            //   else {
             $warga->save();
-            // print_R($warga);
-            // exit();
-            // $this->proses();
-
             $this->session->set_flashdata('success', 'Berhasil disimpan');
             redirect(base_url() . 'admin/warga');
         }
@@ -242,9 +360,8 @@ class Admin extends MY_Controller
 
     public function editProfil($id = null)
     {
-   
-        if ($this->session->userdata('id') != $id)
-        {
+
+        if ($this->session->userdata('id') != $id) {
             $this->session->set_flashdata('warning', 'anda tidak berhak masuk ke akun lain');
             redirect(site_url('admin/editProfil/' . $this->session->userdata('id')));
         } else {

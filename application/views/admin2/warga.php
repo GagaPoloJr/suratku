@@ -249,6 +249,8 @@
                                                         <option value="">--pilih Status Perkawinan--</option>
                                                         <option value="1">Kawin</option>
                                                         <option value="2">belum kawin</option>
+                                                        <option value="3">Duda</option>
+                                                        <option value="4">Janda</option>
                                                     </select>
                                                     <div class="invalid-feedback">
                                                         <?php echo form_error('status') ?>
@@ -377,12 +379,6 @@
 
     <!-- Ekko Lightbox -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js" crossorigin="anonymous"></script>
-
-
-
-
-
-
     <script>
         function deleteConfirm(url) {
             $('#btn-delete').attr('href', url);

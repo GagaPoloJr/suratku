@@ -30,6 +30,10 @@ class Admin_model extends CI_Model
     {
         return $this->db->get($this->_table)->result();
     }
+    function delete_data($where, $table)
+    {
+        $this->db->delete($table, $where);
+    }
 
     public function getById($id)
     {
@@ -46,5 +50,30 @@ class Admin_model extends CI_Model
         $this->password = $post["password"];
         $this->level = $post["level"];
         return $this->db->insert($this->_table, $this);
+    }
+
+    public function updatePegawai(){
+        $post = $this->input->post();
+        $this->id = $post["id"];
+        $this->nama_pjg = $post["nama_pjg"];
+        $this->nama = $post["nama_rt"];
+        $this->id_rw = $post["rw"];
+        $this->username = $post["username"];
+        $this->password = $post["password"];
+        $this->level = $post["level"];
+        $this->db->update($this->_table, $this, array('id' => $post['id']));
+
+    }
+    public function updateRT(){
+        $post = $this->input->post();
+        $this->id = $post["id"];
+        $this->nama_pjg = $post["nama_pjg"];
+        $this->nama = $post["nama_rt"];
+        $this->id_rw = $post["rw"];
+        $this->username = $post["username"];
+        $this->password = $post["password"];
+        $this->level = $post["level"];
+        $this->db->update($this->_table, $this, array('id' => $post['id']));
+
     }
 }

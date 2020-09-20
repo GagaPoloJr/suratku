@@ -3,6 +3,7 @@
 
 <head>
     <?php $this->load->view('template/head.php'); ?>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel="stylesheet" crossorigin="anonymous">
     <style>
         a.disabled {
             pointer-events: none;
@@ -46,7 +47,7 @@
                                 <h2>Galeri Kelurahan Labuhbaru Barat</h2>
                                 <br>
                                 <?php if ($this->session->userdata('level') == "2") { ?>
-                                    <a href="#" class="btn btn-success"><i class="fas fa-plus fa-fw"></i>&nbsp;Tambah Album Baru</a>
+                                    <a href="<?php echo base_url() . 'admin/tambahGaleri' ?>" class="btn btn-success"><i class="fas fa-plus fa-fw"></i>&nbsp;Tambah Album Baru</a>
                                 <?php } ?>
                             </div>
                             <!-- /.card-header -->
@@ -84,22 +85,29 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php $i = 1;
-                                                    // foreach ($berita as $berita) {  
+                                                    foreach ($galeri as $galeri) {
                                                     ?>
-                                                    <tr>
-                                                        <td><?php echo $i ?></td>
-                                                        <td><?php echo "heheh"; ?></td>
-                                                        <td><?php echo "heheh"; ?></td>
-                                                        <td><?php echo "heheh"; ?></td>
-                                                        <td>
-                                                        <a data-toggle="tooltip" data-placement="top" title="Lihat data" class="btn btn-xs btn-block btn-primary"><i class="fas fa-eye"></i></a>
-                                                            <a data-toggle="tooltip" data-placement="top" title="ubah data"  class="btn btn-xs btn-block btn-warning"><i class="fas fa-edit"></i></a>
-                                                            <a data-toggle="tooltip" data-placement="top" title="Hapus Galeri"  class="btn btn-xs btn-block btn-danger"><i class="fas fa-trash"></i></a>
-
-
-                                                        </td>
-                                                    </tr>
-                                                    <?php $i++; ?>
+                                                        <tr>
+                                                            <td><?php echo $i ?></td>
+                                                            <td><?php echo $galeri->judul ?></td>
+                                                            <td><?php echo $galeri->created_on ?></td>
+                                                            <td><?php $show = base_url() . 'upload/gallery/thumbs/' . $galeri->gambar_galeri;
+                                                                $image_properties = array(
+                                                                    'src' => base_url() . 'upload/gallery/thumbs/' .  $galeri->gambar_galeri,
+                                                                    'alt' => 'thumbnail',
+                                                                    'class' => 'post_images',
+                                                                    'width' => '100',
+                                                                    'rel' => 'lightbox'
+                                                                ); ?>
+                                                                <a data-darkbox data-toggle="lightbox" class="imggallery" href="<?php echo $show; ?>"><?php echo img($image_properties); ?></a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="<?php echo base_url(). 'admin/editGaleri/'.$galeri->id_galeri ?>" data-toggle="tooltip" data-placement="top" title="ubah data" class="btn btn-xs btn-block btn-warning"><i class="fas fa-edit"></i></a>
+                                                                <button href="#!"  onclick="deleteConfirm('<?php echo base_url(). 'admin/hapusGaleri/' .$galeri->id_galeri  ?>')" class="btn btn-xs btn-block btn-danger"><i class="fas fa-trash"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    <?php $i++;
+                                                    } ?>
                                                 </tbody>
                                                 <tfoot>
                                                     <tr>
@@ -108,10 +116,28 @@
                                                         <th>Tanggal Album</th>
                                                         <th>Foto THumbnail</th>
                                                         <th>Aksi</th>
-                                                       
+
                                                     </tr>
                                                 </tfoot>
                                             </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- modal untuk delete -->
+                            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Apakah Anda Yakin?</h5>
+                                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">Data yang dihapus tidak akan bisa dikembalikan.</div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                            <a id="btn-delete" class="btn btn-danger" href="#">Delete</a>
                                         </div>
                                     </div>
                                 </div>
@@ -132,6 +158,25 @@
             $('[data-toggle="tooltip"]').tooltip()
         })
     </script>
+       <script>
+        function deleteConfirm(url) {
+            $('#btn-delete').attr('href', url);
+            $('#deleteModal').modal();
+        }
+    </script>
+     <script>
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+        $(document).on("click", '[data-toggle="lightbox"]', function(e) {
+            e.preventDefault();
+            $(this).ekkoLightbox({
+                alwaysShowClose: true
+            });
+        });
+    </script>
+
 
 
 </body>
